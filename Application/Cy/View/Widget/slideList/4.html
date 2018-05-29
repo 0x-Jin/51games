@@ -1,0 +1,9 @@
+<div id="focus">
+    <ul>
+    	<?php 
+			foreach($images as $v){
+		?>
+	    		<li><a href="<?php echo $v['link'];?>" target="_blank"><img src="<?php echo $img_url.$v['bigPic'];?>" alt="" /></a></li>
+		<?php }?>
+    </ul>
+</div>

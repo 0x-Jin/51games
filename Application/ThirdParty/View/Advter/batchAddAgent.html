@@ -1,0 +1,217 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/batchAddAgent')}">
+        <input type="hidden" value="0" name="maxAgent" id="maxAgent"/>
+        <input type="hidden" name="selectAgentName" id="selectAgentName" value="" />
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">推广游戏：</label>
+            <div class="controls">
+              <select name="game_id" id="game_Id"></select>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">选择母包模板：</label>
+            <div class="controls">
+              <select name="agent_id" id="agent_id"></select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属广告商：</label>
+            <div class="controls">
+              <select name="advteruser_id" id="advteruser_Name"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属代理商：</label>
+            <div class="controls">
+              <select name="proxyId" id="proxyId"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属广告账户：</label>
+            <div class="controls">
+              <select name="advterAccountId" id="advterAccountId"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="agentNum_main" style="display: none;">
+          <div class="control-group span8">
+            <div class="controls">
+              &nbsp;&nbsp;&nbsp; <span id="agent_num"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row"> 
+          <div class="control-group span8">
+            <label class="control-label">生成渠道号个数：</label>
+            <div class="controls">
+              <input name="agentnum" id="agentnum" data-rules="{required:true}" placeholder="最多一次生成100个"  class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row"> 
+          <div class="control-group span8">
+            <div class="controls">
+              &nbsp;&nbsp;&nbsp; <span id='tip'></span>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+$(function(){
+  //数据加载
+  gameList();
+  adv_company();
+  getProxy();
+  getAdvterAccount();
+  var agentname = '';
+  $('#agentnum').blur(function(event) {
+    if($(this).val() > 100){
+      $(this).val(100);
+    }else if($(this).val() < 1){
+      $(this).val(1);
+    }
+    var tip = $('#selectAgentName').val();
+    var maxAgent = $('#maxAgent').val();
+    var minNum = parseInt(maxAgent)+1;
+    var maxNum = parseInt(maxAgent)+parseInt($(this).val());
+    $('#tip').html('将生成渠道号：'+tip+(minNum < 10 ? '00'+minNum : minNum < 100 ? '0'+minNum : minNum)+'--'+tip+(maxNum < 10 ? '00'+maxNum : maxNum < 100 ? '0'+maxNum : maxNum));
+  });
+
+  //获取广告商
+  function adv_company(){
+      var _html = '';
+      $.post("{:U('Ajax/adv_company')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.company_name+"</option>";
+        });
+        $('#advteruser_Name').html(_html);
+        $('#advteruser_Name').comboSelect();
+      });
+  }
+
+  //获取代理商
+  function getProxy(){
+      var _html = '';
+      $.post("{:U('Ajax/getProxy')}",{all:1},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.proxyName+"</option>";
+        });
+        $('#proxyId').html(_html);
+        $('#proxyId').comboSelect();
+      });
+  }
+
+  //获取代理商
+  function getAdvterAccount(){
+      var _html = '';
+      $.post("{:U('Ajax/getAdvterAccount')}",{all:1},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.account+"</option>";
+        });
+        $('#advterAccountId').html(_html);
+        $('#advterAccountId').comboSelect();
+      });
+  }
+
+  $('#game_Id').change(function(){
+    getAgent($(this).val());
+  });
+
+  $('#agent_id').change(function(){
+    var agent_id = $(this).val();
+    getMaxAgentId(agent_id);
+  });
+
+  function getMaxAgentId(agent_id){
+    //获取属于当前母包的子包最大渠道编号
+    $.post("{:U('Ajax/getMaxAgentId')}",{agent_id:agent_id},function(ret){
+        var ret = eval('('+ret+')');
+        $('#agent_num').html('该母包目前最大包编号为：'+ret.maxAgentId);
+        $('#agentNum_main').show();
+        $('#maxAgent').val(ret.maxAgentId);
+        $('#selectAgentName').val(ret.agentName);
+      });
+  }
+
+  //获取游戏
+  function gameList(){
+    var _html = '';
+      $.post("{:U('Ajax/getGameList')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.gameName+"</option>";
+        });
+        $('#game_Id').html(_html);
+        $('#game_Id').comboSelect();
+        getAgent($('#game_Id').val());
+      });
+  }
+
+  //获取渠道号
+  function getAgent(game_id){
+    var _html = '';
+    $.post("{:U('Ajax/getAgent')}",{game_id:game_id},function(ret){
+        var ret = eval('('+ret+')');
+        if(ret.length<1) return false;
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.agent+"</option>";
+        });
+        $('#agent_id').html(_html);
+        $('#agent_id').comboSelect();
+        getMaxAgentId($('#agent_id').val());
+      });
+  }
+});
+BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+var form = new Form.HForm({
+  srcNode : '#J_Form'
+}).render();
+
+var dialog = new Overlay.Dialog({
+      title:'批量新增包编号',
+      width:450,
+      height:350,
+      //配置DOM容器的编号
+      contentId:'content',
+      success:function () {
+        $('#J_Form').submit();
+      }
+    });
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

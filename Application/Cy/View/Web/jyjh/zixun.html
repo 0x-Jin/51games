@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=0, maximum-scale=1">
+    <title>{$info.name}</title>
+    <link rel="stylesheet" href="{$static_url}/css/common.css">
+    <link rel="stylesheet" href="{$static_url}/css/order.css">
+    <script src="http://img.chuangyunet.net/static/web/lsyxzj/js/jquery1.8.3.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://img.chuangyunet.net/static/web/lsyxzj/js/jquery.qrcode.min.js"></script>
+    <script src="{$static_url}/js/index.js"></script>
+</head>
+<body>
+    <div class="jy-mian jy-re">
+        <div class="jy-setting jy-ab" style="background: url('{$static_url}/images/header1.png') no-repeat center top;">
+            
+        </div>
+        <div class="jy-centent" >
+            <div class="jy-topdiv" style="background: url('{$static_url}/images/header.png') no-repeat center top;">
+                <!-- logo显示 -->
+                <a href="{$website}">
+                    <div class="jy-logo"></div>
+                </a>
+                
+                <!-- 首页导航 start -->
+                <div class="jy-nav">
+                    <ul>
+                        <li><a href="{$website}">
+                            <i class="jy-pitch-color"></i>
+                            <div class="jy-nav-zh">官网首页</div>
+                            <div class="jy-nav-en">HOME</div>
+                        </a></li>
+                        <li><a href="#">
+                            <i></i>
+                            <div class="jy-nav-zh">新闻资讯</div>
+                            <div class="jy-nav-en">NEWS  INFORMATION</div>
+                        </a></li>
+                        <li><a href="#">
+                            <i></i>
+                            <div class="jy-nav-zh jy-welfare">福利中心</div>
+                            <div class="jy-nav-en">WELFARE  CENTER</div>
+                        </a></li>
+                        <li><a href="#">
+                            <i></i>
+                            <div class="jy-nav-zh">游戏特色</div>
+                            <div class="jy-nav-en">GAME  FEATURES</div>
+                        </a></li>
+                    </ul>
+                </div>
+                <!-- 首页导航 end -->
+			</div>
+
+		</div>
+		
+		<!-- 内容 start -->
+		<div class="jy-nei-wrapdiv">
+			<!-- 关注公众号 start  -->
+			<div class="jy-nei-code">
+				<div class="jy-nei-download">
+					<div class="jy-div" id="CODE"></div>
+				</div>
+				<div class="jy-nei-server">
+					<a class="nei-ios-a jy-ab" href="{$info.iosDownload}"></a>
+					<a class="nei-android-a jy-ab" href="{$info.androidDownload}"></a>
+				</div>
+				<div class="jy-nei-wx">
+					<div class="jy-div" id="CODE-WX"></div>
+				</div>
+			</div>
+			<!-- 关注公众号 end  -->
+			<div class="nei-wrapdiv-l">
+				<div id="dttab-title">
+					<span class="selected" id="zuixin">
+						最新
+					</span>
+					<i></i>
+					<span class="" id="xinwen">
+						新闻
+					</span>
+					<i></i>
+					<span class="" id="gonggao">
+						公告
+					</span>
+					<i></i>
+					<span class="" id="huodong">
+						活动
+					</span>
+					<i></i>
+					<span style="border-right:0;" class="" id="gonglve">
+						攻略
+					</span>
+				</div>
+				<div class="dttab-list">
+					<span class="active" id="zuixin_s"></span>
+					<span id="xinwen_s"></span>
+					<span id="gonggao_s"></span>
+					<span id="huodong_s"></span>
+					<span id="gonglve_s"></span>
+				</div>
+				<div class="dttab-border"></div>
+				<div class="dttab-location">
+					<span>您的位置：</span><span><a href="{$website}">首页</a>-列表</span>
+				</div>
+				<div id="dttab-content">
+					<div id="zuixin_n">
+						<ul class="dtnews_ul">
+							<volist name="zuixin" id="vo">
+							    <li>
+							        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+							            <span class="news-type">
+							                最新
+							            </span>
+							            {$vo.title}
+							        </a>
+							        <span class="dttime_span">
+							            [{:date('m-d',$vo['createTime'])}]
+							        </span>
+							    </li>
+							</volist>
+						</ul>
+					</div>
+					<div class="hide jy-none" id="xinwen_n">
+						<ul class="dtnews_ul">
+							<volist name="xinwen" id="vo">
+							    <li>
+							        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+							            <span class="news-type">
+							                新闻
+							            </span>
+							            {$vo.title}
+							        </a>
+							        <span class="dttime_span">
+							            [{:date('m-d',$vo['createTime'])}]
+							        </span>
+							    </li>
+							</volist>
+						</ul>
+					</div>
+					<div class="hide jy-none" id="gonggao_n">
+						<ul class="dtnews_ul">
+						    <volist name="gonggao" id="vo">
+						        <li>
+						            <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+						                <span class="news-type">
+						                    公告
+						                </span>
+						                {$vo.title}
+						            </a>
+						            <span class="dttime_span">
+						                [{:date('m-d',$vo['createTime'])}]
+						            </span>
+						        </li>
+						    </volist>
+						</ul>
+					</div>
+					<div class="hide jy-none" id="huodong_n">
+						<ul class="dtnews_ul">
+							<volist name="huodong" id="vo">
+							    <li>
+							        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+							            <span class="news-type">
+							                活动
+							            </span>
+							            {$vo.title}
+							        </a>
+							        <span class="dttime_span">
+							            [{:date('m-d',$vo['createTime'])}]
+							        </span>
+							    </li>
+							</volist>
+						</ul>
+					</div>
+					<div class="hide jy-none" id="gonglve_n">
+						<ul class="dtnews_ul">
+							<volist name="gonglve" id="vo">
+							    <li>
+							        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+							            <span class="news-type">
+							                攻略
+							            </span>
+							            {$vo.title}
+							        </a>
+							        <span class="dttime_span">
+							            [{:date('m-d',$vo['createTime'])}]
+							        </span>
+							    </li>
+							</volist>
+						</ul>
+					</div>
+				</div>
+				<div class="dttab-setting">
+					<span class="dttab-setting-img1"></span>
+					<span class="dttab-setting-img2 dttab-setting-color2"></span>
+				</div>
+			</div>
+		</div>
+		<div class="jy-dttab-nature">
+			<div class="jy-dttab-nature-background"></div>
+		</div>
+		<!-- 内容 end -->
+		
+		<!-- 底部 start -->
+
+		<div class="jy-floot jy-re">
+			<div class="jy-floot-background">
+				<div class="jy-prompt">
+					<i></i>
+					<div>健康游戏公告：抵制不良游戏，拒绝盗版游戏。 注意自我保护，谨防受骗上当。 适度游戏益脑，沉迷游戏伤身。 合理安排时间，享受健康</div>
+				</div>
+			</div>
+			<div class="jy-suggest-background">
+				<div class="jy-suggest">
+					<p>关于创娱|创娱招聘|联系创娱|家长监护|客服热线：0756-2680580</p>
+					<p>广州创娱网络科技有限公司 版权所有 © 2005-2006 Chuangyu.com[创于游戏]</p>
+					<p>粤网文[2015]1712-302号|文网游备字 [2015]W-RPG 1145号|新广出审[2015]1202号|粤B2-20050785|粤TCP备09075143号</p>
+					<p>抵制不良游戏 拒绝盗版游戏 注意自我保护 谨防受骗上当 适度游戏益脑 沉迷游戏伤身 合理安排时间 享受健康</p>
+					<p>本游戏适合18岁以上用户，不含有暴力、恐怖、残酷、色情等妨害未成年身心健康的内容，属于绿色健康产品。</p>
+				</div>
+			</div>
+		</div>
+		<!-- 底部 end -->
+	</div>
+	<div class="jy-welfare-div jy-none">
+	    <div class="jy-welfare-close"></div>
+	    <div class="jy-welfare-clone"></div>
+	    <div class="jy-welfare-title">微信礼包</div>
+	    <p>-活动长期有效</p>
+	    <p>-礼包规则：关注官方微信公众号“剑雨江湖”（微信号jyjh），即可领取</p>
+	    <div class="jy-welfare-ul">
+	        <ul>
+	            <li>
+	                <div class="jy-welfare-pic jy-welfare-img1"></div>
+	                <div class="jy-welfare-size">经验符</div>
+	            </li>
+	            <li>
+	                <div class="jy-welfare-pic jy-welfare-img2"></div>
+	                <div class="jy-welfare-size">绑定元宝</div>
+	            </li>
+	            <li>
+	                <div class="jy-welfare-pic jy-welfare-img3"></div>
+	                <div class="jy-welfare-size">装备强化石</div>
+	            </li>
+	            <li>
+	                <div class="jy-welfare-pic jy-welfare-img4"></div>
+	                <div class="jy-welfare-size">攻击符文</div>
+	            </li>
+	        </ul>
+	    </div>
+	    <div class="jy-welfare-code"></div>
+	    <div class="jy-welfare-note">(扫码关注公众号)</div>
+	</div>
+	<div class="jy-shade jy-none"></div>
+</body>
+<script>
+	$(document).ready(function(){
+		var link = '{$url_short}';
+		var qr_data = {width: 150,height: 150,text: link};
+		$('#CODE').qrcode(qr_data);
+		$('#CODE-WX').qrcode(qr_data);
+
+		var url =location.href;
+		var type=url.split('#')[1];
+
+		if(type!='zuixin' && typeof(type)!='undefined'){
+			$("#zuixin").removeClass("selected");
+			$("#zuixin_s").removeClass("active");
+			$("#zuixin_n").css("display","none");
+			$("#"+type).addClass("selected");
+			$("#"+type+'_s').addClass("active");
+			$("#"+type+'_n').css("display","block");
+		}
+	});
+</script>
+</html>

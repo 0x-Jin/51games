@@ -1,0 +1,238 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content" style="overflow-y:auto; overflow-x:hidden; height:460px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal">
+        <input type="hidden" name="id" value="{$info.id}" />
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">部门：</label>
+                <div class="controls">
+                    <if condition="$info['partment'] == 1">发行一部<else />发行二部</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">合同签订单位：</label>
+                <div class="controls">
+                    <if condition="$info['company']">{$info.company}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">合同名称：</label>
+                <div class="controls">
+                    <if condition="$info['contract']">{$info.contract}<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    <if condition="$info['game']">{$info.game}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">合同编号：</label>
+                <div class="controls">
+                    <if condition="$info['contractNo']">{$info.contractNo}<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">信息/签或编号：</label>
+                <div class="controls">
+                    <if condition="$info['childNo']">{$info.childNo}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">签订人：</label>
+                <div class="controls">
+                    <if condition="$info['principal']">{$info.principal}<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">跟进人：</label>
+                <div class="controls">
+                    <if condition="$info['admin']">{$info.admin}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span25" style="height: auto">
+                <label class="control-label">充值账号：</label>
+                <div class="controls span24" style="height: auto; margin-bottom: 20px;">
+                    <if condition="!$account">/</if>
+                    <volist name="account" id="val">
+                        <if condition="$i gt 1"><br/></if>{$val.accountA}（金额：{$val.accountM}元）
+                    </volist>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">账号总额：</label>
+                <div class="controls">
+                    <if condition="$account_sum">{$account_sum}元<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">合同类别：</label>
+                <div class="controls">
+                    <if condition="$info['type']">{$info.type}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span25" style="height: auto">
+                <label class="control-label">主要条款：</label>
+                <div class="controls span24" style="height: auto; margin-bottom: 20px;">
+                    <if condition="$info['info']">{$info.info}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">签订日期：</label>
+                <div class="controls">
+                    <if condition="$info['fileTime']">{$info.fileTime}<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">是否生效：</label>
+                <div class="controls">
+                    <if condition="$info['status'] === '0'">是<elseif condition="$info['status'] == '1'" />否<elseif condition="$info['status'] == '2'" />空号<elseif condition="$info['status'] == '3'" />作废<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">生效日期：</label>
+                <div class="controls">
+                    <if condition="$info['startTime']">{$info.startTime}<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">终止日期：</label>
+                <div class="controls">
+                    <if condition="$info['endTime']">{$info.endTime}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">总金额：</label>
+                <div class="controls">
+                    <if condition="$info['amount']">{$info.amount}<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">结算方式：</label>
+                <div class="controls">
+                    <if condition="$info['payType'] == 1">日结<elseif condition="$info['payType'] == 2" />月结<elseif condition="$info['payType'] == 3" />预付<elseif condition="$info['payType'] == 4" />垫付<elseif condition="$info['payType'] == 5" />分期<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14" style="height: auto">
+                <label class="control-label">已付金额：</label>
+                <div class="controls" style="height: auto; margin-bottom: 20px;">
+                    <if condition="!$payAmountTime">/</if>
+                    <volist name="payAmountTime" id="val">
+                        <if condition="$i gt 1"><br/></if>{$val.payAmountTimeA}元（时间：{$val.payAmountTimeT}）
+                    </volist>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">票据号：</label>
+                <div class="controls">
+                    <if condition="$info['receipt']">{$info.receipt}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">已付总额：</label>
+                <div class="controls">
+                    <if condition="$payAmountTime_sum">{$payAmountTime_sum}元<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">未付金额：</label>
+                <div class="controls">
+                    <if condition="$payAmountTime_sum OR $info['amount']"><php>echo (intval($info['amount']) - intval($payAmountTime_sum))</php>元<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">已收发票：</label>
+                <div class="controls">
+                    <if condition="$invoiceAmount">{$invoiceAmount}元<else />/</if>
+                </div>
+            </div>
+            <div class="control-group span12">
+                <label class="control-label">未收金额：</label>
+                <div class="controls">
+                    <if condition="$payAmountTime_sum OR $invoiceAmount"><php>echo (intval($payAmountTime_sum) - intval($invoiceAmount))</php>元<else />/</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span25" style="height: auto">
+                <label class="control-label">备注：</label>
+                <div class="controls span24" style="height: auto; margin-bottom: 20px;">
+                    <if condition="$info['ext']">{$info.ext}<else />/</if>
+                </div>
+            </div>
+        </div>
+
+</form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay'], function(Overlay) {
+
+        var dialog = new Overlay.Dialog({
+            title: '合同详情',
+            width: 1200,
+            height: 520,
+            //配置DOM容器的编号
+            contentId: 'content',
+            buttons:[
+                {
+                    text:'关闭',
+                    elCls : 'button button-danger',
+                    handler : function(){
+                        this.close();
+                    }
+                }
+            ]
+        });
+
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

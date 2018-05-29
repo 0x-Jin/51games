@@ -1,0 +1,322 @@
+
+    <body>
+        <style type="text/css">
+            .combo-dropdown{z-index: 9999;}
+            input{border-radius: 4px;}
+        </style>
+        <div class="demo-content">
+            <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+            <form action="{:U('Advter/add')}" class="form-horizontal" id="J_Form" method="post">
+                <input name="table" type="hidden" value="advter_company_user"/>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            用户名称：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" data-rules="{required:true}" name="name" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            密码：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" name="password" type="password">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            确认密码：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" name="repassword" type="password">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            能查看的用户 ：
+                        </label>
+                        <div class="controls">
+                            <select id="account_pid" class="account_pid" multiple="multiple" name="pids[]">
+                                <option value="0">
+                                    【子账户无需选择此项】
+                                </option>
+                                <volist id="val" name="account_pid">
+                                    <option value="{$val.id}">
+                                        {$val.name}
+                                    </option>
+                                </volist>
+                            </select>
+                            【能查看子账户的渠道】
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            类型 ：
+                        </label>
+                        <div class="controls">
+                            <select id="account_type" name="account_type">
+                                <option value="1">
+                                    Android
+                                </option>
+                                <option value="2">
+                                    IOS
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            所属广告商：
+                        </label>
+                        <div class="controls">
+                            <select class="j_company_id" data-actions-box="true" data-live-search="true" id="j_company_id" multiple="" name="company_id[]">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            负责人：
+                        </label>
+                        <div class="controls">
+                            <select id="principal_id" name="principal_id">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            能查看的游戏：
+                        </label>
+                        <div class="controls">
+                            <select class="game_id" data-actions-box="true" data-live-search="true" id="game_id" multiple="" name="game_ids[]">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            能查看的渠道号：
+                        </label>
+                        <div class="controls">
+                            <select class="agent_ids" data-actions-box="true" data-live-search="true" id="agent_id" multiple="" name="agent_ids[]">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            电话：
+                        </label>
+                        <div class="controls">
+                            <input class="input-text" id="phone" name="phone" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            邮箱：
+                        </label>
+                        <div class="controls">
+                            <input class="input-text" id="email" name="email" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            状态：
+                        </label>
+                        <div class="controls">
+                            <select name="status">
+                                <option value="0">
+                                    开启
+                                </option>
+                                <option value="1">
+                                    关闭
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <style type="text/css">
+            .combo-arrow{margin-left: -10px;}
+            .combo .combo-text{border:none;}
+        </style>
+        <!-- script start -->
+<script type="text/javascript">
+      //获取游戏列表
+      function getGameList(){
+          var _html = '';
+          $.post("{:U('Ajax/getGameList')}",{all:0},function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                  _html += "<option value="+v.id+">"+v.gameName+"</option>";
+              });
+              $('#game_id').html(_html);
+              $('.game_id').selectpicker('refresh');
+          });
+          var advteruser_id = $('#j_company_id').val();
+
+          getAgentByGame($('#game_id').val(),advteruser_id);
+      }
+      //获取负责人
+      function principal(){
+        var _html = '';
+        $.post("{:U('Ajax/principals')}",'',function(ret){
+          var ret = eval('('+ret+')');
+          $(ret).each(function(i,v){
+              _html += "<option value="+v.id+">"+v.name+"</option>";
+          });
+          $('#principal_id').html(_html);
+          $('#principal_id').comboSelect();
+        });
+      }
+
+      //获取广告商
+      function adv_company(){
+          var _html = '';
+          $.post("{:U('Ajax/adv_company')}",'',function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                  _html += "<option value="+v.id+">"+v.company_name+"</option>";
+              });
+              $('#j_company_id').html(_html);
+              $('.j_company_id').selectpicker('refresh');
+              var gameid = $('#game_id').val();
+              getAgentByGame(gameid,$('#j_company_id').val());
+          });
+      }
+
+      //获取渠道号
+      function getAgentByGame(game_id,advteruser_id){
+          var _html = '';
+          $.post("{:U('Ajax/getAgentByGame')}",{game_id:game_id,advteruser_id:advteruser_id},function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                  _html += "<option value="+v.agents+">"+v.agent+"</option>";
+              });
+              $('#agent_id').html(_html);
+              $('.agent_ids').selectpicker('refresh');
+          });
+      }
+
+      $(function(){
+        //加载数据
+        principal();
+        adv_company();
+        getGameList();
+        $('#game_id').change(function(event) {
+          var gameid = $(this).val();
+          var advteruser_id = $('#j_company_id').val();
+          getAgentByGame(gameid,advteruser_id);
+        });
+
+        $('#j_company_id').change(function(event) {
+          var advteruser_id = $(this).val();
+          var gameid = $('#game_id').val();
+          getAgentByGame(gameid,advteruser_id);
+        });
+
+        $('.agent_ids,.game_id,.account_pid,.j_company_id').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            liveSearch: true,
+            actionsBox: true
+        });
+
+        /*$("#principal_id").combobox({
+          url:"{:U('Ajax/principals')}",
+          valueField:'id',
+          textField:'name',
+          width:200,
+          onSelect:function(res){
+            $('#channel_id').combobox('clear');
+            $("#channel_id").combobox('reload',"{:U('Ajax/agent')}?principal_id="+res.id+'&advteruser_id='+$("#j_company_id").combobox('getValue'));
+            $("#principal_id").val(res.id);
+          }   
+        });*/
+
+        /*$("#channel_id").combobox({
+          url:"{:U('Ajax/agent')}",
+          valueField:'id',
+          textField:'agent',
+          width:200,
+          multiple:true,
+          onSelect:function(res){
+            $("#j_company_id").val(res.id);
+          }   
+        });*/
+
+        /*$("#j_company_id").combobox({
+          url:"{:U('Ajax/adv_company')}",
+          valueField:'id',
+          textField:'company_name',
+          width:200,
+          onSelect:function(res){
+            $("#j_company_id").val(res.id);
+          }   
+        });*/
+
+        /*$("#account_pid").combobox({
+          multiple:true,    
+          width:200,
+          multiple:true,
+          onUnselect:function(){
+            _change_option();
+          },
+          onSelect:function(){
+            _change_option();
+          }   
+        });*/
+      });
+
+      BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'新增-广告商',
+            width:700,
+            height:620,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+        </script>
+        <!-- script end -->
+    </body>
+</html>

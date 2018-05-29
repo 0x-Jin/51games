@@ -1,0 +1,62 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('AdvterData/importCost')}" enctype="multipart/form-data" >
+        <input type="hidden" value="advter_cost" name="table"/>
+        <div class="row">
+          <div class="control-group span14">
+            <label class="control-label">成本文件：</label>
+            <div class="controls">
+              <input type="file" name="costFile" id="costFile"><span>支持Excel格式为：'xls', 'csv', 'xlsx'</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span14">
+            <label class="control-label">成本模板下载：</label>
+            <div class="controls">
+              <a href="http://{:$_SERVER['SERVER_NAME']}/Uploads/COST.xlsx">COST.xlsx</a>
+            </div>
+          </div>
+        </div>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+
+BUI.use(['bui/overlay', 'bui/form', 'bui/calendar'], function(Overlay, Form, Calendar) {
+
+  var form = new Form.HForm({
+    srcNode: '#J_Form'
+  }).render();
+
+  var dialog = new Overlay.Dialog({
+    title: '成本导入',
+    width: 650,
+    height: 120,
+    //配置DOM容器的编号
+    contentId: 'content',
+    success: function() {
+      $('#J_Form').submit();
+    }
+  });
+  
+  var datepicker = new Calendar.DatePicker({
+    trigger: '#costMonth',
+    dateMask: 'yyyy/mm/01',
+    autoRender: true
+  });
+
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

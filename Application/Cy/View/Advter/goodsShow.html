@@ -1,0 +1,221 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal">
+        <input type="hidden" value="{$info.agent}" id="agent"/>
+        <div class="row">
+            <div class="control-group span16">
+                <label class="control-label">名称：</label>
+                <div class="controls">
+                    {$info.agentName}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span6">
+                <div style="text-align: center; line-height: 40px;">
+                    创娱商品ID
+                </div>
+            </div>
+            <div class="control-group span6">
+                <div style="text-align: center; line-height: 40px;">
+                    渠道商品ID
+                </div>
+            </div>
+            <div class="control-group span4">
+                <div style="text-align: center; line-height: 40px;">
+                    操作
+                </div>
+            </div>
+        </div>
+        <div id="val_from" style="overflow-y:auto; height: 160px;">
+            <volist name="data" id="val">
+                <div class="row">
+                    <div class="control-group span6">
+                        <div style="text-align: center; line-height: 30px;">
+                            {$val.goodsCode}
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <div style="text-align: center; line-height: 30px;">
+                            {$val.channelGoods}
+                        </div>
+                    </div>
+                    <div class="control-group span4">
+                        <div style="text-align: center; line-height: 30px;">
+                            <button type="button" onclick="deleteGoods(this, '{$val.goodsCode}')" class="button button-danger">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </volist>
+        </div>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(["bui/overlay", "bui/form"], function (Overlay, Form) {
+
+        var form = new Form.HForm({
+                srcNode: "#J_Form"
+            }).render(),
+
+            dialog = new Overlay.Dialog({
+                title: "商品-{$info.agentName}",
+                width: 700,
+                height: 300,
+                //配置DOM容器的编号
+                contentId: "content",
+                buttons: [
+                    {
+                        text: "添加商品",
+                        elCls: "button button-primary",
+                        handler: function(){
+                            addGoods();
+                        }
+                    },{
+                        text: "关闭窗口",
+                        elCls: "button",
+                        handler: function(){
+                            this.close();
+                        }
+                    }
+                ]
+            });
+        dialog.show();
+    });
+
+    var _id = 1;
+    var _key = 0;
+
+    //添加商品
+    function addGoods() {
+        if (_key == 0) {
+            var _str = '<div class="row">'+
+                '<div class="control-group span6">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<input id="goodsCode_'+_id+'" name="goodsCode" type="text" class="input-normal control-text" style="width: 200px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span6">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<input id="channelGoods_'+_id+'" name="channelGoods" type="text" class="input-normal control-text" style="width: 200px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span4">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<button type="button" onclick="ajaxGoods(this, '+_id+')" class="button button-primary">提交</button>'+
+                '&nbsp;<button type="button" onclick="ajaxCancel(this, '+_id+')" class="button">取消</button>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
+            $("#val_from").append(_str);
+            $("#goodsCode_"+_id).focus();
+            _id += 1;
+            _key = 1;
+        } else  {
+            showMsg("warning", "请先提交或取消正在添加的商品！");
+        }
+    }
+
+    //提交商品
+    function ajaxGoods(obj, id) {
+        var _agent = $("#agent").val();
+        var _goodsCode = $("#goodsCode_"+id).val();
+        var _channelGoods = $("#channelGoods_"+id).val();
+        if (_agent == "" || _goodsCode == "" || _channelGoods == "") {
+            showMsg("warning", "商品数据未填写完整！");
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "{:U('Advter/addFusionGoods')}",
+                data: {agent: _agent, goodsCode: _goodsCode, channelGoods: _channelGoods},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Result == true) {
+                        $("#goodsCode_"+id).parent().html(_goodsCode);
+                        $("#channelGoods_"+id).parent().html(_channelGoods);
+                        $(obj).parent().html('<button type="button" onclick="deleteGoods(this, \''+_goodsCode+'\')" class="button button-danger">删除</button>');
+                        _key = 0;
+                        showMsg("success", data.Msg);
+                    } else {
+                        showMsg("warning", data.Msg);
+                    }
+                },
+                error: function(){
+                    showMsg("warning", "数据提交失败！");
+                }
+            })
+        }
+    }
+
+    //取消提交
+    function ajaxCancel(obj, id) {
+        $(obj).parent().parent().parent().remove();
+        _key = 0;
+    }
+
+    //删除商品
+    function deleteGoods(obj, goodsCode) {
+        BUI.Message.Show({
+            msg: "是否确定删除商品ID“"+goodsCode+"”？",
+            icon: "question",
+            autoHide: false,
+            autoHideDelay: 0,
+            buttons: [
+                {
+                    text: "是",
+                    elCls: "button button-primary",
+                    handler: function(){
+                        this.close();
+                        $.ajax({
+                            type: "GET",
+                            url: "{:U('Advter/deleteFusionGoods')}",
+                            data: {agent: $("#agent").val(), goodsCode: goodsCode},
+                            dataType: "json",
+                            success: function(data){
+                                if(data.Result == true){
+                                    $(obj).parent().parent().parent().remove();
+                                    showMsg("success", data.Msg);
+                                }else{
+                                    showMsg("warning", data.Msg);
+                                }
+                            },
+                            error: function(){
+                                showMsg("warning", "数据提交失败！");
+                            }
+                        })
+                    }
+                },
+                {
+                    text: "否",
+                    elCls: "button",
+                    handler: function(){
+                        this.close();
+                    }
+                }
+            ]
+        });
+
+    }
+
+    //显示提示
+    function showMsg(type, msg) {
+        BUI.Message.Show({
+            msg: msg,
+            icon: type,
+            buttons: [],
+            autoHide: true,
+            autoHideDelay: 2000
+        });
+    }
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

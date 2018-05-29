@@ -1,0 +1,260 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content" style="overflow-y:auto;height:475px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Website/homeAdd')}" enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">官网名称：</label>
+                <div class="controls">
+                    <input name="name" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">官网模板：</label>
+                <div class="controls">
+                    <select name="module" id="module">
+                        <option value="ztfyl">泽天模板</option>
+                        <option value="jyjh">剑雨模板</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">名称缩写：</label>
+                <div class="controls">
+                    <input name="abbr" id="abbr" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">渠道号：</label>
+                <div class="controls">
+                    <select name="agent" id="agent" style="width: 250px;"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">部门：</label>
+                <div class="controls">
+                    <select name="departmentId" id="departmentId">
+                        <option value="1">发行一部</option>
+                        <option value="2">发行二部</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">ios下载链接：</label>
+                <div class="controls">
+                    <input name="iosDownload" type="text" placeholder="以http://开头"  class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">安卓下载链接：</label>
+                <div class="controls">
+                    <input name="androidDownload" type="text" placeholder="以http://开头" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+<!--         <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">ios下载二维码：</label>
+                <div class="controls">
+                    <input name="iosImg"  type="file" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">安卓下载二维码：</label>
+                <div class="controls">
+                    <input name="androidImg"  type="file" />
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">游戏LOGO：</label>
+                <div class="controls">
+                    <input name="gameLogo"  type="file" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">关注我们二维码：</label>
+                <div class="controls">
+                    <input name="concern"  type="file" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">H5背景图：(640x579)</label>
+                <div class="controls">
+                    <input name="phoneBg"  type="file" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">背景中部图：(1200x663)</label>
+                <div class="controls">
+                    <input name="bgCenter"  type="file" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span10" >
+                <label class="control-label">背景侧边图：(1920x2300)</label>
+                <div class="controls">
+                    <input name="bgSide"  type="file"/>
+                </div>
+                
+            </div>
+        </div>
+
+<!--         <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">客服地址：</label>
+                <div class="controls">
+                    <input name="serviceUrl" type="text"  class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">论坛地址：</label>
+                <div class="controls">
+                    <input name="bbsUrl" type="text"  class="input-normal control-text">
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">客服QQ：</label>
+                <div class="controls">
+                    <input name="serviceQQ" type="text"  class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">微信公众号：</label>
+                <div class="controls">
+                    <input name="serviceWX" type="text"  class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏大小：</label>
+                <div class="controls">
+                    <input type="text" name="gameSize" />M
+                </div>
+            </div>
+        </div>
+
+<!--         <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏分类：</label>
+                <div class="controls">
+                    <select name="gameType">
+                        <volist name="gameType" id="vo">
+                            <option value="{$vo}">{$vo}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span11">
+                <label class="control-label">官网介绍：</label>
+                <div class="controls">
+                    <textarea name="remark" id="" cols="80" rows="30" style="width: 250px;height: 80px;"></textarea>
+                </div>
+            </div>
+        </div> -->
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    $(function () {
+        agentLists();
+    });
+
+    //获取游戏
+    function agentLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{power: 1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i, v){
+                _html += "<option value="+v.agent+">"+v.agentName+'（'+v.agent+'）'+"</option>";
+            });
+            $('#agent').html(_html).comboSelect();
+            $('.combo-input').attr("style", "width: 250px;");
+        });
+    }
+
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'新建官网',
+            width:450,
+            height:520,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                var reg = /^[a-zA-Z]+$/;
+                var abbr = $('#abbr').val();
+                if(!reg.test(abbr)){
+                    alert("官网缩写只能是英文字母组成");
+                    return false;
+                }
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

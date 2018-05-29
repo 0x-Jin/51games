@@ -1,0 +1,56 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Assist/imeiAdd')}">
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">本机IMEI/IDFA：</label>
+                <div class="controls">
+                    <input name="imei" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">代理IMEI/IDFA：</label>
+                <div class="controls">
+                    <input name="imeiProxy" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'添加IMEI',
+            width:450,
+            height:250,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Website/columnEdit')}">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">上级栏目：</label>
+            <div class="controls">
+                <select name="pid" class="input-normal">
+                  <option value="0">{:L('作为一级栏目')}</option>
+                  {$select_menus}
+                </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">栏目名称：</label>
+            <div class="controls">
+              <input name="columnName" type="text" value="{$info.columnName}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+ 
+<!-- script start --> 
+    <script type="text/javascript">
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'修改栏目',
+            width:500,
+            height:120,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+<!-- script end -->
+  </div>
+</body>
+</html>

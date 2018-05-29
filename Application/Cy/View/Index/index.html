@@ -1,0 +1,42 @@
+<include file="Public:header" title='{:L("CY_ADMIN_NAME")}'/>
+<body>
+<div class="header">
+    <div class="dl-log">欢迎您，
+        <span class="dl-log-user">{$adminInfo.rolename}</span>
+        <span class="dl-log-user">{$adminInfo.username}</span>
+        <span class="dl-log-user"><a href="javascript:;" id="edit" style="color:#fc1">[修改密码]</a></span>
+        <a href="{:U('Index/logout')}" title="退出" class="dl-log-quit">[退出]</a>
+    </div>
+</div>
+<div class="content">
+    <div class="dl-main-nav">
+        <ul id="J_Nav" class="nav-list ks-clear">
+            <!-- <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">首页</div></li> -->
+            <volist name="topMenu" id="val" >
+                <li class="nav-item" menu_id="{$val.id}"><div class="nav-item-inner nav-order">{:L($val['name'])}</div></li>
+            </volist>
+        </ul>
+    </div>
+    <ul id="J_NavContent" class="dl-tab-conten">
+
+    </ul>
+</div>
+<div id="editdiv" style="display:none;"></div>
+
+
+<script>
+    BUI.use('common/main',function(){
+        var config = {$leftmenu};
+        new PageUtil.MainPage({
+            modulesConfig : config
+        });
+    });
+    $('#edit').click(function(){
+        $.get("{:U('Index/edit')}",'',function(tpl){
+            $('#editdiv').html(tpl);
+            $('#editdiv').show();
+        });
+    })
+</script>
+</body>
+</html>

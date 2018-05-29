@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <title>
+        实时在线统计图表
+    </title>
+    <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+    <script src="__JS__/jquery.combo.select.js" type="text/javascript"></script>
+    <script src="__JS__/bui.js" type="text/javascript"></script>
+    <script src="__JS__/config.js" type="text/javascript"></script>
+    <script src="__JS__/echart/echarts.min.js" type="text/javascript"></script>
+</head>
+<literal>
+    <style>
+        tfoot .bui-grid-cell-text{text-align: center;}
+        .btn-default {height:25px;}
+        .filter-option {margin-top: -4px;}
+        .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+    </style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal span48" id="searchForm" method="post">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">
+                        游戏名称：
+                    </label>
+                    <div class="controls">
+                        <select id="game_id" name="game_id">
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">母包：</label>
+                    <div class="controls" id="p_agent_contain">
+                        <select id="agent_p" name="agent_p[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">子包：</label>
+                    <div class="controls" id="agent_contain">
+                        <select id="agent" name="agent[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">区服：</label>
+                    <div class="controls">
+                        <select name="serverId" id="serverId" class="selectpicker" data-live-search="true" data-actions-box="true"></select>
+                    </div>
+                </div>
+                <div class="control-group span5">
+                    <label class="control-label" style="width: 60px;">角色名称：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="roleName" id="roleName" style="width: 100px;">
+                    </div>
+                </div>
+                
+                <div class="control-group span5">
+                    <label class="control-label" style="width: 60px;">
+                        查询日期：
+                    </label>
+                    <div class="controls">
+                        <input class="calendar" id="date" name="date" type="text" value="{:date('Y-m-d')}" >
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button class="button button-primary" onclick="getChart()" id="btnSearch" type="button">
+                            搜索
+                        </button>
+                        <button class="button button-info" id="export" type="button">
+                            导出
+                        </button>
+                        <button  type="button" id="btnBeforeSearch" class="button button-primary">前一天</button>
+                        <button  type="button" id="btnAfterSearch" class="button button-primary">后一天</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form action='{:U("Data/onlineDau")}' id="subfm" method="post">
+            <input name="game_id" type="hidden" value="">
+                <input name="agent" type="hidden" value="">
+                    <input name="agent_p" type="hidden" value="">
+                        <input name="serverId" type="hidden" value="">
+                            <input name="roleName" type="hidden" value="">
+                               <input name="date" type="hidden" value="">
+                                   <input name="export" type="hidden" value="1"/>
+                               </input>
+                            </input>
+                        </input>
+                    </input>
+                </input>
+            </input>
+        </form>
+    </div>
+    <!-- 图表 -->
+    <div class="search-grid-container" id="chartMain" style="width: 100%; height: 600px; display:none;">
+        <div id="chart" style="width: 100%;height:100%;"></div>
+    </div>
+
+    <div class="search-grid-container span25">
+        <div id="grid"></div>
+    </div>
+</div>
+<!-- 弹窗 -->
+<div class="hide" id="content">
+</div>
+<script type="text/javascript">
+    function dateFormat(flag){
+        var now = new Date($('#date').val());
+        if(flag>0){
+            now = new Date(now.getTime() - 86400000); 
+        }else{
+            now = new Date(now.getTime() + 86400000); 
+        }
+        var yyyy = now.getFullYear(), mm = (now.getMonth() + 1).toString(), dd = now
+                .getDate().toString();
+        if (mm.length == 1) {
+            mm = '0' + mm;
+        }
+        if (dd.length == 1) {
+            dd = '0' + dd;
+        }
+        var current = yyyy+'-'+mm+'-'+dd;
+        
+        return current;
+    }
+
+    $('#btnBeforeSearch').click(function() {
+        var game_id = $('#game_id').val();
+        if(game_id == 0 ){
+            alert('必须先选择游戏');
+            return ;
+        }
+        var date =  dateFormat(1);
+        $('#date').val(date);
+        $('#btnSearch').trigger('click');
+    });
+
+    $('#btnAfterSearch').click(function() {
+        var game_id = $('#game_id').val();
+        if(game_id == 0 ){
+            alert('必须先选择游戏');
+            return ;
+        }
+        var date =  dateFormat(-1);
+        $('#date').val(date);
+        $('#btnSearch').trigger('click');
+    });
+
+    function getChart(){
+        var game_id = $('#game_id').val();
+        if(game_id == 0 ){
+            alert('必须先选择游戏');
+            return ;
+        }
+        var width = $('#chartMain').width();
+        var height = $('#chartMain').height();
+        $('#chart').css({width:width, height:height});
+        $('.mark').show();
+        $('.spinner').show();
+
+        //提交表单获取数据
+        var _data = $('#searchForm').serialize();
+        $.post("{:U('Data/onlineDau')}", _data, function(ret){
+            var res = eval('('+ret+')');
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('chart'));
+
+            // 指定图表的配置项和数据
+            var timeData = [];
+            var onlineData = [];
+            var onlineDataBef = [];
+
+            $.each(res.info, function(index, content){
+                timeData.push(content.hour); 
+                onlineData.push(content.amount);
+            });
+
+            $.each(res.yesterday, function(index, content){
+                onlineDataBef.push(content.amount);
+            });
+
+            option = {
+                title: {
+                    text: '实时在线图表',
+                    x: 'left'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                legend: {
+                    data: ['今日数值','昨日数值']
+                },
+                axisPointer: {
+                    link: {
+                        xAxisIndex: 'all'
+                    }
+                },
+                grid: [{
+                    left: 40,
+                    right: 40
+                }, {
+                    left: 40,
+                    right: 40
+                }],
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        onZero: true
+                    },
+                    data: timeData
+                }, {
+                    gridIndex: 1
+                }],
+
+                yAxis: [{
+                    type: 'value',
+                    name: '在线数:',
+                    min: 0
+                }, {
+                    gridIndex: 1
+                }],
+                series: [{
+                    name: '今日数值',
+                    type: 'line',
+                    smooth: false,
+                    symbol: 'circle',
+                    symbolSize: 9,
+                    showSymbol: true,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    markPoint: {
+                        data: [{
+                            type: 'max',
+                            name: '最大值'
+                        }, {
+                            type: 'min',
+                            name: '最小值'
+                        }]
+                    },
+                    markArea: {
+                        silent: true,
+                        label: {
+                            normal: {
+                                position: ['10%', '50%']
+                            }
+                        },
+                        data: []
+                    },
+                    itemStyle : {
+                        normal: {
+                            label : {
+                                show: true
+                            },
+                            lineStyle:{
+                                width:5
+                            }
+                        }
+                    },
+                    data: onlineData
+                },{
+                    name: '昨日数值',
+                    type: 'line',
+                    smooth: false,
+                    symbol: 'circle',
+                    symbolSize: 9,
+                    showSymbol: true,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    markPoint: {
+                        data: [{
+                            type: 'max',
+                            name: '最大值'
+                        }, {
+                            type: 'min',
+                            name: '最小值'
+                        }]
+                    },
+                    markArea: {
+                        silent: true,
+                        label: {
+                            normal: {
+                                position: ['10%', '50%']
+                            }
+                        },
+                        data: []
+                    },
+                    itemStyle : {
+                        normal: {
+                            label : {
+                                show: true
+                            },
+                            lineStyle:{
+                                width:5
+                            }
+                        }
+                    },
+                    data: onlineDataBef
+                }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+            $('.mark').hide();
+            $('.spinner').hide();
+
+
+            $('#chartMain').show();
+        });
+    }
+
+    BUI.use('common/search',function (Search) {
+    editing = new BUI.Grid.Plugins.DialogEditing({
+        contentId : 'content', //设置隐藏的Dialog内容
+        autoSave : true, //添加数据或者修改数据时，自动保存
+        triggerCls : 'btn-edit'
+    });
+    columns = [
+        {title: '用户标识', dataIndex: 'userCode', width: 250, elCls: 'center',sortable : false},
+        {title: '角色名称', dataIndex: 'roleName', width: 250, elCls: 'center',sortable : false},
+        {title: '服务器', dataIndex: 'serverName', width: 250, elCls: 'center',sortable : false},
+        {title: '在线时长', dataIndex: 'onlineTime', width: 200, elCls: 'center',sortable : false},
+        {title: '登录IP', dataIndex: 'ip', width: 250, elCls: 'center',sortable : false},
+        {title: '省份', dataIndex: 'province', width: 250, elCls: 'center',sortable : false},
+        {title: '城市', dataIndex: 'city', width: 250, elCls: 'center',sortable : false},
+    ],
+    store = Search.createStore('{:U("Data/onlineDau")}', {
+            proxy: {
+                save: { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                },
+                method: 'POST'
+            },
+            autoSync: true //保存数据后，自动更新
+        }),
+        gridCfg = Search.createGridCfg(columns, {
+            forceFit : true,
+            plugins: [editing,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        });
+
+    var search = new Search({
+            autoSearch: false,
+            store: store,
+            gridCfg: gridCfg
+        }),
+        grid = search.get('grid');
+    });
+
+    $(function () {
+        $('.selectpicker').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            liveSearch: true,
+            actionsBox: true
+        });
+
+        $('#export').click(function(){            
+            $("#subfm input[name=game_id]").val($("#game_id").val());
+            $("#subfm input[name=agent]").val($('#agent').val());
+            $("#subfm input[name=agent_p]").val($('#agent_p').val());
+            $("#subfm input[name=serverId]").val($("#serverId").val());
+            $("#subfm input[name=roleName]").val($("#roleName").val());
+            $("#subfm input[name=date]").val($("#date").val());
+            $('#subfm').submit();
+        });
+
+        gameLists();
+        $('#game_id').change(function() {
+            var game_id = $(this).val();
+            getPAgentByGame(game_id);
+            serverList();
+        });
+
+        $('#agent_p').change(function() {
+            getAgentByGame();
+            serverList();
+        });
+    });
+
+    BUI.use('bui/calendar',function(Calendar){
+        var datepicker = new Calendar.DatePicker({
+            trigger:'.calendar',
+            autoRender : true
+        });
+    });
+
+    //获取母包渠道号
+    function getPAgentByGame(game_id){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{game_id:game_id},function(ret){
+            _html += "<option>--请选择母包--</option>";
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+            });
+            $('#agent_p').html(_html);
+            $('#agent_p').selectpicker('refresh');
+            $('#agent_p').selectpicker('val', '--请选择母包--');
+        });
+    }
+
+    //获取子包渠道号
+    function getAgentByGame() {
+        var agent = $("#agent_p").val();
+        if (agent != "--请选择渠道号--" && agent != null) {
+            var _html = '';
+            $.post("{:U('Ajax/getChildAgentByAgent')}", {agent:agent}, function(ret){
+                _html += "<option>--请选择子包--</option>";
+                var ret = eval('('+ret+')');
+                $(ret).each(function(i,v){
+                    _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+                });
+                $('#agent').html(_html);
+                $('#agent').selectpicker('refresh');
+                $('#agent').selectpicker('val', '--请选择子包--');
+            });
+        }
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+
+    /**
+     * 获取区服列表
+     * @return {[type]} [description]
+     */
+     function serverList(){
+      var _html = '';
+      var game_id = $("#game_id").val();
+      var agent = $("#agent_p").val();
+      $.post("{:U('Ajax/getServerList')}",{game_id:game_id,agent:agent},function(ret){
+          _html += "<option value='0'>--全部--</option>";
+          var ret = eval('('+ret+')');
+          $(ret).each(function(i,v){
+              _html += "<option value="+v.serverId+">"+v.serverName+'['+v.serverId+']'+"</option>";
+          });
+          $('#serverId').html(_html);
+          $('#serverId').selectpicker('refresh');
+      })
+     }
+
+</script>
+<include file="Public/loading" />
+
+</body>
+</html>

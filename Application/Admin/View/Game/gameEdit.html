@@ -1,0 +1,112 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Game/gameEdit')}">
+        <input type="hidden" value="{$game.id}" name="id"/>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏分类：</label>
+                <div class="controls">
+                    <input name="gameName" type="text" value="{$game.gameName}" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">所属部门：</label>
+                <div class="controls">
+                    <select name="department">
+                        <volist name="partment" id="val">
+                          <option value="{$val.partment_id}" <?php if($val['partment_id'] == $game['department']) echo 'selected';?> >{$val.name}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">回调地址：</label>
+                <div class="controls">
+                    <input name="callbackUrl" type="text" value="{$game.callbackUrl}" style="width: 250px;" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏币单位：</label>
+                <div class="controls">
+                    <input name="unit" type="text" value="{$game.unit}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">比率：</label>
+                <div class="controls">
+                    <input name="ratio" type="text" value="{$game.ratio}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">登陆状态：</label>
+                <div class="controls">
+                    <select  name="loginStatus">
+                        <option value="0" <if condition="$game.loginStatus eq 0">selected</if>>开启登陆</option>
+                        <option value="1" <if condition="$game.loginStatus eq 1">selected</if>>关闭登陆</option>
+                        <option value="2" <if condition="$game.loginStatus eq 2">selected</if>>关闭新增</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">充值状态：</label>
+                <div class="controls">
+                    <select  name="payStatus">
+                        <option value="0" <if condition="$game.payStatus eq 0">selected</if>>开启充值</option>
+                        <option value="1" <if condition="$game.payStatus eq 1">selected</if>>关闭充值</option>
+                        <option value="2" <if condition="$game.payStatus eq 2">selected</if>>切充值</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'编辑-{$game.gameName}',
+            width:500,
+            height:340,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

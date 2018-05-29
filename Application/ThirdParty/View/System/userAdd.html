@@ -1,0 +1,338 @@
+
+    <body>
+        <style type="text/css">
+            .combo-dropdown{z-index: 9999;}
+            input{border-radius: 4px;}
+        </style>
+        <div class="demo-content">
+            <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+            <form action="{:U('System/userAdd')}" class="form-horizontal" id="J_Form" method="post">
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            真实姓名：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" data-rules="{required:true}" name="real" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            用户名称：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" data-rules="{required:true}" name="name" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            密码：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" name="password" type="password">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            确认密码：
+                        </label>
+                        <div class="controls">
+                            <input class="input-normal control-text" name="repassword" type="password">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            负责人：
+                        </label>
+                        <div class="controls">
+                            <select id="principal_id" name="principal_id">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            用户类型：
+                        </label>
+                        <div class="controls">
+                            <select id="user_type" name="user_type">
+                            <option value="1">我方账户</option>
+                            <option value="2">广告商</option>
+                            <option value="3">CP</option>
+                            <option value="4">素材</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="control-group span8">
+                    <label class="control-label">所属角色：</label>
+                    <div class="controls">
+                        <select name="manager_id" id="manager_id" class="input-normal">
+                          {$role_list}
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            能查看的游戏：
+                        </label>
+                        <div class="controls">
+                            <select class="selectpicker" data-actions-box="true" data-live-search="true" id="game_id" multiple="" name="game_ids[]">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            能查看广告商：
+                        </label>
+                        <div class="controls">
+                            <select class="selectpicker" data-actions-box="true" data-live-search="true" id="j_company_id" multiple="" name="advter_ids[]">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="control-group span17">
+                        <label class="control-label">
+                            能查看的渠道号：
+                        </label>
+                        <div class="controls">
+                            <select class="selectpicker" data-actions-box="true" data-live-search="true" id="agent_id" multiple="" name="agent_ids[]">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                  <div class="control-group span17">
+                      <label class="control-label">
+                          推广活动组：
+                      </label>
+                      <div class="controls">
+                          <select class="selectpicker" data-actions-box="true" data-live-search="true" id="groups" multiple="" name="groups[]">
+                          </select>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="control-group span17" id="advter">
+                      <label class="control-label">
+                          推广活动：
+                      </label>
+                      <div class="controls">
+                          <select class="selectpicker" data-actions-box="true" data-live-search="true" id="events" multiple="" name="events[]">
+                          </select>
+                      </div>
+                  </div>
+                </div>
+
+                <!-- <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            电话：
+                        </label>
+                        <div class="controls">
+                            <input class="input-text" id="phone" name="phone" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            邮箱：
+                        </label>
+                        <div class="controls">
+                            <input class="input-text" id="email" name="email" type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            状态：
+                        </label>
+                        <div class="controls">
+                            <select name="status">
+                                <option value="0">
+                                    开启
+                                </option>
+                                <option value="1">
+                                    关闭
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <style type="text/css">
+            .combo-arrow{margin-left: -10px;}
+            .combo .combo-text{border:none;}
+        </style>
+        <!-- script start -->
+<script type="text/javascript">
+      //获取游戏列表
+      function getGameList(){
+          var _html = '';
+          $.post("{:U('Ajax/getGameList')}",{all:0},function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                  _html += "<option value="+v.id+">"+v.gameName+"</option>";
+              });
+              $('#game_id').html(_html);
+              $('#game_id').selectpicker('refresh');
+          });
+      }
+      //获取负责人
+      function principal(){
+        var _html = '';
+        $.post("{:U('Ajax/principals')}",'',function(ret){
+          var ret = eval('('+ret+')');
+          $(ret).each(function(i,v){
+              _html += "<option value="+v.id+">"+v.name+"</option>";
+          });
+          $('#principal_id').html(_html);
+          $('#principal_id').comboSelect();
+        });
+      }
+
+      //获取广告商
+      function adv_company(){
+          var _html = '';
+          $.post("{:U('Ajax/adv_company')}",'',function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                  _html += "<option value="+v.id+">"+v.company_name+"</option>";
+              });
+              $('#j_company_id').html(_html);
+              $('#j_company_id').selectpicker('refresh');
+          });
+      }
+
+      //获取渠道号
+      function getAgentByGame(game_id,advteruser_id){
+          var _html = '';
+          $.post("{:U('Ajax/getAgentByGame')}",{game_id:game_id,advteruser_id:advteruser_id},function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                  _html += "<option value="+v.agents+">"+v.agent+"</option>";
+              });
+              $('#agent_id').html(_html);
+              $('#agent_id').selectpicker('refresh');
+          });
+      }
+
+      //获取推广组
+      function groupList(){
+        var _html = '';
+        $.post("{:U('Ajax/getEventGroup')}",'',function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.groupName+"</option>";
+            });
+            $('#groups').html(_html);
+            $('#groups').selectpicker('refresh');
+        });
+      }
+
+      //获取推广活动列表
+      function getEventByGroup(events_groupId){
+        var _html = '';
+        $.post("{:U('Ajax/getEventByGroup')}",{events_groupId:events_groupId},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.events_name+"</option>";
+            });
+            $('#events').html(_html);
+            $('#events').selectpicker('refresh');
+        });
+      }
+
+      $(function(){
+        //加载数据
+        groupList();
+        principal();
+        adv_company();
+        getGameList();
+
+        $('#game_id').change(function(event) {
+          var gameid = $(this).val();
+          var advteruser_id = $('#j_company_id').val();
+          getAgentByGame(gameid,advteruser_id);
+        });
+
+        $('#j_company_id').change(function(event) {
+          var advteruser_id = $(this).val();
+          var gameid = $('#game_id').val();
+          getAgentByGame(gameid,advteruser_id);
+        });
+
+        $('#groups').change(function() {
+            var events_groupId = $(this).val();
+            getEventByGroup(events_groupId);
+        });
+
+        $('.selectpicker').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            liveSearch: true,
+            actionsBox: true
+        });
+
+      });
+
+      BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'新增-账户',
+            width:700,
+            height:550,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+        </script>
+        <!-- script end -->
+    </body>
+</html>
+        
+     

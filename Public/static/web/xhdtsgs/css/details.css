@@ -1,0 +1,164 @@
+.xh-mian {
+	height: 760px;
+    background: url(../images/xh-back-news.jpg) no-repeat center;
+}
+.xh-orderwave {
+	top: 618px;
+}
+.rx-order-mian {
+	margin: auto;
+	border-bottom: 1px solid #d2d2d2;
+}
+.rx-order-title {
+	font-size: 36px;
+	color: #000;
+	font-weight: 600;
+	margin-top: 38px;
+    line-height: 2;
+}
+.rx-details-data {
+	position: relative;
+	width: 1200px;
+	margin: auto;
+	height: 30px;
+	padding: 15px 0;
+	color: #666666;
+	font-size: 14px;
+    line-height: 30px;
+}
+.rx-details-data a {
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	position: absolute;
+	left: 20px;
+	border-left: 1px solid #333;
+	color: #333;
+}
+.rx-details-data a:hover {
+	color: #a5caa6;
+}
+.rx-details-text {
+	min-height: 400px;
+    width: 825px;
+    margin: 30px auto 0;
+    padding-bottom: 130px;
+    color: #1b1a18;
+    font-size: 16px;
+    line-height: 30px;
+    font-family: "Microsoft YaHei";
+    text-align: left;
+}
+.rx-details-text p {
+	margin-top: 15px;
+    line-height: 30px;
+}
+.rx-details-text img {
+	max-width: 800px;
+    margin-top: 20px;
+}
+
+.side-nav-left {
+	display: none;
+    width: 234px;
+    height: 444px;
+    padding-top: 0px;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    margin-top: -200px;
+    background: url(../images/gzbg.png) no-repeat;
+    z-index: 999;
+    overflow: hidden;
+}
+.r-side-nei {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	width: 120px;
+	height: 120px;
+	background: #fff;
+	border-radius: 5px;
+}
+.r-side-bottom {
+	position: absolute;
+	bottom: 50px;
+	right: 30px;
+	width: 120px;
+	height: 120px;
+	background: #fff;
+	border-radius: 5px;
+}
+.r-side-code {
+	position: absolute;
+	top: 12.5px;
+	left: 12.5px;
+	width: 95px;
+	height: 95px;
+	background: url('../images/rx-slide-code.png') no-repeat center;
+}
+.r-bottom-code {
+	position: absolute;
+	top: 12.5px;
+	left: 12.5px;
+	width: 95px;
+	height: 95px;
+	background: url('../images/rx-bottom-code.png') no-repeat center;
+}
+.xh-side-title {
+	position: absolute;
+    bottom: 210px;
+    left: 90px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333333;
+}
+.xh-smallicon {
+	width: 17px;
+	height: 20px;
+	background: url('../images/xh-smallicon-img.png') no-repeat center;
+	position: absolute;
+    bottom: 210px;
+    left: 20px;
+}
+.xh-smallicon-img {
+	background: url('../images/xh-smallicon-img1.png') no-repeat center;
+}
+.rx-close {
+	width: 50px;
+    height: 130px;
+    position: absolute;
+    bottom: 150px;
+    left: 2px;
+}
+.rx-scroll {
+	width: 47px;
+	height: 45px;
+	background: url('../images/rx-scroll.png')no-repeat center;
+	margin: auto;
+}
+.xh-back-floot {
+	width: 100%;
+	height: 219px;
+	background: url('../images/xh-back-floot.png') no-repeat center;
+}
+
+
+/* header end */
+@font-face {font-family: "iconfont";
+  src: url('https://img.chuangyunet.net/static/web/xhdtsgs/font/iconfont.eot?t=1516949234104'); /* IE9*/
+  src: url('https://img.chuangyunet.net/static/web/xhdtsgs/font/iconfont.eot?t=1516949234104#iefix') format('embedded-opentype'), /* IE6-IE8 */
+   url('https://img.chuangyunet.net/static/web/xhdtsgs/font/iconfont.woff') format('woff'), /* chrome, firefox */
+  url('https://img.chuangyunet.net/static/web/xhdtsgs/font/iconfont.ttf?t=1516949234104') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('https://img.chuangyunet.net/static/web/xhdtsgs/font/iconfont.svg?t=1516949234104#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhixiang-zuo:before { content: "\e601"; }

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资讯编辑</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="__JS__/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body>
+
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <br />
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Website/articleEdit')}" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{$info.id}" />
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><a href="{:U('article')}" ><span class="icon-backward"></span>返回上一页</a></label>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">官网名称：</label>
+                <div class="controls">
+                    {$home.name}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">选择栏目：</label>
+                <div class="controls" id="column">
+                    <select name="column_id">
+                        {$column}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">资讯标题：</label>
+                <div class="controls">
+                    <input name="title" value="{$info.title}" type="text" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">资讯副标题：</label>
+                <div class="controls">
+                    <input name="title2" value="{$info.title2}" type="text" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span20">
+                <label class="control-label">资讯简介：</label>
+                <div class="controls">
+                    <input name="description" value="{$info.description}" type="text" class="input-normal control-text" style="width: 450px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">关键词：</label>
+                <div class="controls">
+                    <input name="keywords" value="{$info.keywords}" type="text" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span24">
+                <label class="control-label">发布时间：</label>
+                <div class="controls">
+                    <input class="calendar calendar-time" type="text" name="releaseTime" value="{$info.releaseTime|date='Y-m-d H:i:s',###}" id="releaseTime">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: red">注意：不填则默认当前时间</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span24">
+                <label class="control-label">是否热点：</label>
+                <div class="controls">
+                    <input name="hot" type="radio" class="input-radio" value="0" <if condition="$info['hot'] == 0">checked="checked"</if>>&nbsp;&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input name="hot" type="radio" class="input-radio" value="1" <if condition="$info['hot'] == 1">checked="checked"</if>>&nbsp;&nbsp;是
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="height:320px;">
+            <div class="control-group span30">
+                <label class="control-label">资讯内容：</label>
+                <div class="controls">
+                    <div name="content" id="content_div" style="width:1000px;height:300px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span30">
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                    <input type="button" onclick="articleCancel()" class="button button-warning" value="取消" />
+                    <input type="submit" class="button button-primary" value="提交" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+
+    function articleCancel() {
+        top.topManager.reloadPage();
+    }
+
+    var ue1 = UE.getEditor('content_div', {
+        zIndex : 1,
+        initialFrameWidth: 1000,
+        initialFrameHeight: 200,
+        autoHeightEnabled: false,
+        initialContent: "{:addslashes($info['content'])}"
+    });
+
+    BUI.use(['bui/calendar'],function (Calendar) {
+        var datepicker = new Calendar.DatePicker({
+            trigger: '#releaseTime',
+            autoRender: true,
+            showTime:true
+        });
+    });
+
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

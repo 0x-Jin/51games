@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>合同列表</title>
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap.min.css">
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+    <link href="__CSS__/viewer.min.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap-select.css">
+
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+    <script src="__JS__/viewer.min.js"></script>
+
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script src="__JS__/echart/echarts.min.js" type="text/javascript"></script>
+</head>
+<literal>
+    <style>
+        tfoot .bui-grid-cell-text{text-align: center;}
+        .btn-default {height:25px;}
+        .filter-option {margin-top: -4px;}
+        .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+        .bootstrap-select .dropdown-toggle {z-index: auto;}
+        .combo-select .width170 {width: 170px;}
+
+        .br_line {
+            height:1px;
+            width:255px;
+            margin-left:-5px;
+            /*background:#c5c5c5;*/
+            overflow:hidden;
+            border-bottom:1px solid #c5c5c5;
+        }
+
+        .br_span1 {
+            width: 55%;
+            text-align: right;
+            padding-right: 5%;
+            border-right:1px solid #c5c5c5;
+        }
+
+        .br_span2 {
+            width: 30%;
+            text-align: left;
+        }
+    </style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 50px;">部门：</label>
+                    <div class="controls">
+                        <select name="partment" id="partment">
+                            <option value="">全部</option>
+                            {$tplPartment}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 50px;">跟进人：</label>
+                    <div class="controls">
+                        <select name="followAdmin" id="followAdmin">
+                            <option value="">全部</option>
+                            <volist name="admin" id="val">
+                                <option value="{$val.id}">{$val.real}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">是否生效：</label>
+                    <div class="controls">
+                        <select name="status" id="status">
+                            <option value="">全部</option>
+                            <option value="1">是</option>
+                            <option value="2">否</option>
+                            <option value="3">空号</option>
+                            <option value="4">作废</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 50px;">签订人：</label>
+                    <div class="controls">
+                        <select name="principalId" id="principal_id"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">游戏名称：</label>
+                    <div class="controls">
+                        <input type="text" class="input-normal" name="game" id="game" />
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">合同名称：</label>
+                    <div class="controls">
+                        <input type="text" class="input-normal" name="contract" id="contract" />
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 50px;">类别：</label>
+                    <div class="controls">
+                        <select name="type" id="type">
+                            <option value="">全部</option>
+                            <volist name="type" id="val">
+                                <option value="{$val.type}">{$val.type}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">合同编号：</label>
+                    <div class="controls">
+                        <select name="contractNo" id="contractNo" style="width: 180px;">
+                            <option value="">全部</option>
+                            <volist name="contractNo" id="val">
+                                <option value="{$val.contractNo}">{$val.contractNo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span9">
+                    <label class="control-label" style="width: 120px;">（信息/签或）编号：</label>
+                    <div class="controls">
+                        <select name="childNo" id="childNo" style="width: 180px;">
+                            <option value="">全部</option>
+                            <volist name="childNo" id="val">
+                                <option value="{$val.childNo}">{$val.childNo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">签订单位：</label>
+                    <div class="controls">
+                        <input type="text" class="input-normal" name="company" id="company" />
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">合同排序：</label>
+                    <div class="controls">
+                        <select name="order">
+                            <option value="DESC">编号倒序</option>
+                            <option value="ASC">编号顺序</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span11">
+                    <label class="control-label" style="width: 60px;">显示：</label>
+                    <div class="controls">
+                        <select name="show[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+                            <option value="0" <if condition="$option['0'] eq '0'">selected="selected"</if>>全部</option>
+                            <option value="1" <if condition="$option['1'] eq '1'">selected="selected"</if>>部门</option>
+                            <option value="2" <if condition="$option['2'] eq '2'">selected="selected"</if>>跟进人</option>
+                            <option value="3" <if condition="$option['3'] eq '3'">selected="selected"</if>>是否生效</option>
+                            <option value="4" <if condition="$option['4'] eq '4'">selected="selected"</if>>签订日期</option>
+                            <option value="5" <if condition="$option['5'] eq '5'">selected="selected"</if>>生效日期</option>
+                            <option value="6" <if condition="$option['6'] eq '6'">selected="selected"</if>>失效日期</option>
+                            <option value="7" <if condition="$option['7'] eq '7'">selected="selected"</if>>有效天数</option>
+                            <option value="8" <if condition="$option['8'] eq '8'">selected="selected"</if>>签订人</option>
+                            <option value="9" <if condition="$option['9'] eq '9'">selected="selected"</if>>类别</option>
+                            <option value="10" <if condition="$option['10'] eq '10'">selected="selected"</if>>游戏名称</option>
+                            <option value="11" <if condition="$option['11'] eq '11'">selected="selected"</if>>合同名称</option>
+                            <option value="12" <if condition="$option['12'] eq '12'">selected="selected"</if>>合同编号</option>
+                            <option value="13" <if condition="$option['13'] eq '13'">selected="selected"</if>>（信息/签或）编号</option>
+                            <option value="14" <if condition="$option['14'] eq '14'">selected="selected"</if>>对应的充值账号</option>
+                            <option value="15" <if condition="$option['15'] eq '15'">selected="selected"</if>>合同签订单位</option>
+                            <option value="16" <if condition="$option['16'] eq '16'">selected="selected"</if>>主要条款</option>
+                            <option value="17" <if condition="$option['17'] eq '17'">selected="selected"</if>>结算方式</option>
+                            <option value="18" <if condition="$option['18'] eq '18'">selected="selected"</if>>总金额</option>
+                            <option value="19" <if condition="$option['19'] eq '19'">selected="selected"</if>>已付金额</option>
+                            <option value="20" <if condition="$option['20'] eq '20'">selected="selected"</if>>未付金额</option>
+                            <option value="21" <if condition="$option['21'] eq '21'">selected="selected"</if>>票据号</option>
+                            <option value="22" <if condition="$option['22'] eq '22'">selected="selected"</if>>收到发票金额</option>
+                            <option value="23" <if condition="$option['23'] eq '23'">selected="selected"</if>>未收票据金额</option>
+                            <option value="24" <if condition="$option['24'] eq '24'">selected="selected"</if>>备注</option>
+                            <option value="25" <if condition="$option['25'] eq '25'">selected="selected"</if>>附件</option>
+                            <option value="26" <if condition="$option['26'] eq '26'">selected="selected"</if>>更新时间</option>
+                            <option value="27" <if condition="$option['27'] eq '27'">selected="selected"</if>>操作</option>
+                        </select>
+                    </div>
+                    &nbsp;&nbsp;<button type="button" onclick="saveOption()" class="button button-success">保存至个人设置</button>
+                </div>
+
+                <div class="control-group span6">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                        <button  type="button" id="btnCreate" class="button button-info">录入</button>
+                        <button  type="button" id="btnExport" class="button button-warning">导出</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <br />
+        <p style="color: red">&nbsp;&nbsp;温馨提示：您可以在“显示”的搜索栏选择所需要的查看的栏目，并保存至个人设置</p>
+
+        <form  method="post" action='{:U("AdvterData/contractList")}' id="subfm">
+            <input name="partment" value="" type="hidden">
+            <input name="followAdmin" value="" type="hidden">
+            <input name="status" value="" type="hidden">
+            <input name="principalId" value="" type="hidden">
+            <input name="game" value="" type="hidden">
+            <input name="contract" value="" type="hidden">
+            <input name="contractNo" value="" type="hidden" />
+            <input name="childNo" value="" type="hidden" />
+            <input name="type" value="" type="hidden" />
+            <input name="company" value="" type="hidden" />
+            <input type="hidden" name="export" value=1 />
+        </form>
+    </div>
+    <div class="search-grid-container span48">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<img id="imgShow" src="" class="hide">
+
+<script type="text/javascript">
+    $(function() {
+        //数据加载
+        principal();
+
+        $("#type").comboSelect({
+            inputClass: ""
+        });
+        $("#childNo").comboSelect({
+            inputClass: "width170"
+        });
+        $("#contractNo").comboSelect({
+            inputClass: "width170"
+        });
+
+        //获取负责人
+        function principal() {
+            var _html = '<option value=0>全部</option>';
+            $.post("{:U('Ajax/principals')}", '', function(ret) {
+                var ret = eval('(' + ret + ')');
+                $(ret).each(function(i, v) {
+                    _html += "<option value=" + v.id + ">" + v.name + "</option>";
+                });
+                $('#principal_id').html(_html);
+                $('#principal_id').comboSelect({
+                    inputClass: ""
+                });
+            });
+        }
+
+        $('.selectpicker').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            width: "180px",
+            liveSearch: false,
+            actionsBox: false
+        });
+
+//        doSearch();
+    });
+    
+    function saveOption() {
+        $.post("{:U('Ajax/saveContractOption')}", {option: $('.selectpicker').val()}, function(ret) {
+            var ret = eval('(' + ret + ')');
+            if (ret.code) {
+                BUI.Message.Show({
+                    msg : '保存成功',
+                    icon : 'success',
+                    buttons : [],
+                    autoHide : true,
+                    autoHideDelay : 2000
+                });
+            } else {
+                BUI.Message.Show({
+                    msg : '报存失败',
+                    icon : 'warning',
+                    buttons : [],
+                    autoHide : true,
+                    autoHideDelay : 2000
+                });
+            }
+        });
+    }
+
+    function getTreeData(_data){
+        BUI.use(['bui/extensions/treegrid'], function (TreeGrid) {
+            var data    = _data;
+            var show    = $('.selectpicker').val();
+            var key     = 0;
+            var columns = [
+                {title : 'ID',dataIndex :'id', width:120,elCls:'center',sortable:false},
+            ];
+            for(var i in show){
+                if (show[i] == 1) {
+                    columns.push({title : '部门',dataIndex :'partmentName', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 2) {
+                    columns.push({title : '跟进人',dataIndex :'follow', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 3) {
+                    columns.push({title : '是否生效',dataIndex :'statusName', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 4) {
+                    columns.push({title : '签订日期',dataIndex :'file', width:70,elCls:'center',sortable:false});
+                } else if (show[i] == 5) {
+                    columns.push({title : '生效日期',dataIndex :'start', width:70,elCls:'center',sortable:false});
+                } else if (show[i] == 6) {
+                    columns.push({title : '失效日期',dataIndex :'end', width:70,elCls:'center',sortable:false});
+                } else if (show[i] == 7) {
+                    columns.push({title : '有效天数',dataIndex :'day', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 8) {
+                    columns.push({title : '签订人',dataIndex :'principal', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 9) {
+                    columns.push({title : '类别',dataIndex :'type', width:120,elCls:'center',sortable:false});
+                } else if (show[i] == 10) {
+                    columns.push({title : '游戏名称',dataIndex :'game', width:150,elCls:'center',sortable:false});
+                } else if (show[i] == 11) {
+                    columns.push({title : '合同名称',dataIndex :'contract', width:200,elCls:'center',sortable:false});
+                } else if (show[i] == 12) {
+                    columns.push({title : '合同编号',dataIndex :'contractNo', width:130,elCls:'center',sortable:false});
+                } else if (show[i] == 13) {
+                    columns.push({title : '（信息/签或）编号',dataIndex :'childNo', width:150,elCls:'center',sortable:false});
+                } else if (show[i] == 14) {
+                    columns.push({title : '对应的充值账号',dataIndex :'accountStr', width:250,elCls:'center',sortable:false});
+                } else if (show[i] == 15) {
+                    columns.push({title : '合同签订单位',dataIndex :'company', width:250,elCls:'center',sortable:false});
+                } else if (show[i] == 16) {
+                    columns.push({title : '主要条款',dataIndex :'infoExt', width:300,elCls:'center',sortable:false});
+                } else if (show[i] == 17) {
+                    columns.push({title : '结算方式',dataIndex :'payTypeName', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 18) {
+                    columns.push({title : '总金额',dataIndex :'amount', width:80,elCls:'center',sortable:false});
+                } else if (show[i] == 19) {
+                    columns.push({title : '已付金额',dataIndex :'amountTime', width:250,elCls:'center',sortable:false});
+                } else if (show[i] == 20) {
+                    columns.push({title : '未付金额',dataIndex :'unpaidAmount', width:80,elCls:'center',sortable:false});
+                } else if (show[i] == 21) {
+                    columns.push({title : '票据号',dataIndex :'receipt', width:120,elCls:'center',sortable:false});
+                } else if (show[i] == 22) {
+                    columns.push({title : '收到发票金额',dataIndex :'invoiceAmount', width:80,elCls:'center',sortable:false});
+                } else if (show[i] == 23) {
+                    columns.push({title : '未收票据金额',dataIndex :'unInvoiceAmount', width:80,elCls:'center',sortable:false});
+                } else if (show[i] == 24) {
+                    columns.push({title : '备注',dataIndex :'ext', width:300,elCls:'center',sortable:false});
+                } else if (show[i] == 25) {
+                    columns.push({title : '附件',dataIndex :'atta', width:60,elCls:'center',sortable:false});
+                } else if (show[i] == 26) {
+                    columns.push({title : '更新时间',dataIndex :'update', width:150,elCls:'center',sortable:false});
+                } else if (show[i] == 27) {
+                    columns.push({title : '操作',dataIndex :'opt', width:180,elCls:'center',sortable:false});
+                } else if (show[i] == 0) {
+                    key = 1;
+                }
+            }
+            if (key == 1) {
+                columns = [
+                    {title : 'ID',dataIndex :'id', width:120,elCls:'center',sortable:false},
+                    {title : '部门',dataIndex :'partmentName', width:60,elCls:'center',sortable:false},
+                    {title : '跟进人',dataIndex :'follow', width:60,elCls:'center',sortable:false},
+                    {title : '是否生效',dataIndex :'statusName', width:60,elCls:'center',sortable:false},
+                    {title : '签订日期',dataIndex :'file', width:70,elCls:'center',sortable:false},
+                    {title : '生效日期',dataIndex :'start', width:70,elCls:'center',sortable:false},
+                    {title : '失效日期',dataIndex :'end', width:70,elCls:'center',sortable:false},
+                    {title : '有效天数',dataIndex :'day', width:60,elCls:'center',sortable:false},
+                    {title : '签订人',dataIndex :'principal', width:60,elCls:'center',sortable:false},
+                    {title : '类别',dataIndex :'type', width:120,elCls:'center',sortable:false},
+                    {title : '游戏名称',dataIndex :'game', width:150,elCls:'center',sortable:false},
+                    {title : '合同名称',dataIndex :'contract', width:200,elCls:'center',sortable:false},
+                    {title : '合同编号',dataIndex :'contractNo', width:130,elCls:'center',sortable:false},
+                    {title : '（信息/签或）编号',dataIndex :'childNo', width:150,elCls:'center',sortable:false},
+                    {title : '对应的充值账号',dataIndex :'accountStr', width:250,elCls:'center',sortable:false},
+                    {title : '合同签订单位',dataIndex :'company', width:250,elCls:'center',sortable:false},
+                    {title : '主要条款',dataIndex :'infoExt', width:300,elCls:'center',sortable:false},
+                    {title : '结算方式',dataIndex :'payTypeName', width:60,elCls:'center',sortable:false},
+                    {title : '总金额',dataIndex :'amount', width:80,elCls:'center',sortable:false},
+                    {title : '已付金额',dataIndex :'amountTime', width:250,elCls:'center',sortable:false},
+                    {title : '未付金额',dataIndex :'unpaidAmount', width:80,elCls:'center',sortable:false},
+                    {title : '票据号',dataIndex :'receipt', width:120,elCls:'center',sortable:false},
+                    {title : '收到发票金额',dataIndex :'invoiceAmount', width:80,elCls:'center',sortable:false},
+                    {title : '未收票据金额',dataIndex :'unInvoiceAmount', width:80,elCls:'center',sortable:false},
+                    {title : '备注',dataIndex :'ext', width:300,elCls:'center',sortable:false},
+                    {title : '附件',dataIndex :'atta', width:60,elCls:'center',sortable:false},
+                    {title : '更新时间',dataIndex :'update', width:150,elCls:'center',sortable:false},
+                    {title : '操作',dataIndex :'opt', width:180,elCls:'center',sortable:false}
+                ];
+            }
+            //由于这个树，不显示根节点，所以可以不指定根节点
+            var tree = new TreeGrid({
+                render : '#grid',
+                nodes : data,
+                columns : columns,
+                height:520
+            });
+
+            tree.render();
+            $('.mark').css('display','none');
+            $('.spinner').css('display','none');
+        });
+    }
+
+    $('#btnSearch').click(function(){
+        doSearch();
+    });
+
+    //录入
+    $('#btnCreate').click(function(){
+        $('.bui-dialog').remove();
+        $.get("{:U('AdvterData/contractAdd')}", "", function(ret){
+            $('#content').html(ret._html);
+            $('#content').show();
+        });
+    });
+
+    //导出
+    $('#btnExport').click(function(){
+        $("#subfm input[name=partment]").val($("#partment").val());
+        $("#subfm input[name=followAdmin]").val($("#followAdmin").val());
+        $("#subfm input[name=status]").val($("#status").val());
+        $("#subfm input[name=principalId]").val($("#principal_id").val());
+        $("#subfm input[name=game]").val($("#game").val());
+        $("#subfm input[name=contract]").val($('#contract').val());
+        $("#subfm input[name=contractNo]").val($("#contractNo").val());
+        $("#subfm input[name=childNo]").val($("#childNo").val());
+        $("#subfm input[name=type]").val($("#type").val());
+        $("#subfm input[name=company]").val($("#company").val());
+        $('#subfm').submit();
+    });
+
+    function doSearch() {
+        var _data = $('#searchForm').serialize();
+        $.post('{:U("AdvterData/contractList")}',_data,function(ret){
+            var ret = eval('('+ret+')');
+//            if(ret.rows.length > 0){
+            $('#grid').html('');
+            $('.mark').css('display','block');
+            $('.spinner').css('display','block');
+            getTreeData(ret.rows);
+//            }else{
+//                alert('无搜索结果');
+//                return false;
+//            }
+        });
+    }
+    
+    function showExt(id) {
+        $.get("{:U('Ajax/getContractInfo')}", {id: id}, function(ret){
+            var ret = eval('('+ret+')');
+            BUI.use('bui/overlay',function(Overlay){
+                var dialog = new Overlay.Dialog({
+                    title:'主要条款',
+                    mask:false,
+                    buttons:[],
+                    bodyContent: '<div style="max-height: 500px; min-width: 500px; max-width: 1000px;">'+ret.info+'</div>'
+                });
+                dialog.show();
+            });
+        });
+    }
+
+    var viewer_k = new Viewer(document.getElementById('imgShow'), {
+        url: 'data-original'
+    });
+
+    function openImg(str) {
+        $("#imgShow").attr("src", str);
+        viewer_k.show();
+    }
+    
+    function addChild(id) {
+        $('.bui-dialog').remove();
+        $.get("{:U('AdvterData/contractChildAdd')}", {id: id}, function(ret){
+            $('#content').html(ret._html);
+            $('#content').show();
+        });
+    }
+    
+    function doEdit(id) {
+        $('.bui-dialog').remove();
+        $.get("{:U('AdvterData/contractEdit')}", {id: id}, function(ret){
+            $('#content').html(ret._html);
+            $('#content').show();
+        });
+    }
+
+    function doInfo(id) {
+        $('.bui-dialog').remove();
+        $.get("{:U('AdvterData/contractInfo')}", {id: id}, function(ret){
+            $('#content').html(ret._html);
+            $('#content').show();
+        });
+    }
+</script>
+<include file="Public/loading" />
+</body>
+</html>  

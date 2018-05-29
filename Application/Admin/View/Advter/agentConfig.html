@@ -1,0 +1,121 @@
+<body>
+    <style type="text/css">
+        input{border-radius: 4px;}
+    </style>
+    <div class="demo-content">
+        <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+        <form action="{:U('Advter/agentConfig')}" class="form-horizontal" id="J_Form" method="post">
+            <input type="hidden" value="{:I('agent',0,'trim')}" name="agent"/>
+            <input type="hidden" value="{$info.status}" name="status"/>
+            
+            <if condition="$info.advteruser_id eq 2">
+                <div class="row">
+                    <div class="control-group span8">
+                        <label class="control-label">
+                            方案：
+                        </label>
+                        <div class="controls">
+                            <select name="gdt_type" id="gdt_type">
+                                <option value="1" <if condition="$info.gdt_type eq 1">selected</if> >方案一</option>
+                                <option value="2" <if condition="$info.gdt_type eq 2">selected</if>>方案二</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </if>
+
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        应用ID：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" value="{$info.config_appid}" name="config_appid" type="text">
+                        </input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        广告主ID：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" value="{$info.config_advertiser_id}" name="config_advertiser_id" type="text">
+                        </input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        sign_key：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" value="{$info.config_sign_key}" name="config_sign_key" type="text">
+                        </input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        encrypt_key：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" value="{$info.config_encrypt_key}" name="config_encrypt_key" type="text">
+                        </input>
+                    </div>
+                </div>
+            </div>
+          
+        </form>
+    </div>
+    <!-- script start -->
+    <script type="text/javascript">
+      
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'参数-配置',
+            width:500,
+            height:240,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                var _data = $('#J_Form').serialize();
+                $.post("{:U('Advter/agentConfig')}", _data, function(ret) {
+                dialog.hide();
+                if(ret.status == 1){
+                    BUI.Message.Show({
+                        msg: ret.info,
+                        icon: "success",
+                        buttons: [],
+                        autoHide: true,
+                        autoHideDelay: 1000
+                    });
+                }else{
+                    BUI.Message.Show({
+                        msg: ret.info,
+                        icon: "error",
+                        buttons: [],
+                        autoHide: true,
+                        autoHideDelay: 1000
+                    });
+                }
+              });
+              // $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+    <!-- script end -->
+</body>

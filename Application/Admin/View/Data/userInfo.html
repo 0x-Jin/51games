@@ -1,0 +1,230 @@
+<body>
+<style type="text/css">
+    input{buser-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal">
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">用户标识符：</label>
+                <div class="controls">
+                    {$user.userCode}
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">用户账号：</label>
+                <div class="controls">
+                    {$user.userName}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">渠道标识符：</label>
+                <div class="controls">
+                    {$user.channelUserCode}
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">渠道用户账号：</label>
+                <div class="controls">
+                    {$user.channelUserName}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">渠道名称：</label>
+                <div class="controls">
+                    {$user.channelName}
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">游戏分类：</label>
+                <div class="controls">
+                    {$user.gameName}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">注册渠道号：</label>
+                <div class="controls">
+                    {$user.agent}
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    {$user.agentName}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">注册设备：</label>
+                <div class="controls">
+                    <if condition="$user['type'] == 1">Android<elseif condition="$user['type'] == 2" />IOS<else />其他</if>
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">用户状态：</label>
+                <div class="controls">
+                    <if condition="(session('admin.role_id') eq 1) or (session('admin.role_id') eq 31)">
+                        <select name="status" id="status">
+                            <option value="0" <if condition="$user['status'] eq 0">selected</if> >正常</option>
+                            <option value="1" <if condition="$user['status'] eq 1">selected</if> >关闭登陆</option>
+                            <option value="2" <if condition="$user['status'] eq 2">selected</if> >关闭充值</option>
+                            <option value="3" <if condition="$user['status'] eq 3">selected</if> >切充值</option>
+                        </select>
+                    <else />
+                        <if condition="$user['status'] == 1"><span style="color: red">关闭登陆</span><elseif condition="$user['status'] == 2" /><span style="color: red">关闭充值</span><elseif condition="$user['status'] == 3" /><span style="color: blue">切充值</span><else /><span style="color: green">正常</span></if>
+                    </if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">SDK版本：</label>
+                <div class="controls">
+                    {$user.ver}
+                </div>
+            </div>
+            <div class="control-group span10">
+                <label class="control-label">注册UDID：</label>
+                <div class="controls">
+                    {$user.udid}
+                </div>
+            </div>
+        </div>
+        <if condition="(session('admin.role_id') eq 1)  or (session('admin.role_id') eq 23)  or (session('admin.role_id') eq 31)">
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">注册IMEI：</label>
+                <div class="controls">
+                    {$user.imei}
+                </div>
+            </div>
+            <div class="control-group span10">
+                <label class="control-label">注册IDFA：</label>
+                <div class="controls">
+                    <if condition="$user['idfa']">{$user.idfa}<else />无</if>
+                </div>
+            </div>
+        </div>
+        </if>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">注册时间：</label>
+                <div class="controls">
+                    {$user.createTime|date="Y-m-d H:i:s",###}
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">注册IP：</label>
+                <div class="controls">
+                    {$user.ip}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">注册省份：</label>
+                <div class="controls">
+                    {$user.province}
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">注册城市：</label>
+                <div class="controls">
+                    {$user.city}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">真实姓名：</label>
+                <div class="controls">
+                    <if condition="$user['IDCardStatus']">未绑定<else />{$user.realName}</if>
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">身份证号：</label>
+                <div class="controls">
+                    <if condition="$user['IDCardStatus']">未绑定<else />{$user.IDCard}</if>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">手机号码：</label>
+                <div class="controls">
+                    <if condition="$user['mobileStatus']">未绑定<else />{$user.mobile}</if>
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">最后登陆IP：</label>
+                <div class="controls">
+                    {$user.lastIP}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">最后登录时间：</label>
+                <div class="controls">
+                    <if condition="$user['lastLogin']">{$user.lastLogin|date="Y-m-d H:i:s",###}<else />无</if>
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">最后支付时间：</label>
+                <div class="controls">
+                    <if condition="$user['lastPay']">{$user.lastPay|date="Y-m-d H:i:s",###}<else />无</if>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use('bui/overlay',function(Overlay){
+        var dialog = new Overlay.Dialog({
+            title:'用户详情',
+            width:800,
+            height:520,
+            //配置DOM容器的编号
+            contentId:'content'
+        });
+        dialog.show();
+    });
+    <if condition="(session('admin.role_id') eq 1) or (session('admin.role_id') eq 31) or (session('admin.role_id') eq 9)">
+        var userCode = '{$user.userCode}';
+        var userName = '{$user.userName}';
+        $('#status').change(function(event) {
+            if(confirm('确定修改用户状态？')){
+                $.post('{:U("Data/userInfoEdit")}', {userName: userName,userCode: userCode,status: $(this).val()}, function(ret) {
+                    alert(ret.info);
+                });
+            }else{
+                return false;
+            }
+        });
+    </if>
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

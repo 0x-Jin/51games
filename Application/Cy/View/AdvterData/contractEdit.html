@@ -1,0 +1,425 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content" style="overflow-y:auto; overflow-x:hidden; height:460px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('AdvterData/contractEdit')}" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{$info.id}" />
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">部门：</label>
+                <div class="controls">
+                    <select name="partment">
+                        <option value="1" <if condition="$info['partment'] == 1">selected</if>>发行一部</option>
+                        <option value="2" <if condition="$info['partment'] == 2">selected</if>>发行二部</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">合同签订单位：</label>
+                <div class="controls">
+                    <input type="text" id="company" class="input-normal" style="width: 200px;" name="company" value="{$info.company}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">合同名称：</label>
+                <div class="controls">
+                    <input type="text" id="contract" class="input-normal" style="width: 240px;" data-rules="{required:true}" name="contract" value="{$info.contract}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">合同编号：</label>
+                <div class="controls">
+                    <input type="text" id="contractNo" class="input-normal" data-rules="{required:true}" name="contractNo" value="{$info.contractNo}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row" <if condition="!$info['childNo']">style="display: none"</if>>
+            <div class="control-group span8">
+                <label class="control-label">信息/签或编号：</label>
+                <div class="controls">
+                    <input type="text" id="childNo" class="input-normal" name="childNo" value="{$info.childNo}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    <input type="text" id="game" class="input-normal" style="width: 240px;" name="game" value="{$info.game}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">签订人：</label>
+                <div class="controls">
+                    <select name="principalId">
+                        <volist name="principal" id="val">
+                            <option value="{$val.id}" <if condition="$info['principalId'] == $val['id']">selected</if>>{$val.principal_name}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span12">
+                <volist name="account" id="val">
+                    <label class="control-label">充值账号：</label>
+                    <div class="controls" id="account_{$i}">
+                        <input type="text" class="input-normal" name="accountA{$i}" value="{$val.accountA}" />&nbsp;&nbsp;金额：<input type="text" class="input-normal" name="accountM{$i}" value="{$val.accountM}" style="width: 80px;" />
+                    </div>
+                </volist>
+                <label class="control-label">充值账号：</label>
+                <div class="controls" id="account_{$account_num}">
+                    <input type="text" class="input-normal" name="accountA{$account_num}" />&nbsp;&nbsp;金额：<input type="text" class="input-normal" name="accountM{$account_num}" style="width: 80px;" />
+                </div>
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                    <input type="button" value="添加账号" id-name="{$account_num}" class="button-info" onclick="addAccount(this)" />
+                    &nbsp;&nbsp;<span style="color: red">注意，只有金额，没有输入账号的数据无效</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">跟进人：</label>
+                <div class="controls">
+                    <select name="followAdmin">
+                        <volist name="follow" id="val">
+                            <option value="{$val.id}" <if condition="$info['followAdmin'] == $val['id']">selected</if>>{$val.real}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span9">
+                <label class="control-label">合同类别：</label>
+                <div class="controls">
+                    <select id="type_select" onclick="makeType()">
+                        <option value="">请选择类别</option>
+                        <volist name="type" id="val">
+                            <option value="{$val.type}" <if condition="$info['type'] == $val['type']">selected</if>>{$val.type}</option>
+                        </volist>
+                    </select>
+                    <input type="text" id="type_input" class="input-normal" name="type" value="{$info.type}" style="display: none" />
+                    <input type="button" id="change_type" value="新增类别" class="button-info" onclick="changeType()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span16" style="height: 200px;">
+                <label class="control-label">主要条款：</label>
+                <div class="controls">
+                    <textarea name="info" id="info" cols="30" rows="5" style="width: 450px; height: 180px;">{$info.info}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">签订日期：</label>
+                <div class="controls">
+                    <input type="text" id="fileTime" class="calendar" name="fileTime" value="{$info.fileTime}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">是否生效：</label>
+                <div class="controls">
+                    <select name="status">
+                        <option value="0" <if condition="$info['status'] == 0">selected</if>>是</option>
+                        <option value="1" <if condition="$info['status'] == 1">selected</if>>否</option>
+                        <option value="2" <if condition="$info['status'] == 2">selected</if>>空号</option>
+                        <option value="3" <if condition="$info['status'] == 3">selected</if>>作废</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">生效日期：</label>
+                <div class="controls">
+                    <input type="text" id="startTime" class="calendar" name="startTime" value="{$info.startTime}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">终止日期：</label>
+                <div class="controls">
+                    <input type="text" id="endTime" class="calendar" name="endTime" value="{$info.endTime}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">结算方式：</label>
+                <div class="controls">
+                    <select name="payType">
+                        <option value="1" <if condition="$info['payType'] == 1">selected</if>>日结</option>
+                        <option value="2" <if condition="$info['payType'] == 2">selected</if>>月结</option>
+                        <option value="3" <if condition="$info['payType'] == 3">selected</if>>预付</option>
+                        <option value="4" <if condition="$info['payType'] == 4">selected</if>>垫付</option>
+                        <option value="5" <if condition="$info['payType'] == 5">selected</if>>分期</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">总金额：</label>
+                <div class="controls">
+                    <input type="text" class="input-normal" name="amount" value="{$info.amount}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span12">
+                <volist name="payAmountTime" id="val">
+                    <label class="control-label">已付金额：</label>
+                    <div class="controls" id="payAmountTime_{$i}">
+                        <input type="text" class="input-normal" name="payAmountTimeA{$i}" value="{$val.payAmountTimeA}" style="width: 80px;" />&nbsp;&nbsp;付款时间：<input type="text" class="calendar" name="payAmountTimeT{$i}" id="payAmountTimeT{$i}" value="{$val.payAmountTimeT}" />
+                    </div>
+                </volist>
+                <label class="control-label">已付金额：</label>
+                <div class="controls" id="payAmountTime_{$payAmountTime_num}">
+                    <input type="text" class="input-normal" name="payAmountTimeA{$payAmountTime_num}" style="width: 80px;" />&nbsp;&nbsp;付款时间：<input type="text" class="calendar" name="payAmountTimeT{$payAmountTime_num}" id="payAmountTimeT{$payAmountTime_num}" />
+                </div>
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                    <input type="button" value="添加付款金额" id-name="{$payAmountTime_num}" class="button-info" onclick="addPayAmountTime(this)" />
+                    &nbsp;&nbsp;<span style="color: red">注意，只有时间，没有金额的数据无效</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">票据号：</label>
+                <div class="controls">
+                    <input type="text" class="input-normal" name="receipt" value="{$info.receipt}" />
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="row">-->
+            <!--<div class="control-group span8">-->
+                <!--<label class="control-label">未付金额：</label>-->
+                <!--<div class="controls">-->
+                    <!--<input type="text" class="input-normal" name="unpaidAmount" value="{$info.unpaidAmount}" />-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">收到发票金额：</label>
+                <div class="controls">
+                    <input type="text" class="input-normal" name="invoiceAmount" value="{$info.invoiceAmount}" />
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="row">-->
+            <!--<div class="control-group span8">-->
+                <!--<label class="control-label">未收票据金额：</label>-->
+                <!--<div class="controls">-->
+                    <!--<input type="text" class="input-normal" name="unInvoiceAmount" value="{$info.unInvoiceAmount}" />-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="row">
+            <div class="control-group span16">
+                <label class="control-label">备注：</label>
+                <div class="controls">
+                    <input type="text" class="input-normal" style="width: 450px;" name="ext" value="{$info.ext}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">附件：</label>
+                <div class="controls">
+                    <input type="file" class="input-normal" name="file"/>
+                    <span style="color: red">不传则不作修改</span>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    $(function() {
+        //数据加载
+        principal();
+
+        $('#type').comboSelect();
+
+        //获取负责人
+        function principal() {
+            var _html = '';
+            $.post("{:U('Ajax/principals')}", '', function(ret) {
+                var ret = eval('(' + ret + ')');
+                $(ret).each(function(i, v) {
+                    _html += "<option value=" + v.id + ">" + v.name + "</option>";
+                });
+                $('#principalId').html(_html);
+                $('#principalId').comboSelect();
+            });
+        }
+
+    });
+
+
+    BUI.use(['bui/overlay', 'bui/form', 'bui/calendar'], function(Overlay, Form, Calendar) {
+        var form = new Form.HForm({
+            srcNode: '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title: '合同编辑',
+            width: 700,
+            height: 520,
+            //配置DOM容器的编号
+            contentId: 'content',
+            success: function() {
+                var formData = new FormData($("#J_Form")[0]);
+                $.ajax({
+                    url: "{:U('AdvterData/contractEdit')}" ,
+                    type: 'POST',
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (ret) {
+                        dialog.hide();
+                        var ret = eval('(' + ret + ')');
+                        if (ret.code) {
+                            BUI.Message.Show({
+                                msg : '编辑合同成功',
+                                icon : 'success',
+                                buttons : [],
+                                autoHide : true,
+                                autoHideDelay : 2000
+                            });
+                            doSearch();
+                        } else {
+                            BUI.Message.Show({
+                                msg : '编辑合同失败',
+                                icon : 'warning',
+                                buttons : [],
+                                autoHide : true,
+                                autoHideDelay : 2000
+                            });
+                        }
+                    },
+                    error: function () {
+                        dialog.hide();
+                        BUI.Message.Show({
+                            msg : '编辑合同失败',
+                            icon : 'warning',
+                            buttons : [],
+                            autoHide : true,
+                            autoHideDelay : 2000
+                        });
+                    }
+                });
+            }
+        });
+
+        var datepicker = new Calendar.DatePicker({
+            trigger: '#costMonth',
+            dateMask: 'yyyy/mm/dd',
+            autoRender: true
+        });
+
+        dialog.show();
+    });
+
+    function changeType() {
+        var _val = $("#change_type").val();
+        if (_val == "新增类别") {
+            $("#type_input").val("").show();
+            $("#type_select").val("").hide();
+            $("#change_type").val("选择类别");
+        } else {
+            $("#type_input").val("").hide();
+            $("#type_select").val("").show();
+            $("#change_type").val("新增类别");
+        }
+    }
+
+    function addAccount(obj) {
+        var id  = $(obj).attr("id-name");
+        var nid = parseInt(id) + 1;
+        $("#account_"+id).after(
+            '<label class="control-label">充值账号：</label>'+
+            '<div class="controls" id="account_'+nid+'">'+
+            '<input type="text" class="input-normal" name="accountA'+nid+'" />'+
+            '&nbsp;&nbsp;金额：'+
+            '<input type="text" class="input-normal" name="accountM'+nid+'" style="width: 80px;" />'+
+            '</div>'
+        );
+        $(obj).attr("id-name", nid);
+    }
+
+    function addPayAmountTime(obj) {
+        var id  = $(obj).attr("id-name");
+        var nid = parseInt(id) + 1;
+        $("#payAmountTime_"+id).after(
+            '<label class="control-label">已付金额：</label>'+
+            '<div class="controls" id="payAmountTime_'+nid+'">'+
+            '<input type="text" class="input-normal" name="payAmountTimeA'+nid+'" style="width: 80px;" />'+
+            '&nbsp;&nbsp;付款时间：'+
+            '<input type="text" class="calendar" id="payAmountTimeT'+nid+'" name="payAmountTimeT'+nid+'" />'+
+            '</div>'
+        );
+        $(obj).attr("id-name", nid);
+
+        BUI.use(['bui/calendar'],function (Calendar) {
+            var datepicker = new Calendar.DatePicker({
+                trigger: '#payAmountTimeT'+nid,
+                autoRender: true
+            });
+        });
+    }
+
+    function makeType() {
+        $("#type_input").val($("#type_select").val());
+    }
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

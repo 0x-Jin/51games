@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection" />
+<meta content="email=no" name="format-detection">
+<title>{$info.adv_title}</title>
+<?php 
+    $num = 0;
+    $tip = 0;
+    foreach($info['images'] as $k=>$v){
+        if($v['slide'] == 1){
+            $num++;
+        }
+    }
+?>
+<style type="text/css">
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0
+}
+
+body {
+    max-width: 580px;
+    min-width: 270px;
+    margin: 0 auto
+}
+
+a {
+    -webkit-tap-highlight-color: transparent
+}
+
+img {
+    vertical-align: middle;
+    border: 0;
+    width: 100%;
+    display: block
+}
+
+body {
+    max-width: 580px;
+    min-width: 270px;
+    margin: 0 auto
+}
+
+li {
+    list-style: none
+}
+
+
+ul {
+    position: absolute;
+    margin-top: 20%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10.59375rem;
+    overflow: hidden
+}
+
+ul li {
+    width: 3.428125rem;
+    -webkit-transition-property: top, left;
+    transition-property: top, left;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
+    position: absolute
+}
+
+ul li img {
+    width: 3.428125rem;
+    margin-top: -.453125rem;
+    margin-left: 0rem
+}
+
+ul li.left, ul li.right {
+    top: 3.71875rem
+}
+
+ul li.left img, ul li.right img {
+    opacity: .85
+}
+
+ul li.left {
+    z-index: 4;
+    left: 8%
+}
+
+ul li.right {
+    z-index: 3;
+    left: 58%
+}
+
+ul li.left2, ul li.right2 {
+    top: 3rem
+}
+
+ul li.left2 img, ul li.right2 img {
+    opacity: .75
+}
+
+ul li.left2 {
+    z-index: 2;
+    left: 0
+}
+
+ul li.right2 {
+    z-index: 1;
+    left: 66%
+}
+
+ul li.mid {
+    z-index: 5;
+    top: 4.328125rem;
+    left: 3.078125rem
+}
+
+ul li.mid img {
+    opacity: 1
+}
+
+ul.reverse.left {
+    z-index: 3
+}
+
+ul.reverse.right {
+    z-index: 4
+}
+
+ul.reverse.left2 {
+    z-index: 1
+}
+
+ul.reverse.right2 {
+    z-index: 2
+}
+
+
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clear{
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+}
+
+.topdiv{ overflow:hidden;}
+.topdiv img,.topfixdiv img{ display:block; width:100%;}
+.copyright_div{ overflow:hidden; line-height:18px; text-align:center; font-size:10px; padding:5px 0;}
+
+
+.topfixdiv{ position:fixed; left:0; top:0; width:100%; overflow:hidden; z-index:99;} 
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+::-webkit-scrollbar  
+{  
+    width: 1px;  
+    height: 1px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滚动条轨道 内阴影+圆角*/  
+::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    border-radius: 10px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滑块 内阴影+圆角*/  
+::-webkit-scrollbar-thumb  
+{  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #0ae;  
+    background-image:-webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<volist name="info['images']" id="vo" key="k" >
+<if condition="$k eq 1">
+        <div class="topfixdiv">
+            <if condition="$info['android_url_down'][$k-1] neq '' or $info['ios_url_down'][$k-1] neq ''">
+                <a class="ios_urls" href="javascript:download('{$info['android_url_down'][$k-1]}')">
+            </if>
+            <img src="{$path_url}{$vo.url}" />
+            <if condition="$info['android_url_down'][$k-1] neq '' or $info['ios_url_down'][$k-1] neq ''">
+                </a>
+            </if>
+        </div>
+ <else/> 
+
+    <if condition="$vo.slide neq 1">
+       <div class="topdiv pr">
+           <if condition="$info['android_url_down'][$k-1] neq '' or $info['ios_url_down'][$k-1] neq ''">
+               <a class="ios_urls" href="javascript:download('{$info['android_url_down'][$k-1]}')">
+            </if>
+               <img src="{$path_url}{$vo.url}"/>
+            <if condition="$info['android_url_down'][$k-1] neq '' or $info['ios_url_down'][$k-1] neq ''">
+               </a>
+           </if>
+       </div>
+    <else />
+        <if condition="$tip lt 1">
+            <ul id="J_cards"></ul>
+        <else />  
+            <if condition="$tip egt $num-1">
+            </ul></div>
+            </if> 
+      </if>
+     <?php $tip += 1;?>
+  </if>
+</if>
+
+</volist>
+
+<div class="copyright_div db" style=" color:<notempty name='info.color'>{$info['color']}<else /> #fafcf1</notempty>; background-color:<notempty name='info.bgcolor'>{$info['bgcolor']}<else /> #042653</notempty>;">{$info.copyright_company}<br><notempty name='info.company_tel'>电话：{$info.company_tel}<br></notempty><notempty name='info.company_address'>地址：{$info.company_address}</notempty></div>
+
+<script type="text/javascript" src="__JS__/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__JS__/fiexible.js"></script>
+
+<script type="text/javascript">  
+!(function () {
+    var imgs = <?php
+        $imgs = $arr = array();
+        foreach($info['images'] as $k=>$v){
+            if($v['slide'] == 1){
+                $arr[] = $v;
+                
+            }
+        }
+        foreach($arr as $k=>$v){
+            switch ($k) {
+                case 0:
+                    $imgs[] = '<li class="left2"><img src="'.$path_url.$v['url'].'"></li>';
+                    break;
+                case 1:
+                    $imgs[] = '<li class="left"><img src="'.$path_url.$v['url'].'"></li>';
+                    break;
+                case 2:
+                    $imgs[] = '<li class="mid"><img src="'.$path_url.$v['url'].'"></li>';
+                    break;
+                case 3:
+                    $imgs[] = '<li class="right"><img src="'.$path_url.$v['url'].'"></li>';
+                    break;
+                case 4:
+                    $imgs[] = '<li class="right2"><img src="'.$path_url.$v['url'].'"></li>';
+                    break;
+                default:
+                    break 2;
+            }
+        }
+        echo json_encode($imgs);
+    ?>;
+    var cardShow = function () {
+        var $_wrap = $("#J_cards"), $_list, timer, startPos = {}, endPos = {}, isScrolling, delay = 2000, dataArr = imgs, len = dataArr.length, getIndex = function (n) {
+            return (len + (n % len)) % len
+        }, playClockwise = function (type) {
+            var index = Number($_wrap.data("index")), $_mid = $_list.eq(index), $_left = $_list.eq(getIndex(index - 1)), $_left2 = $_list.eq(getIndex(index - 2)), $_right = $_list.eq(getIndex(index + 1)), $_right2 = $_list.eq(getIndex(index + 2));
+            if (timer)clearTimeout(timer);
+            if (type && type === "reverse") {
+                $_wrap.addClass("reverse");
+                $_mid.removeClass("mid").addClass("right");
+                $_left.removeClass("left").addClass("mid");
+                $_left2.removeClass("left2").addClass("left");
+                $_right.removeClass("right").addClass("right2");
+                $_right2.removeClass("right2").addClass("left2");
+                $_wrap.data("index", $_left.index())
+            } else {
+                $_wrap.removeClass("reverse");
+                $_mid.removeClass("mid").addClass("left");
+                $_left.removeClass("left").addClass("left2");
+                $_left2.removeClass("left2").addClass("right2");
+                $_right.removeClass("right").addClass("mid");
+                $_right2.removeClass("right2").addClass("right");
+                $_wrap.data("index", $_right.index())
+            }
+            timer = setTimeout(function () {
+                playClockwise()
+            }, delay)
+        };
+        return function () {
+            $_wrap.html(dataArr.join(""));
+            $_list = $_wrap.find("li");
+            $_wrap.data("index", $_list.filter(".mid").index());
+            timer = setTimeout(function () {
+                playClockwise()
+            }, delay)
+        }
+    }();
+    cardShow();
+
+})();
+</script>
+
+
+
+<div style="display: none">
+        {$info.cnzz_code}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>渠道号列表</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="__CSS__/combo.select.css" type="text/css">
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <style>
+        .copy_that{
+            width: 50px;
+            height: 100%;
+            color: rgb(51, 102, 204);
+            cursor: pointer;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+ <body>
+  <!-- 搜索区 -->
+  <div class="container">
+    <div class="row">
+      <form id="searchForm" class="form-horizontal span48">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">包编号：</label>
+            <div class="controls">
+              <input name="agent" type="text" class="input-normal control-text">
+            </div>
+          </div>
+          
+          <div class="control-group span8">
+            <label class="control-label">包编号模板：</label>
+            <div class="controls">
+              <select name="agentTpl" id="agentTpl">
+                <option value="0">全部母包</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">渠道分类：</label>
+            <div class="controls">
+              <select name="channel_id" id="channelId"></select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">游戏：</label>
+            <div class="controls">
+              <select name="game_id" id="gameId"></select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">渠道商：</label>
+            <div class="controls">
+              <select name="advteruser_id" id="advteruserId"></select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">代理商：</label>
+            <div class="controls">
+              <select name="proxyId" id="proxyId"></select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">广告账户：</label>
+            <div class="controls">
+              <select name="advterAccountId" id="advterAccountId"></select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+              <select name="principal_id" id="principalId"></select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">创建人：</label>
+            <div class="controls">
+              <select name="creater" id="creater">
+                {$creater}
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <div class="controls">
+              <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="search-grid-container">
+      <div id="grid"></div>
+    </div>
+
+  </div>
+
+  <!-- 弹窗 -->
+  <div id="content" class="hide">
+     
+  </div>
+
+  <script type="text/javascript">
+    BUI.use('common/page');
+  </script>
+
+<script type="text/javascript">
+$(function(){
+  //数据加载
+  principal();
+  adv_company();
+  gameLists();
+  channelType();
+  agentTpl();
+  getProxy();
+  getAdvterAccount();
+  //获取负责人
+  function principal(){
+    var _html = '<option value=0>--全部--</option>';
+      $.post("{:U('Ajax/principals')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.name+"</option>";
+        });
+        $('#principalId').html(_html);
+        $('#principalId').comboSelect();
+      });
+  }
+
+  //获取渠道分类
+  function channelType(){
+    var _html = '';
+      $.post("{:U('Ajax/getChannelList')}",{all:1},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.channelName+"</option>";
+        });
+        $('#channelId').html(_html);
+        $('#channelId').comboSelect();
+      });
+  }
+
+  //获取广告商
+  function adv_company(){
+      var _html = '<option value=0>--全部--</option>';
+      $.post("{:U('Ajax/adv_company')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.company_name+"</option>";
+        });
+        $('#advteruserId').html(_html);
+        $('#advteruserId').comboSelect();
+      });
+  }
+
+  //获取代理商
+  function getProxy(){
+      var _html = '';
+      $.post("{:U('Ajax/getProxy')}",{all:1},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+          if(v.id == 0){
+            _html += "<option value=0>--全部--</option>";
+          }else{
+            _html += "<option value="+v.id+">"+v.proxyName+"</option>";
+          }
+        });
+        $('#proxyId').html(_html);
+        $('#proxyId').comboSelect();
+      });
+  }
+
+  //获取代理商
+  function getAdvterAccount(){
+      var _html = '';
+      $.post("{:U('Ajax/getAdvterAccount')}",{all:1},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            if(v.id == 0){
+              _html += "<option value=0>--全部--</option>";
+            }else{
+              _html += "<option value="+v.id+">"+v.account+"</option>";
+            }
+        });
+        $('#advterAccountId').html(_html);
+        $('#advterAccountId').comboSelect();
+      });
+  }
+
+  //获取游戏
+  function gameLists(){
+    var _html = '';
+      $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.gameName+"</option>";
+        });
+        $('#gameId').html(_html);
+        $('#gameId').comboSelect();
+      });
+  }
+
+  //获取包编号模板
+  function agentTpl(game_id){
+    var _html = '<option value="0">全部母包</option><option value="-1">全部子包</option>';
+      $.post("{:U('Ajax/getAgent')}",{all:1,game_id:game_id},function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.agent+"</option>";
+        });
+        $('#agentTpl').html(_html);
+        $('#agentTpl').comboSelect();
+      });
+  }
+
+  $('#gameId').change(function(event) {
+    agentTpl($(this).val());
+  });
+
+});
+
+  function set_status(status,id,obj,mtype){
+    var data1;
+    var data2;
+    if(mtype == 'mstatus'){
+      data1 = {status:1,id:id,type:'setAgentStatus'};
+      data2 = {status:0,id:id,type:'setAgentStatus'};
+    }else if(mtype == "loginstatus"){
+      data1 = {loginStatus:1,id:id,type:'setAgentStatus'};
+      data2 = {loginStatus:0,id:id,type:'setAgentStatus'};
+    }else if(mtype == 'paystatus'){
+      data1 = {payStatus:1,id:id,type:'setAgentStatus'};
+      data2 = {payStatus:0,id:id,type:'setAgentStatus'};
+    }else if(mtype == 'advterStaus'){
+      data1 = {advterStaus:1,id:id,type:'setAgentStatus'};
+      data2 = {advterStaus:0,id:id,type:'setAgentStatus'};
+    }
+      if(status == 0){
+        //关闭
+        $.post("{:U('Advter/agentEdit')}",data1,function(ret){
+          if(ret.status == 1){
+            $(obj).attr({src:'__IMG__/toggle_disabled.gif',onclick:'set_status(1,'+id+',this,"'+mtype+'")'});
+          }else{
+            alert(ret.info);
+            return false;
+          }
+        });
+      }else if(status == 1){
+        //开启
+        $.post("{:U('Advter/agentEdit')}",data2,function(ret){
+          if(ret.status == 1){
+            $(obj).attr({src:'__IMG__/toggle_enabled.gif',onclick:'set_status(0,'+id+',this,"'+mtype+'")'});
+          }else{
+            alert(ret.info);
+            return false;
+          }
+        });
+      }
+    
+  }
+
+  //删除
+  function agentDelete(id){
+    $('.bui-dialog').remove();
+    if(!id) return false;
+    if(confirm('确定删除该记录吗？')){
+      $.post("{:U('Advter/agentDelete')}",{id:id,table:'agent'},function(ret){
+        alert(ret.info);
+        if(ret.status == 1){
+          window.location.reload();
+        }
+      });
+    }
+  }
+
+  //编辑
+  function agentEdit(id){
+    $('.bui-dialog').remove();
+    $('.mark').show();
+    $('.spinner').show();
+    if(!id) return false;
+    $.get("{:U('Advter/agentEdit')}",{id:id,table:'agent',tpl:'agentEdit'},function(ret){
+      $('#content').html(ret._html);
+      $('#content').show();
+      $('.mark').hide();
+      $('.spinner').hide();    
+    });
+  }
+
+    //复制
+    function copyUrl(id)
+    {
+        $('#'+id).select();
+        document.execCommand('Copy');
+        alert('复制成功');
+    }
+  num = 0;
+
+  BUI.use('common/search',function (Search) {
+    
+    // var enumObj = {"1":"禁用","0":"正常"},
+      editing = new BUI.Grid.Plugins.DialogEditing({
+        contentId : 'content', //设置隐藏的Dialog内容
+        autoSave : true, //添加数据或者修改数据时，自动保存
+        triggerCls : 'btn-edit'
+      }),
+      columns = [
+          {title:'ID',dataIndex:'id',width:50,elCls:'center'},
+          {title:'渠道分类',dataIndex:'channelTypeName',width:80,elCls:'center'},
+          {title:'包编号',dataIndex:'agent',width:120,elCls:'center'},
+          {title:'包名称',dataIndex:'agentName',width:180,elCls:'center'},
+          {title:'推广游戏',dataIndex:'gameName',width:100,elCls:'center'},
+          {title:'游戏类型',dataIndex:'gameType',width:80,elCls:'center'},
+          {title:'所属渠道商',dataIndex:'advteruserName',width:80,elCls:'center'},
+          // {title:'所属代理商',dataIndex:'proxyName',width:200,elCls:'center'},
+          // {title:'所属广告账户',dataIndex:'accountName',width:200,elCls:'center'},
+          {title:'负责人',dataIndex:'principalName',width:80,elCls:'center'},
+          {title:'操作人',dataIndex:'creater',width:80,elCls:'center'},
+          {title:'广告回调开关',dataIndex:'advterStaus',width:90,elCls:'center'},
+          {title:'下载地址',dataIndex:'packageStatusName',width:60,elCls:'center',renderer : function (value,obj) {
+              if(value == '-1'){
+                  //正常
+                  return '<span style="color: green">----</span>';
+              }else if(value == 0){
+                  //正常
+                  return '<span style="color: grey">未打包</span>';
+              }else if(value == 1){
+                  //禁止
+                  return '<span style="color: red">打包中</span>';
+              }else{
+                  num += 1;
+                  return '<span onclick=copyUrl("t'+num+'") class="copy_that" title="点击复制">点击复制&nbsp;&nbsp;&nbsp;&nbsp;<textarea style="width:0px;height:0px;" id="t'+num+'">'+value+'</textarea></span>';
+              }
+          }
+          },
+          <if condition="session('admin.role_id') eq 1">
+          {title:'渠道状态',dataIndex:'status',width:60,elCls:'center',renderer : function (value,obj) {
+              if(value == 0){
+                //正常
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn"  data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_enabled.gif">';
+              }else if(value == 1){
+                //禁止
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn"  data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_disabled.gif">';
+              }
+            }
+          },
+          {title:'登录状态',dataIndex:'loginStatus',width:60,elCls:'center',renderer : function (value,obj) {
+              if(value == 0){
+                //正常
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn"  data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_enabled.gif">';
+              }else if(value == 1){
+                //禁止
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn"  data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_disabled.gif">';
+              }
+            }
+          },
+          {title:'充值状态',dataIndex:'payStatus',width:60,elCls:'center',renderer : function (value,obj) {
+              if(value == 0){
+                //正常
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn"  data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_enabled.gif">';
+              }else if(value == 1){
+                //禁止
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn"  data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_disabled.gif">';
+              }
+            }
+          },
+          {title:'渠道充值回调地址',dataIndex:'agentCallbackUrl',width:400,elCls:'center'},
+
+          </if>
+          {title:'创建时间',dataIndex:'createTime',width:150,elCls:'center'},
+          <if condition="session('admin.role_id') eq 1">
+          {title:'操作',dataIndex:'opt',width:100,elCls:'center'}
+          </if>
+        ],
+      store = Search.createStore('{:U("Advter/agentList")}?table=agent',{
+        proxy : {
+          save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+            removeUrl : '{:U("Advter/delete")}?table=agent'
+          },
+          method : 'POST'
+        },
+        autoSync : true //保存数据后，自动更新
+      }),
+      gridCfg = Search.createGridCfg(columns,{
+        tbar : {
+          items : [
+            {text : '<i class="icon-plus"></i>新增渠道号',btnCls : 'button button-small',handler:addFunction},
+            {text : '<i class="icon-plus"></i>批量增加渠道号',btnCls : 'button button-small',handler : addAllFunction},
+            {text : '<i class="icon-plus"></i>重打渠道包',btnCls : 'button button-small',handler : packageFunction}
+          ]
+        },
+        plugins : [editing,/*BUI.Grid.Plugins.CheckSelection,*/BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+      });
+
+    var  search = new Search({
+        store : store,
+        gridCfg : gridCfg
+      }),
+      grid = search.get('grid');
+
+    function addFunction(){
+      /*var newData = {isNew : true}; //标志是新增加的记录
+      editing.add(newData,'name'); //添加记录后，直接编辑*/
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("Advter/agentAdd")}','',function(ret){
+        $('#content').html(ret._html);
+        $('#content').show();
+        $('.mark').hide();
+        $('.spinner').hide();
+      });
+    }
+
+    function addAllFunction(){
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("Advter/batchAddAgent")}','',function(ret){
+        $('#content').html(ret._html);
+        $('#content').show();
+        $('.mark').hide();
+        $('.spinner').hide();
+      });
+    }
+
+      function packageFunction(){
+          $('.bui-dialog').remove();
+          $('.mark').show();
+          $('.spinner').show();
+          $.get('{:U("Advter/packageAgent")}','',function(ret){
+              $('#content').html(ret._html);
+              $('#content').show();
+              $('.mark').hide();
+              $('.spinner').hide();
+          });
+      }
+
+    //删除操作
+    function delFunction(){
+      var selections = grid.getSelection();
+      delItems(selections);
+    }
+
+    function delItems(items){
+      var id = [];
+      BUI.each(items,function(item){
+        id.push(item.id);
+      });
+
+      if(id.length){
+        BUI.Message.Confirm('确认要删除选中的记录么？',function(ret){
+          console.log(ret);
+          store.save('remove',{id : id});
+        },'question');
+      }
+    }
+
+    //监听事件，删除一条记录
+    grid.on('cellclick',function(ev){
+      var sender = $(ev.domTarget); //点击的Dom
+      if(sender.hasClass('btn-del')){
+        var record = ev.record;
+        delItems([record]);
+      }
+    });
+  });
+</script>
+<include file="Public/loading" />
+
+<body>
+</html>  

@@ -1,0 +1,147 @@
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Gift/sdkGiftEdit')}" style="overflow-x: hidden; overflow-y:auto; height: 400px;">
+        <input type="hidden" name="id" value="{$info.id}" />
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">礼包名称：</label>
+                <div class="controls">
+                    <input type="text" name="gift" value="{$info.gift}" data-rules="{required:true}" class="input-normal control-text" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span12">
+                <label class="control-label">礼包内容：</label>
+                <div class="controls" style="height: 78px;">
+                    <textarea name="content" data-rules="{required:true}" style="width: 230px; height: 55px; border-radius: 4px; resize: none;" class="input-normal control-text">{$info.content}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    <select name="game_id" id="edit_game_id"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">母包名称：</label>
+                <div class="controls">
+                    <select name="agent" id="edit_agent"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">等级限制：</label>
+                <div class="controls">
+                    <select name="level_type" style="width: 100px;" id="edit_level_type" onchange="changeEditType()">
+                        <option value="0">无限制</option>
+                        <option value="1" <if condition="$info['levelMin'] neq 0">selected</if>>大于或等于</option>
+                        <option value="2" <if condition="$info['levelMax'] neq 0">selected</if>>小于或等于</option>
+                    </select>
+                    <span id="edit_level_span">
+                        <if condition="$info['levelMin'] neq 0"><input type="text" name="level" value="{$info.levelMin}" class="input-normal control-text" style="width: 50px;" />&nbsp;级<elseif condition="$info['levelMax'] neq 0" /><input type="text" name="level" value="{$info.levelMax}" class="input-normal control-text" style="width: 50px;" />&nbsp;级</if>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">开始时间：</label>
+                <div class="controls">
+                    <input type="text" id="edit_startTime" class="calendar calendar-time" name="startTime" <if condition="$info['startTime']">value="{$info.startTime|date='Y-m-d H:00:00', ###}"</if> placeholder="可以不填" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">结束时间：</label>
+                <div class="controls">
+                    <input type="text" id="edit_endTime" class="calendar calendar-time" name="endTime" <if condition="$info['endTime']">value="{$info.endTime|date='Y-m-d H:00:00', ###}"</if> placeholder="可以不填" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span12">
+                <label class="control-label">展示内容：</label>
+                <div class="controls" id="edit_show_div">
+                    <b style="color: red;">请填写除了礼包的内容以外的展示信息。</b>
+                    <volist name="arr" id="val">
+                        <div id="edit_show_{$key}" style="margin-bottom: 5px;">
+                            <input type="text" name="name{$key}" value="{$val.name}" class="input-normal control-text" style="width: 60px;" placeholder="名称" />&nbsp;：&nbsp;<input type="text" name="value{$key}" value="{$val.value}" class="input-normal control-text" style="width: 180px;" placeholder="内容" />&nbsp;<if condition="$key == '0'"><i class="iconfont" onclick="addEditShow()" style="cursor: pointer;">&#xe726;</i><else /><i class="iconfont" onclick="deleteEditShow('{$key}')" style="cursor: pointer;">&#xe725;</i></if>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- script start -->
+<script type="text/javascript">
+    var key = 1000;
+
+    $(function() {
+        //数据加载
+        gameList("edit_game_id", "{$info.game_id}");
+        getAgent("{$info.game_id}", "edit_agent", "{$info.agent}");
+        $("#edit_game_id").change(function() {
+            getAgent($(this).val(), "edit_agent");
+        });
+    });
+
+    //改变等级限制的类型
+    function changeEditType() {
+        var type = $("#edit_level_type").val();
+        if (type < 1) {
+            $("#edit_level_span").html("");
+        } else {
+            $("#edit_level_span").html("<input type='text' name='level' class='input-normal control-text' style='width: 50px;' />&nbsp;级");
+        }
+    }
+
+    //添加显示内容
+    function addEditShow() {
+        var str = '<div id="edit_show_'+key+'" style="margin-bottom: 5px;"><input type="text" name="name'+key+'" value="" class="input-normal control-text" style="width: 60px;" placeholder="名称" />&nbsp;：&nbsp;<input type="text" name="value'+key+'" value="" class="input-normal control-text" style="width: 180px;" placeholder="内容" />&nbsp;<i class="iconfont" onclick="deleteEditShow('+key+')" style="cursor: pointer;">&#xe725;</i></div>';
+        $("#edit_show_div").append(str);
+        key ++;
+    }
+
+    //删除显示内容
+    function deleteEditShow(id) {
+        $("#edit_show_"+id).remove();
+    }
+
+    BUI.use(["bui/overlay", "bui/form", "bui/calendar"], function (Overlay, Form, Calendar){
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+        var datepicker1 = new Calendar.DatePicker({
+            trigger: "#edit_startTime",
+            dateMask: "yyyy-mm-dd HH:00:00",
+            showTime: true,
+            autoRender: true
+        });
+        var datepicker2 = new Calendar.DatePicker({
+            trigger: "#edit_endTime",
+            dateMask: "yyyy-mm-dd HH:00:00",
+            showTime: true,
+            autoRender: true
+        });
+        var dialog = new Overlay.Dialog({
+            title: "编辑礼包",
+            width: 500,
+            height: 450,
+            //配置DOM容器的编号
+            contentId: "content",
+            success: function () {
+                $("#J_Form").submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->

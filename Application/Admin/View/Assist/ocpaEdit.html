@@ -1,0 +1,87 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Assist/ocpaEdit')}">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">渠道商：</label>
+                <div class="controls">
+                    <select name="ocpaType">
+                        <option value="1" <if condition="$ocpaType eq 1">selected</if> >广点通</option>
+                        <option value="2" <if condition="$ocpaType eq 2">selected</if> >微信</option>
+                        <!-- <option value="3" <if condition="$ocpaType eq 3">selected</if> >百度信息流</option> -->
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">账号id：</label>
+                <div class="controls">
+                    <span>{$advertiser_id}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">应用id：</label>
+                <div class="controls">
+                    <span>{$appid}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">报送次数：</label>
+                <div class="controls">
+                    <input name="Num" type="text" value="{$Num}" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">状态：</label>
+                <div class="controls">
+                    <select name="status">
+                        <option value="0" <if condition="$status eq 0"> selected </if> >开启</option>
+                        <option value="1" <if condition="$status eq 1"> selected </if> >关闭</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'编辑配置',
+            width:450,
+            height:250,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

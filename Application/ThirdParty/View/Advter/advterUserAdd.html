@@ -1,0 +1,98 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/add')}">
+        <input type="hidden" value="advteruser" name="table"/>
+        <input type="hidden" value="advterUserAdd" name="tpl"/>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">广告商名称：</label>
+            <div class="controls">
+              <input name="company_name" type="text" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">监控链接参数：</label>
+            <div class="controls">
+              <input name="param" type="text" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+      
+      <if condition="session('admin.role_id') eq 1">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">广告商数据实时：</label>
+            <div class="controls">
+              <select  name="is_actually">
+                <option value="0">实时</option>
+                <option value="1">非实时</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      <else/>
+        <input type="hidden" name="is_actually" value="0" />
+      </if>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">状态：</label>
+            <div class="controls">
+              <select  name="status">
+                <option value="1">开启</option>
+                <option value="0">关闭</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+              <select  name="principal_name">
+                <volist name="aprincipals" id="val">
+                  <option value="{$val.principal_name}">{$val.principal_name}</option>
+              </volist>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+    
+ 
+ 
+<!-- script start --> 
+    <script type="text/javascript">
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'新增-广告商',
+            width:500,
+            height:320,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+<!-- script end -->
+  </div>
+</body>
+</html>

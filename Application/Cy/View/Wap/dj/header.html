@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="telephone=no,email=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<title>{$info.name}</title>
+<link rel="stylesheet" type="text/css" href="{$static_url}/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="{$static_url}/css/swiper.min.css"/>
+<link rel="stylesheet" type="text/css" href="{$static_url}/css/style.css"/>
+<script src="{$static_url}/js/jquery-1.11.1.min.js"></script>
+<script src="{$static_url}/js/bootstrap.min.js"></script>
+<script src="{$static_url}/js/swiper.min.js"></script>
+<script src="{$static_url}/js/swiper.min.js"></script>
+
+<script type="text/javascript">
+var ua = navigator.userAgent.toLowerCase();
+var isios = /ipad|ipod|iphone|mac/.test(ua);
+window.onload=function(){
+    $and = '{$info.androidDownload}';
+    $ios = '{$info.iosDownload}';
+    if(isios){
+        $('#ostype').attr('href',$ios);
+    }else{
+        $('#ostype').attr('href',$and);
+    }
+	//使用rem
+	var clientWidth = document.documentElement.clientWidth;
+	if(clientWidth>=640){
+		document.documentElement.style.fontSize = '100px';
+    }else{
+		document.documentElement.style.fontSize = innerWidth/6.4 +"px";
+		window.addEventListener("resize",function(){document.documentElement.style.fontSize = innerWidth/6.4  + "px"; },false)}
+    }
+	
+</script>
+
+</head>
+
+</head>
+
+<body style="background-color:#0d0d0e">
+<div class="wrapdiv">
+	<!--顶部start-->
+    <div class="topnav_wrap contentbox box_orient fixed">
+    	<img src="{$img_url}{$info.gameLogo}" id="dzzlogo" />
+        <div class="topmid_div box_flex01">
+        	<p class="topyxname_p">{$info.name}</p>
+            <p class="topyxdes_p"><img src="{$static_url}/images/yxrdimg.png"><br>{$info.gameType}</p>
+        </div>
+        <a href="" id='ostype' class="topxz_a db"></a>
+    </div>
+    <div class="symidpic_div pr"><img src="{$img_url}{$info.phoneBg}" />

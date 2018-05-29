@@ -1,0 +1,133 @@
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('AdvterData/financeCostEdit')}">
+        <input type="hidden" id="id" value="{$info.id}" name="id"/>
+        <input type="hidden" id="rebateType" value="{$info.rebateType}" name="rebateType"/>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label" style="width: 60px;">日期：</label>
+                <div class="controls span5">
+                    {$info.date}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label" style="width: 60px;">账号：</label>
+                <div class="controls span5">
+                    {$info.account}
+                </div>
+                <label class="control-label" style="width: 60px;">主体：</label>
+                <div class="controls span5">
+                    {$info.mainbody}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label" style="width: 60px;">代理：</label>
+                <div class="controls span5">
+                    {$info.proxyName}
+                </div>
+                <label class="control-label" style="width: 60px;">渠道：</label>
+                <div class="controls span5">
+                    {$info.companyName}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label" style="width: 60px;">游戏：</label>
+                <div class="controls span5">
+                    {$info.gameName}
+                </div>
+                <label class="control-label" style="width: 60px;">母包：</label>
+                <div class="controls span5">
+                    {$info.agentName}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label" style="width: 60px;">折返：</label>
+                <div class="controls span5">
+                    <if condition="$info['rebateType'] == 1">返现<else />返点</if>
+                </div>
+                <label class="control-label" style="width: 60px;">比率：</label>
+                <div class="controls span5">
+                    <input type="text" id="rebate" value="{$info.rebate}" name="rebate" style="width: 30px;" />&nbsp;%
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label" style="width: 60px;">消耗：</label>
+                <div class="controls span5">
+                    <input name="cost" type="text" id="cost" value="{$info.cost}" class="input-normal control-text">
+                </div>
+                <label class="control-label" style="width: 60px;">实际消耗：</label>
+                <div class="controls span5">
+                    <span id="realCost_span">{$info.realCost}</span>
+                    <input type="hidden" id="realCost" value="{$info.realCost}" name="realCost"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(["bui/overlay", "bui/form"], function (Overlay, Form) {
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title: "编辑{$info.account}的计划消耗",
+            width: 600,
+            height: 280,
+            //配置DOM容器的编号
+            contentId: "content",
+            success: function () {
+                var _id = $("#id").val(), _cost = $("#cost").val(), _realCost = $("#realCost").val(), _rebate = $("#rebate").val();
+                $.post("{:U('AdvterData/financeCostEdit')}", {id:_id, cost:_cost, realCost:_realCost, rebate:_rebate}, function(ret){
+                    if (ret.Result) {
+                        BUI.Message.Alert(ret.Msg, "success");
+//                        $("#cost_"+_id).html(_cost);
+//                        $("#realCost_"+_id).html(_realCost);
+                        dialog.close();
+                        $("#edit_key").click();
+                    } else {
+                        BUI.Message.Alert(ret.Msg, "error");
+                    }
+                });
+            }
+        });
+        dialog.show();
+    });
+
+    $("#rebate").bind("input propertychange", function(){
+        var _rebate = $("#rebate").val(), _rebateType = $("#rebateType").val(), _cost = $("#cost").val();
+        var _realCost = "";
+        if (_rebateType == 1) {
+            _realCost = parseFloat(_cost*(1-parseFloat(_rebate)/100)).toFixed(2);
+        } else {
+            _realCost = parseFloat(_cost/(1+parseFloat(_rebate)/100)).toFixed(2);
+        }
+        $("#realCost_span").html(_realCost);
+        $("#realCost").val(_realCost);
+    });
+
+    $("#cost").bind("input propertychange", function(){
+        var _rebate = $("#rebate").val(), _rebateType = $("#rebateType").val(), _cost = $("#cost").val();
+        var _realCost = "";
+        if (_rebateType == 1) {
+            _realCost = parseFloat(_cost*(1-parseFloat(_rebate)/100)).toFixed(2);
+        } else {
+            _realCost = parseFloat(_cost/(1+parseFloat(_rebate)/100)).toFixed(2);
+        }
+        $("#realCost_span").html(_realCost);
+        $("#realCost").val(_realCost);
+    })
+</script>
+<!-- script end -->

@@ -1,0 +1,46 @@
+<body>
+    <style type="text/css">
+        input{border-radius: 4px;}
+        .controls td {border: 1px solid #e4e4e4; line-height: 24px; padding: 4px;}
+        .row{margin: 20px;}
+    </style>
+    <div class="demo-content">
+        <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+        <form action="{:U('Assist/specialDataImport')}" class="form-horizontal" enctype="multipart/form-data" id="J_Form" method="post">
+            <input name="table" type="hidden" value="advter_cost"/>
+            <div class="row">
+                <div class="control-group span14">
+                    <label class="control-label">
+                        数据文件：
+                    </label>
+                    <div class="controls">
+                        <input id="ortherInfo" name="ortherInfo" type="file">
+                            <span style="color: red;">
+                                支持Excel格式为：'xls', 'csv', 'xlsx'
+                            </span>
+                        </input>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span14">
+                    <label class="control-label">
+                        文件模板下载：
+                    </label>
+                    <div class="controls">
+                        <a href="https://{:$_SERVER['SERVER_NAME']}/Uploads/ortherInfo.xls">
+                            ortherInfo.xls
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span14">
+                    <div class="controls">
+                        <input type="submit" value="上传">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

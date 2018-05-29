@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>SDK礼包</title>
+    <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min2.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/pagestyle.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/font/iconfont.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="__JS__/bootstrap/jquery.min.js"></script>
+    <script type="text/javascript" src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__JS__/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+</head>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">礼包名称：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="gift">
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label">游戏名称：</label>
+                    <div class="controls">
+                        <select name="game_id" id="game_id"></select>
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">过期：</label>
+                    <div class="controls">
+                        <select name="show" style="width: 100px;">
+                            <option value="1">不显示</option>
+                            <option value="0">显示</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        //数据加载
+        gameList("game_id");
+    });
+
+    //获取游戏
+    function gameList(id, game_id) {
+        var _html = "";
+        $.post("{:U('Ajax/getGameList')}", "", function(ret){
+            var ret = eval("("+ret+")");
+            _html = "<option value=''>全部</option>";
+            $(ret).each(function(i, v){
+                _html += "<option value="+v.id+" "+((v.id == game_id)? "selected": "")+">"+v.gameName+"</option>";
+            });
+            $("#"+id).html(_html).comboSelect({inputClass: ""});
+        });
+    }
+
+    //获取渠道号
+    function getAgent(game_id, id, agent) {
+        var _html = "";
+        $.post("{:U('Ajax/getAgent')}", {game_id:game_id}, function(ret){
+            var ret = eval("("+ret+")");
+            if(ret.length < 1) return false;
+            _html = "<option value=''>全部</option>";
+            $(ret).each(function(i, v){
+                _html += "<option value="+v.agent+" "+((v.agent == agent)? "selected": "")+">"+v.agentAll+"</option>";
+            });
+            $("#"+id).html(_html).comboSelect({inputClass: ""});
+        });
+    }
+
+    //编辑
+    function giftEdit(id, obj) {
+        $(".bui-dialog:not(.bui-message)").remove();
+        $(".mark").show();
+        $(".spinner").show();
+        $.get('{:U("Gift/sdkGiftEdit")}', {id:id}, function(ret){
+            $("#content").html(ret.Html).show();
+            $(".mark").hide();
+            $(".spinner").hide();
+        });
+    }
+
+    //导入
+    function giftImport(id, obj) {
+        $(".bui-dialog:not(.bui-message)").remove();
+        $(".mark").show();
+        $(".spinner").show();
+        $.get('{:U("Gift/sdkGiftImport")}', {id:id}, function(ret){
+            $("#content").html(ret.Html).show();
+            $(".mark").hide();
+            $(".spinner").hide();
+        });
+    }
+
+    //展示内容
+    function showGift(obj, str) {
+        var value = $(obj).html().replace(/\n/g, "<br />");
+        BUI.use("bui/overlay", function(Overlay){
+            var dialog = new Overlay.Dialog({
+                title: str,
+                mask: false,
+                buttons: [],
+                bodyContent: '<div style="max-height: 500px; width: 500px; overflow-y: auto;">'+value+'</div>'
+            });
+            dialog.show();
+        });
+    }
+
+    BUI.use("common/search", function (Search) {
+        var columns = [
+            {title: "ID", dataIndex: "id", width: 40, elCls: "center"},
+            {title: "游戏名称", dataIndex: "gameName", width: 120, elCls: "center"},
+            {title: "礼包名称", dataIndex: "gift", width: 120, elCls: "center"},
+            {title: "礼包内容", dataIndex: "content", width: 250, elCls: "center",
+                renderer: function (value, obj) {
+                    return "<div onclick='showGift(this, \"礼包内容\")' style='width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>"+value+"</div>";
+                }
+            },
+            {title: "领取条件", dataIndex: "ext", width: 300, elCls: "center"},
+            {title: "礼包库存", dataIndex: "stock", width: 100, elCls: "center"},
+            {title: "开启时间", dataIndex: "time", width: 260, elCls: "center"},
+            {title: "展示内容", dataIndex: "show", width: 250, elCls: "center",
+                renderer: function (value, obj) {
+                    return "<div onclick='showGift(this, \"展示内容\")' style='width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>"+value+"</div>";
+                }
+            },
+            {title: "操作", dataIndex: "opt", width: 70, elCls: "center"}
+        ],
+        store = Search.createStore('{:U("Gift/sdkGift")}', {
+            proxy: {
+                save: {},
+                method: "POST"
+            },
+            autoSync: true //保存数据后，自动更新
+        }),
+        gridCfg = Search.createGridCfg(columns, {
+            tbar: {
+                items: [
+                    {text: "<i class='icon-plus'></i>新增礼包", btnCls: "button button-small opt-btn", handler: addFunction}
+                ]
+            },
+            plugins: [BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        }),
+        search = new Search({
+            store: store,
+            gridCfg: gridCfg
+        }),
+        grid = search.get("grid");
+
+        function addFunction() {
+            $(".bui-dialog:not(.bui-message)").remove();
+            $(".mark").show();
+            $(".spinner").show();
+            $.get('{:U("Gift/sdkGiftAdd")}', "", function(ret){
+                $("#content").html(ret.Html).show();
+                $(".mark").hide();
+                $(".spinner").hide();
+            });
+        }
+    });
+</script>
+<include file="Public/loading" />
+</body>
+</html>

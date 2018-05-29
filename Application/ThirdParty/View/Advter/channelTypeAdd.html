@@ -1,0 +1,153 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/channelTypeAdd')}">
+        <input type="hidden" value="channel" name="table"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">渠道类型名称：</label>
+            <div class="controls">
+                <input name="channelName" data-rules="{required:true}" class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">渠道缩写：</label>
+            <div class="controls">
+              <input name="channelAbbr" data-rules="{required:true}" class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">渠道版本：</label>
+            <div class="controls">
+              <input name="channelVer" class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">是否需要商品ID：</label>
+            <div class="controls">
+              <select name="goodsId">
+                <option value="1">否</option>
+                <option value="0">是</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属广告商：</label>
+            <div class="controls">
+              <select name="advteruser_id" id="advteruser_Id"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+              <select name="principal_id" id="principal_Id"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">状态：</label>
+            <div class="controls">
+              <select name="channelStatus">
+                <option value="0">开启</option>
+                <option value="1">关闭</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">参数：</label>
+            <div class="controls">
+              <div><input name="param1" placeholder="参数一" class="input-normal control-text" /></div>
+              <div><input name="param2" placeholder="参数二" class="input-normal control-text" /></div>
+              <div><input name="param3" placeholder="参数三" class="input-normal control-text" /></div>
+              <div><input name="param4" placeholder="参数四" class="input-normal control-text" /></div>
+              <div><input name="param5" placeholder="参数五" class="input-normal control-text" /></div>
+              <div><input name="param6" placeholder="参数六" class="input-normal control-text" /></div>
+              <div><input name="param7" placeholder="参数七" class="input-normal control-text" /></div>
+              <div><input name="param8" placeholder="参数八" class="input-normal control-text" /></div>
+              <div><input name="param9" placeholder="参数九" class="input-normal control-text" /></div>
+              <div><input name="param10" placeholder="参数十" class="input-normal control-text" /></div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+$(function(){
+  //数据加载
+  principal();
+  adv_company();
+  //获取负责人
+  function principal(){
+    var _html = '';
+      $.post("{:U('Ajax/principals')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.name+"</option>";
+        });
+        $('#principal_Id').html(_html);
+        $('#principal_Id').comboSelect();
+      });
+  }
+
+  //获取广告商
+  function adv_company(){
+      var _html = '';
+      $.post("{:U('Ajax/adv_company')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.company_name+"</option>";
+        });
+        $('#advteruser_Id').html(_html);
+        $('#advteruser_Id').comboSelect();
+      });
+  }
+});
+BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+var form = new Form.HForm({
+  srcNode : '#J_Form'
+}).render();
+
+var dialog = new Overlay.Dialog({
+      title:'新增渠道分类',
+      width:450,
+      height:620,
+      //配置DOM容器的编号
+      contentId:'content',
+      success:function () {
+        $('#J_Form').submit();
+      }
+    });
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

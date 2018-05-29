@@ -1,0 +1,112 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('AdvterData/add')}">
+        <input type="hidden" value="month_target" name="table"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">月份：</label>
+            <div class="controls">
+                <input type="text" id="TargetMonth" value={:date('Y-m-01')} class="calendar" name="TargetMonth" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">月度指标：</label>
+            <div class="controls">
+                <input type="text" class="input-normal" data-rules="{required:true}" name="monthTarget" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+              <select name="principalId" id="principalId"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">游戏：</label>
+            <div class="controls">
+              <select name="gameId" id="gameId"></select>
+            </div>
+          </div>
+        </div>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+$(function() {
+  //数据加载
+  principal();
+  gameLists();
+
+  //获取负责人
+  function principal() {
+    var _html = '';
+    $.post("{:U('Ajax/principals')}", '', function(ret) {
+      var ret = eval('(' + ret + ')');
+      $(ret).each(function(i, v) {
+        _html += "<option value=" + v.id + ">" + v.name + "</option>";
+      });
+      $('#principalId').html(_html);
+      $('#principalId').comboSelect();
+    });
+  }
+
+  //获取游戏
+  function gameLists() {
+    var _html = '';
+    $.post("{:U('Ajax/getGameList')}", '', function(ret) {
+      var ret = eval('(' + ret + ')');
+      $(ret).each(function(i, v) {
+        _html += "<option value=" + v.id + ">" + v.gameName + "</option>";
+      });
+      $('#gameId').html(_html);
+      $('#gameId').comboSelect();
+    });
+  }
+
+});
+
+BUI.use(['bui/overlay', 'bui/form','bui/calendar'], function(Overlay, Form, Calendar) {
+
+  var form = new Form.HForm({
+    srcNode: '#J_Form'
+  }).render();
+
+  var dialog = new Overlay.Dialog({
+    title: '指标录入',
+    width: 450,
+    height: 240,
+    //配置DOM容器的编号
+    contentId: 'content',
+    success: function() {
+      $('#J_Form').submit();
+    }
+  });
+
+  var datepicker = new Calendar.DatePicker({
+    trigger: '#TargetMonth',
+    dateMask: 'yyyy/mm/01',
+    autoRender: true
+  });
+
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

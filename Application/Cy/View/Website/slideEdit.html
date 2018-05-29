@@ -1,0 +1,158 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+    .combo-select{width:200px;}
+    .combo-select .text-input{width:200px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Website/slideEdit')}">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">幻灯片名称：</label>
+                <div class="controls">
+                    <input name="slideName" value={$info.slideName} type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">幻灯片模板：</label>
+                <div class="controls">
+                    <select name="templateId" id="templateId">
+                        <volist name="tpls" id="vo">
+                            <option value="{$vo.id}"  <if condition="$info['templateId'] eq $vo['id']">selected</if> >{$vo.templateName}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">栏目：</label>
+                <div class="controls">
+                    <select name="columnId" id="columnId">
+                        {$columns}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">所属渠道号：</label>
+                <div class="controls">
+                    <select name="agent" id="agent"></select>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">幻灯片宽：</label>
+                <div class="controls">
+                    <input type="text" name="width" value={$info.width} />
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">幻灯片高：</label>
+                <div class="controls">
+                    <input type="text" name="height" value={$info.height} />
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">幻灯片类型：</label>
+                <div class="controls">
+                    <select name="slideType" id="slideType">
+                        <option value="1" <if condition="$info.slideType eq 1">selected</if> >PC端</option>
+                        <option value="2" <if condition="$info.slideType eq 2">selected</if> >H5端</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">状态：</label>
+                <div class="controls">
+                    开启<input type="radio" name='status' value='0' <if condition="$info.status eq 0">checked="checked"</if> />
+                    关闭<input type="radio" name='status' value='1' <if condition="$info.status eq 1">checked="checked"</if> />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">排序：</label>
+                <div class="controls">
+                    <input type="text" name="slideOrder" value="{$info.slideOrder}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">备注：</label>
+                <div class="controls">
+                    <textarea name="description" id="description" cols="30" rows="10">{$info.description}</textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    $(function () {
+        agentLists();
+    });
+
+    //获取渠道号
+    function agentLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{power: 1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i, v){
+                if(v.agent == '{$info.agent}'){
+                    _html += "<option value="+v.agent+" selected='selected'>"+v.agentName+'（'+v.agent+'）'+"</option>";
+                }else{
+                    _html += "<option value="+v.agent+">"+v.agentName+'（'+v.agent+'）'+"</option>";
+                }
+            });
+            $('#agent').html(_html).comboSelect();
+        });
+    }
+
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'编辑幻灯片',
+            width:450,
+            height:400,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

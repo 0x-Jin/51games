@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{:L("ADMIN_NAME")}</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/main-min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div id="grid" style="margin-top: 30px;">
+
+        </div>
+    </div>
+
+    <div id="content" class="hide">
+        <form id="J_Form" class="form-horizontal">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">ID：</label>
+                    <div class="controls">
+                        <span id="id"></span>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>菜单：</label>
+                    <div class="controls">
+                        <input id="name" name="name" type="text" value="" data-rules="{required:true}" class="input-normal control-text">
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="control-group span8 ">
+                    <label class="control-label">状态：</label>
+                    <div id="range" class="controls bui-form-group">
+                        <label class="radio"><input type="radio" name="status" value="0">开启</label>&nbsp;&nbsp;&nbsp;
+                        <label class="radio"><input type="radio" name="status" value="1">关闭</label>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">排序：</label>
+                    <div class="controls control-row4">
+                        <input id="order" name="order" type="text" value="" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui-min.js"></script>
+    <script type="text/javascript" src="__JS__/config-min.js"></script>
+    <script type="text/javascript">
+        BUI.use('common/page');
+    </script>
+
+    <script type="text/javascript">
+        BUI.use(['bui/grid', 'bui/data'], function (Grid,Data) {
+
+            var columns = [
+                {title: 'ID', dataIndex: 'id', elCls: 'center', sortable: false},
+                {title: '菜单', dataIndex: 'icon', sortable: false},
+                {title: '状态', dataIndex: 'status', elCls: 'center', sortable: false, renderer: function(value){
+                    if (value == '0') {
+                        return '<img src="__IMG__/toggle_enabled.gif" />'
+                    } else {
+                        return '<img src="__IMG__/toggle_disabled.gif" />'
+                    }
+                }},
+                {title: '排序', dataIndex: 'order', elCls: 'center', sortable: false},
+                {title: '操作', dataIndex: 'id', elCls: 'center', sortable: false, renderer: function(value){
+                    return '<button class="edit" name="'+value+'"><i class="icon icon-blank icon-edit"></i>&nbsp;修改</button>';
+                }}
+            ],
+            //数据
+            store = new Data.Store({
+                data: <?=json_encode($menu)?>
+            }),
+            grid = new Grid.Grid({
+                render: '#grid',
+                columns: columns,
+                width: 1000,
+                forceFit: true,
+                store: store,
+                tbar: {
+                    items: [{
+                        btnCls: 'button button-small opt-btn',
+                        text: '<i class="icon-plus"></i>添加',
+                        listeners: {
+                            'click': addFunction
+                        }
+                    }]
+                }
+
+            });
+            grid.render();
+
+            function addFunction(){
+                var newData = {school :'请输入学校名称'};
+                editing.add(newData); //添加记录后，直接编辑
+            }
+        });
+
+        BUI.use('bui/overlay',function(Overlay){
+
+            var dialog = new Overlay.Dialog({
+                title: '修改菜单',
+                contentId: 'content',
+                width: 400,
+                height: 240,
+                autoHide: true,
+                buttons: [
+                    {
+                        text:'提交',
+                        elCls: 'button button-info',
+                        handler: function(){
+                            $.ajax({
+                                type: 'post',
+                                url: '{:U("menu/saveMenu")}',
+                                data: {id: $("#id").html(), name: $("#name").val(), status: $(":radio[name='status']:checked").val(), order: $("#order").val()},
+                                dataType: 'json',
+                                success: function(data){
+                                    if (data.Code) {
+                                        BUI.Message.Alert(data.Msg, 'success');
+                                    } else {
+                                        BUI.Message.Alert(data.Msg, 'error');
+                                    }
+                                },
+                                error: function(){
+                                    BUI.Message.Alert('网络错误！', 'error');
+                                }
+                            });
+                            this.close();
+                        }
+                    },{
+                        text:'取消',
+                        elCls: 'button',
+                        handler: function(){
+                            this.close();
+                        }
+                    }
+                ]
+            });
+
+            $('.edit').on('click',function () {
+                $.ajax({
+                    type: 'post',
+                    url: '{:U("menu/getMenu")}',
+                    data: {id: $(this).attr("name")},
+                    dataType: 'json',
+                    success: function(data){
+                        $("#id").html(data.id);
+                        $("#name").val(data.name);
+                        $("#order").val(data.order);
+                        $(":radio[name='status'][value='"+data.status+"']").prop("checked", "checked");
+                        dialog.show();
+                    },
+                    error: function(){
+                        BUI.Message.Alert('网络错误！', 'error');
+                    }
+                });
+            });
+        });
+
+        BUI.use('common/page'); //页面链接跳转
+
+        BUI.use('bui/form',function (Form) {
+            var form = new Form.HForm({
+                srcNode : '#content'
+            });
+
+            form.render();
+        });
+    </script>
+
+</body>
+</html>

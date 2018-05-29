@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <title>激活走势图</title>
+    <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+    <link href="__CSS__/jquery.jqplot.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="__JS__/bootstrap/jquery.min.js"></script>
+    <script type="text/javascript" src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__JS__/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script type="text/javascript" src="__JS__/jqplot/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="__JS__/jqplot/jqplot.cursor.min.js"></script>
+    <script type="text/javascript" src="__JS__/jqplot/jqplot.canvasAxisLabelRenderer.min.js"></script>
+    <script type="text/javascript" src="__JS__/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
+    <script type="text/javascript" src="__JS__/jqplot/jqplot.highlighter.min.js"></script>
+    <script type="text/javascript" src="__JS__/jqplot/jqplot.pointLabels.min.js"></script>
+</head>
+<literal>
+    <style>
+        tfoot .bui-grid-cell-text{text-align: center;}
+        .btn-default {height:25px;}
+        .filter-option {margin-top: -4px;}
+        .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+    </style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal span48" id="searchForm" method="post">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">
+                        游戏名称：
+                    </label>
+                    <div class="controls">
+                        <select id="game_id" name="game_id">
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">母包：</label>
+                    <div class="controls" id="p_agent_contain">
+                        <select id="agent_p" name="agent_p[]" onchange="getAgentByGame()" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">子包：</label>
+                    <div class="controls" id="agent_contain">
+                        <select id="agent" name="agent[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">类型：</label>
+                    <div class="controls" id="type_contain">
+                        <select id="type" name="type">
+                            <option value="1">新增设备</option>
+                            <option value="2">唯一注册</option>
+                            <option value="3">充值</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">
+                        统计日期：
+                    </label>
+                    <div class="controls">
+                        <input type="text" class="calendar" name="startDate" id="startDate" value="{:date('Y-m-d', strtotime('-7 day'))}" /><span> - </span><input type="text" class="calendar" name="endDate" id="endDate" value="{:date('Y-m-d')}" />
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button class="button button-info" onclick="doSearch()" type="button">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- 图表 -->
+    <div class="search-grid-container">
+        <div id="chart" style="width: 100%;height:550px;">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $('.selectpicker').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            liveSearch: true,
+            actionsBox: true
+        });
+        gameLists();
+        $('#game_id').change(function() {
+            var game_id = $(this).val();
+            getPAgentByGame(game_id);
+        });
+
+    });
+
+    //获取母包渠道号
+    function getPAgentByGame(game_id){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{game_id:game_id},function(ret){
+            _html += "<option>--请选择母包--</option>";
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+            });
+            $('#agent_p').html(_html);
+            $('#agent_p').selectpicker('refresh');
+            $('#agent_p').selectpicker('val', '--请选择母包--');
+        });
+    }
+
+    //获取子包渠道号
+    function getAgentByGame() {
+        var agent = $("#agent_p").val();
+        if (agent != "--请选择渠道号--" && agent != null) {
+            var _html = '';
+            $.post("{:U('Ajax/getChildAgentByAgent')}", {agent:agent}, function(ret){
+                _html += "<option>--请选择子包--</option>";
+                var ret = eval('('+ret+')');
+                $(ret).each(function(i,v){
+                    _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+                });
+                $('#agent').html(_html);
+                $('#agent').selectpicker('refresh');
+                $('#agent').selectpicker('val', '--请选择子包--');
+            });
+        }
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+
+    BUI.use(['bui/calendar'], function(Calendar) {
+        var datepicker1 = new Calendar.DatePicker({
+            trigger: '#startDate',
+            dateMask: 'yyyy-mm-dd',
+            autoRender: true
+        });
+
+        var datepicker2 = new Calendar.DatePicker({
+            trigger: '#endDate',
+            dateMask: 'yyyy-mm-dd',
+            autoRender: true
+        });
+    });
+
+    //计算两个日期天数差的函数，通用
+    function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
+        var time1 = Date.parse(new Date(sDate1));
+        var time2 = Date.parse(new Date(sDate2));
+        return Math.abs(parseInt((time2 - time1)/1000/3600/24));
+    }
+
+    function doSearch(){
+        var _startDate  = $("#startDate").val();
+        var _endDate    = $("#endDate").val();
+        var type = $('#type').val();
+        if (_endDate < _startDate) {
+            alert("请选择正确的时间区域！");
+            return;
+        }
+//        if (DateDiff(_startDate, _endDate) > 30) {
+//            alert("时间区域请不要超过30天！");
+//            return;
+//        }
+        if(type=='2'){
+            var texts = '唯一注册图表';
+            var labels = '唯一注册数';
+        }else if(type == '3'){
+            var texts = '充值图表';
+            var labels = '充值人数';
+        }else{
+            var texts = '新增设备图表';
+            var labels = '新增设备数';
+        }
+
+        $.ajax({
+            type:"post",
+            dataType:"json",
+            data:$('#searchForm').serialize(),
+            url:"{:U('advterData/activateDiagram')}",
+            success:function(data){
+                $("#chart").html('');
+                if(!data || !data.length){
+                    $("#chart").html("<b style='color: red;'>暂无数据！</b>");
+                    return false;
+                }
+
+                var _data = [[]];
+
+                for(var i in data){
+                    var tda = [], tda1 = [];
+                    tda[0] = tda1[0] = data[i]['day'];
+                    tda[1] = parseInt(data[i]['totalData']);
+
+                    _data[0][i] = tda;
+                }
+
+                if(_data){
+                    buildchart(_data,texts,labels);
+                }
+            }
+        });
+
+    }
+
+    function buildchart(_data,texts,labels){
+        var plot1 = $.jqplot('chart', _data, {
+            title:{
+                text:texts,
+                show:true,
+                fontSize:'20px'
+            },
+            axesDefaults: {
+                tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                tickOptions: {
+                    angle: -30,
+                    fontSize: '10pt'
+                }
+            },
+            axes:{
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    label: "日期"
+                },
+                yaxis:{
+                    min:0,
+                    tickOptions:{
+                        //formatString:'%.2f'
+                    }
+                }
+            },
+            series:[{label:labels}],
+            legend: {
+                show: true,
+                placement: 'outsideGrid',
+                location:'ne'
+            },
+            seriesDefaults: {
+                showMarker: true,
+                pointLabels: {
+                    show:true
+                }
+            },
+            highlighter: {
+                show: true,
+                useAxesFormatters: false,
+                tooltipFormatString:'<b><span style="color:#000;font-size:12px;">%.2f</span></i></b>',
+                sizeAdjust: 7.5,
+                tooltipAxes: 'x',
+                tooltipContentEditor:function (str, seriesIndex, pointIndex, plot) {
+                    // display series_label, x-axis_tick, y-axis value
+                    return '<span style="text-align:left;font-size:12px">&nbsp;&nbsp;'+
+                        plot.data[0][pointIndex][0]+"&nbsp;&nbsp;<br/>&nbsp;&nbsp;<span style='color:"+plot.seriesColors[0]+"'>"+plot.series[0]["label"] +
+                        "</span>：<b>" + plot.data[0][pointIndex][1]+"</b></span>";
+                }
+            },
+            cursor: {
+                show: false
+            }
+
+        });
+    }
+
+</script>
+<include file="Public/loading" />
+</body>
+</html>

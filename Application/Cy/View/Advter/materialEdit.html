@@ -1,0 +1,361 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/materialEdit')}" enctype="multipart/form-data">
+      <input type="hidden" value="{$info.material_id}" name="material_id" />
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">素材名称：</label>
+            <div class="controls">
+              <input name="material_name" type="text" value="{$info['material_name']}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">素材分类：</label>
+            <div class="controls">
+              <select name="material_type_id">
+                <volist name="mtypes" id="val">
+                    <option value="{$val.material_type_id}" <if condition="$info.material_type_id eq $val['material_type_id']">selected</if>>{$val.mtype_name}</option>
+                </volist>
+              </select>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span12">
+            <label class="control-label">母包编号：</label>
+            <div class="controls">
+              <select name="agent_id" id="agent_id">
+
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">落地页类型：</label> <!-- 1:banner 2:banner+幻灯片混合 3:banner+一屏落地页 -->
+            <div class="controls">
+              <select id="page_type" name="page_type" class="input-normal">
+                  <volist name="tplList" id='val' key="k">
+                    <option value="{$k}" <if condition="$info.page_type eq $k">selected</if> >{$val}</option>
+                  </volist> 
+                </select>
+            </div>
+          </div>
+        </div>
+      <div id="slideOpt">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">幻灯片的宽度：</label>
+            <div class="controls">
+              <input name="hdp_width" id="hdp_width" <if condition="$info.page_type neq 2 and $info.page_type neq 7 and $info.page_type neq 3 and $info.page_type neq 6 and $info.page_type neq 8 and $info.page_type neq 9 and $info.page_type neq 11">disabled="true"<else/>value={$info.hdp_width}</if> type="text" placeholder="默认值为88" class="input-normal control-text">%
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">幻灯片上边距：</label>
+            <div class="controls">
+              <input name="hdp_top" id="hdp_top" <if condition="$info.page_type neq 2 and $info.page_type neq 7 and $info.page_type neq 3 and $info.page_type neq 6 and $info.page_type neq 8 and $info.page_type neq 9 and $info.page_type neq 11">disabled="true"<else/>value={$info.hdp_top}</if> type="text" placeholder="默认值为0" class="input-normal control-text">%
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">幻灯片播放间隔：</label>
+            <div class="controls">
+              <input name="hdp_time" id="hdp_time" <if condition="$info.page_type neq 2 and $info.page_type neq 7 and $info.page_type neq 3 and $info.page_type neq 6 and $info.page_type neq 8 and $info.page_type neq 9 and $info.page_type neq 11">disabled="true"<else/>value={$info.hdp_time}</if> type="text" placeholder="默认值为5" class="input-normal control-text">秒
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">幻灯片的位置：</label>
+            <div class="controls">
+              <input name="slide_position" type="text" id="slide_position" <if condition="$info.page_type neq 2 and $info.page_type neq 7 and $info.page_type neq 3 and $info.page_type neq 6 and $info.page_type neq 8 and $info.page_type neq 9 and $info.page_type neq 11">disabled="true"<else/>value=<?php echo empty($info['slide_position']) ? '""' : $info['slide_position'];?></if>  placeholder="幻灯片放在哪个图片后面" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="row" id="bgcolor_main" style="display:none;">
+          <div class="control-group span8">
+            <label class="control-label">背景颜色：</label>
+            <div class="controls">
+              <input name="bgcolor" type="text" id="bgcolor"  placeholder="颜色为rgb,如 75,75,107" value="{$info.bgcolor}" class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="control-group span12">
+            <label class="control-label">背景音乐：</label>
+            <div class="controls">
+              <input type="file" class="input-normal" name="file[]" onchange="fileChange(this)" /> <span>{$info.bgm}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span24">
+            <table width="100%">
+              <tr>
+                <th style="width: 101px;" align="right">文件上传 :</th>
+                <td>
+                  
+                   <p style="width:635px;"><span style="width:16%;display:inline-block;padding-left: 2%;">图片</span><span style="width:11%;display:inline-block;">排序</span><span style="width:16%;display:inline-block;">是否幻灯片</span><span style="width:10%;display:inline-block;">是否弹窗</span><!-- <span style="width:9%;display:inline-block;">是否视频</span> --><span  style="width:11%;display:inline-block;text-align: center;">操作</span></p>
+                   <div style="height:160px;overflow:auto;width:660px;">
+                  <volist name="files" id="val">
+                    <div style="margin-bottom:5px;">
+                      <span style="width:16%;display:inline-block;">
+                        <if condition="$val.video eq 1">
+                          <video autoplay="autoplay" loop="loop" style="width: 60%;">
+                            <source src="{$path_url}{$val['url']}" type="video/mp4">
+                            Your browser does not support the video tag.
+                          </video>
+                        <else/>
+                          <img style="width:60px;" src="{$path_url}{$val['url']}">
+                        </if>
+                      </span>
+
+                      <span style="width:13%;display:inline-block;"><input type="text" value="{$val.order_num}" class="order input-text" style="width:30px;"/><a href="javascript:void(0)" onclick="orderEdit(this,{$val.file_id});">修改</a></span>
+                      
+                      <span style="width:13%;display:inline-block;"><input type="checkbox" class="slide_" <if condition="$val.slide eq 1">checked="checked"</if> style="width:30px;"/><a href="javascript:void(0)" onclick="slideEdit(this,{$val.file_id});">修改</a></span>
+
+                      <!-- 是否弹窗 -->
+                      <span style="width:13%;display:inline-block;"><input type="checkbox" class="pop_" <if condition="$val.pop eq 1">checked="checked"</if> style="width:30px;"/><a href="javascript:void(0)" onclick="popEdit(this,{$val.file_id});">修改</a></span>
+                      
+                      <!-- 是否视频 
+                      <span style="width:13%;display:inline-block;"><input type="checkbox" class="video_" <if condition="$val.video eq 1">checked="checked"</if> style="width:30px;"/><a href="javascript:void(0)" onclick="videoEdit(this,{$val.file_id});">修改</a></span>-->
+
+                      <span><a href="javascript:;" onclick="deleteFile(this,{$val.file_id},{$info.material_id})">删除</a><span>
+                    </div>
+                  </volist>
+                  </div>
+                  <p><span style="width:16%;display:inline-block;padding-left: 2%;">图片</span><span style="width:11%;display:inline-block;padding-left: 12%;">排序</span></p>
+                  <div style="height:160px;overflow:auto;width:660px;">
+                    <for start="0" end="7">
+                    <p><input type="file" style="width:238px;" name="file[]"/>&nbsp;&nbsp;<input type="text" name="order_num[]" style="width:30px;text-align:center" value="{$i}"/></p>
+                    </for>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </form>
+  </div>
+    
+ <style type="text/css">
+  #file td{width:150px;}
+ </style>
+ 
+<!-- script start --> 
+    <script type="text/javascript">
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;   
+    function fileChange(target,id) {   
+      var fileSize = 0;   
+      var filetypes =[".aac",".mp3"];   
+      var filepath = target.value;   
+      var filemaxsize = 1024;//1M   
+      if(filepath){   
+      var isnext = false;   
+      var fileend = filepath.substring(filepath.lastIndexOf("."));  
+      if(filetypes && filetypes.length>0){   
+        for(var i =0; i<filetypes.length;i++){   
+          if(filetypes[i]==fileend){   
+            isnext = true;   
+            break;   
+          }   
+        }   
+      }   
+      if(!isnext){   
+      alert("不接受此文件类型！");   
+      target.value ="";   
+      return false;   
+      }   
+      }else{   
+      return false;   
+      }   
+      if (isIE && !target.files) {   
+      var filePath = target.value;   
+      var fileSystem = new ActiveXObject("Scripting.FileSystemObject");   
+      if(!fileSystem.FileExists(filePath)){   
+      alert("附件不存在，请重新输入！");   
+      return false;   
+      }   
+      var file = fileSystem.GetFile (filePath);   
+      fileSize = file.Size;   
+      } else {   
+      fileSize = target.files[0].size;   
+      }   
+        
+      var size = fileSize / 1024;   
+      if(size>filemaxsize){   
+      alert("音乐文件大小不能大于"+filemaxsize/1024+"M！");   
+      target.value ="";   
+      return false;   
+      }   
+      if(size<=0){   
+      alert("附件大小不能为0M！");   
+      target.value ="";   
+      return false;   
+      }   
+    }   
+
+    //获取母包编号
+    function agent(){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}?power=1",'',function(ret){
+          var ret = eval('('+ret+')');
+          $(ret).each(function(i,v){
+              if(v.id == <?php if(empty($info['agent_id'])){echo '0';}else{echo $info['agent_id'];}?>){
+                _html += "<option value="+v.id+" selected>"+v.agentAll+"</option>";
+              }else{
+                _html += "<option value="+v.id+">"+v.agentAll+"</option>";
+              }
+          });
+          $('#agent_id').html(_html);
+          $('#agent_id').comboSelect();
+      });
+    }
+
+    function deleteFile(obj,file_id,material_id){
+      if(confirm('确定删除该图片吗？')){
+        var url = "{:U('Advter/deleteFile')}";
+        $.post(url,{file_id:file_id,material_id:material_id},function(ret){
+          if(ret.status == 1){
+            $(obj).parent('span').parent('div').eq(0).remove();
+          }
+          alert(ret.info);
+        });
+      }
+    }
+
+    function orderEdit(obj,id){
+      var order_num = $(obj).prev('input').eq(0).val();
+      $.post('{:U("Advter/orderEdit")}',{id:id,order_num:order_num},function(ret){
+        alert(ret.info);
+      });
+    }
+
+    function slideEdit(obj,id){
+      var slide_id = 0;
+      if($(obj).prev('.slide_').eq(0).prop('checked')){
+        slide_id = 1;
+      }
+
+      $.post('{:U("Advter/slideEdit")}',{id:id,slide:slide_id},function(ret){
+        alert(ret.info);
+      });
+    }
+
+    function popEdit(obj,id){
+      var pop_id = 0;
+      if($(obj).prev('.pop_').eq(0).prop('checked')){
+        pop_id = 1;
+      }
+
+      $.post('{:U("Advter/popEdit")}',{id:id,pop:pop_id},function(ret){
+        alert(ret.info);
+      });
+    }
+
+    function videoEdit(obj,id){
+      var video_id = 0;
+      if($(obj).prev('.video_').eq(0).prop('checked')){
+        video_id = 1;
+      }
+
+      $.post('{:U("Advter/videoEdit")}',{id:id,video:video_id},function(ret){
+        alert(ret.info);
+      });
+    }
+
+    $(function(){
+      agent();
+      if($('#page_type').val() == 5){
+        $('#bgcolor_main').show();
+        $('#slideOpt').hide();
+      }else{
+        $('#bgcolor_main').hide();
+        $('#slideOpt').show();
+      }
+
+      //复选框选中赋值
+      $('.mchecked').click(function(){
+          $(this).val(1);
+      });
+
+      $('#page_type').change(function(){
+        var type_id = $(this).val();
+        
+        if(type_id == 5){
+          $('#bgcolor_main').show();
+          $('#slideOpt').hide();
+        }else{
+          $('#bgcolor_main').hide();
+          $('#slideOpt').show();
+        }
+
+        if(type_id == 2 || type_id == 7 || type_id == 9){
+          $('#hdp_width').attr('placeholder','默认值为88');
+        }else if(type_id == 3 || type_id == 6|| type_id == 8 || type_id == 11){
+          $('#hdp_width').attr('placeholder','默认值为100');
+        }else{
+          $('#hdp_width').attr('placeholder','');
+        }
+        //幻灯片位置控制
+        if(type_id == 2 || type_id == 3 || type_id == 6 || type_id == 7|| type_id == 8 || type_id == 9  || type_id == 11){
+          $('#slide_position').attr('disabled',false);
+          $('#hdp_top').attr('disabled',false);
+          $('#hdp_width').attr('disabled',false);
+          $('#hdp_time').attr('disabled',false);
+        }else{
+          $('#slide_position').attr('disabled',true).val('');
+          $('#hdp_top').attr('disabled',true).val('');
+          $('#hdp_width').attr('disabled',true).val('');
+          $('#hdp_time').attr('disabled',true).val('');
+        }
+
+
+      });
+
+    });
+
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'编辑-素材',
+            width:800,
+            height:800,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('.mchecked').prop('checked',true);
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+<!-- script end -->
+  </div>
+</body>
+</html>

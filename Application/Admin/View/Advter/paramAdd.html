@@ -1,0 +1,147 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form action="{:U('Advter/paramAdd')}" class="form-horizontal" style="height: 300px; overflow-y: auto; overflow-x: hidden;" id="J_Form" method="post">
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">
+                    包体编号：
+                </label>
+                <div class="controls">
+                    <input class="input-normal control-text" data-rules="{required:true}" name="agent" id="agent" type="text" />
+                    &nbsp;&nbsp;
+                    <input type="button" onclick="checkAgent()" class="button button-info" value="检测" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">
+                    包体名称：
+                </label>
+                <div class="controls">
+                    <span id="agentName"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="advter">
+            <div class="control-group span10">
+                <label class="control-label">
+                    广告商：
+                </label>
+                <div class="controls">
+                    <select name="advteruser_id" id="advteruser_id" data-actions-box="true" data-live-search="true" onchange="makeAdvter()"></select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- script start -->
+<script type="text/javascript">
+    $(function() {
+        $("#advteruser_id").selectpicker({
+            liveSearchPlaceholder: "搜索关键字",
+            noneSelectedText: "",
+            liveSearch: true,
+            actionsBox: true
+        });
+    });
+
+    var advter = {};
+
+    //检测包体名称
+    function checkAgent() {
+        $.post("{:U('Advter/paramCheck')}", {agent: $("#agent").val()}, function(ret) {
+            if (ret.Result) {
+                $("#agentName").html(ret.Agent);
+                advter = ret.Advter;
+                var _html   = "";
+                var _key    = 0;
+                var _param  = {};
+                $(advter).each(function(i, v) {
+                    if (_key == 0) {
+                        _param  = v.param;
+                        _key    = 1;
+                    }
+                    _html   += "<option value="+v.id+">"+v.name+(v.type == 1? "": "（已配置）")+"</option>";
+                });
+                $("#advteruser_id").html(_html).selectpicker("refresh");
+                var _div    = "";
+                var _num    = 1;
+                $(_param).each(function(i, v) {
+                    _div    += ''+
+                        '<div class="row">'+
+                            '<div class="control-group span10">'+
+                                '<label class="control-label">'+
+                                v+'：'+
+                                '</label>'+
+                                '<div class="controls">'+
+                                    '<input type="text" class="input-normal control-text" name="value'+_num+'" />'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+                    _num ++;
+                });
+                $("#advter").nextAll().remove();
+                $("#advter").after(_div);
+            } else {
+                advter = {};
+                $("#agentName").html("");
+                $("#advter").nextAll().remove();
+                $("#advteruser_id").html("").selectpicker("refresh");
+                BUI.Message.Alert(ret.Msg, "error");
+            }
+        });
+    }
+
+    //改变广告商
+    function makeAdvter()   {
+        $("#advter").nextAll().remove();
+        var id      = $("#advteruser_id").val();
+        var _div    = "";
+        var _num    = 1;
+        $(advter).each(function(i, v) {
+            if (v.id == id) {
+                if (v.type == 1) {
+                    $(v.param).each(function (j, k) {
+                        _div    += ''+
+                            '<div class="row">'+
+                            '<div class="control-group span10">'+
+                            '<label class="control-label">'+
+                            k+'：'+
+                            '</label>'+
+                            '<div class="controls">'+
+                            '<input type="text" class="input-normal control-text" name="value'+_num+'" />'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>';
+                        _num ++;
+                    });
+                    $("#advter").after(_div);
+                }
+            }
+        });
+    }
+
+    BUI.use(["bui/overlay", "bui/form"], function (Overlay, Form) {
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+        var dialog = new Overlay.Dialog({
+            title: "添加广告商配置",
+            width: 450,
+            height: 360,
+            //配置DOM容器的编号
+            contentId: "content",
+            success: function () {
+                $("#J_Form").submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</body>

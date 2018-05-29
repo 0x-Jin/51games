@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>礼包列表</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+</head>
+<style>
+    .copy_that{
+        width: 50px;
+        height: 100%;
+        color: rgb(51, 102, 204);
+        cursor: pointer;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+</style>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">礼包名称：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="gift">
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">过期：</label>
+                    <div class="controls">
+                        <select name="show" style="width: 100px;">
+                            <option value="1">不显示</option>
+                            <option value="0">显示</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <!--<b style="color: red; margin-left: 10px; font-size: 16px;">PS：礼包类型中，不限指的是礼包可以无限次使用，限制指的是一个礼包只能使用一次</b>-->
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    //编辑
+    function giftEdit(id, obj){
+        $(".bui-dialog:not(.bui-message)").remove();
+        $(".mark").show();
+        $(".spinner").show();
+        $.get('{:U("Gift/giftEdit")}', {id:id}, function(ret){
+            $("#content").html(ret.Html).show();
+            $(".mark").hide();
+            $(".spinner").hide();
+        });
+    }
+
+    //导入
+    function giftImport(id, obj) {
+        $(".bui-dialog:not(.bui-message)").remove();
+        $(".mark").show();
+        $(".spinner").show();
+        $.get('{:U("Gift/giftImport")}', {id:id}, function(ret){
+            $("#content").html(ret.Html).show();
+            $(".mark").hide();
+            $(".spinner").hide();
+        });
+    }
+
+    //复制
+    function copyUrl(id) {
+        $("#"+id).select();
+        document.execCommand("Copy");
+        alert("复制成功");
+    }
+
+    var num = 1;
+
+    BUI.use("common/search", function (Search) {
+        var columns = [
+            {title: "ID", dataIndex: "id", width: 40, elCls: "center"},
+            {title: "礼包名称", dataIndex: "gift", width: 200, elCls: "center"},
+            {title: "礼包内容", dataIndex: "content", width: 350, elCls: "center"},
+            {title: "部门", dataIndex: "departmentName", width: 70, elCls: "center"},
+            {title: "微信链接", dataIndex: "url", width:60, elCls:"center", /*renderer:BUI.Grid.Format.enumRenderer(enumObj),*/renderer: function (value, obj) {
+                num += 1;
+                return "<span onclick=copyUrl('t"+num+"') class='copy_that' title='点击复制'>点击复制&nbsp;&nbsp;&nbsp;&nbsp;<textarea style='width: 0px; height: 0px;' id='t"+num+"'>"+value+"</textarea></span>";
+            }},
+//            {title: "领取范围", dataIndex: "ext", width: 300, elCls: "center"},
+//            {title: "类型", dataIndex: "type", width: 50, elCls: "center", renderer: function (value, obj) {
+//                return value == 1? "限制": "不限"
+//            }},
+            {title: "礼包库存", dataIndex: "stock", width: 150, elCls: "center"},
+            {title: "开启时间", dataIndex: "start", width: 150, elCls: "center"},
+            {title: "结束时间", dataIndex: "end", width: 150, elCls: "center"},
+            {title: "操作", dataIndex: "opt", width: 70, elCls: "center"}
+        ],
+        store = Search.createStore('{:U("Gift/index")}', {
+            proxy: {
+                save: {},
+                method: "POST"
+            },
+            autoSync: true //保存数据后，自动更新
+        }),
+        gridCfg = Search.createGridCfg(columns, {
+            tbar: {
+                items: [
+                    {text: "<i class='icon-plus'></i>新增礼包", btnCls: "button button-small opt-btn", handler: addFunction}
+                ]
+            },
+            plugins: [BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        }),
+        search = new Search({
+            store: store,
+            gridCfg: gridCfg
+        }),
+        grid = search.get("grid");
+        function addFunction() {
+            $(".bui-dialog:not(.bui-message)").remove();
+            $(".mark").show();
+            $(".spinner").show();
+            $.get('{:U("Gift/giftAdd")}', "", function(ret){
+                $("#content").html(ret.Html).show();
+                $(".mark").hide();
+                $(".spinner").hide();
+            });
+        }
+    });
+</script>
+<include file="Public/loading" />
+</body>
+</html>

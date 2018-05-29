@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+        <title>
+            广告商账号列表
+        </title>
+        <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+        <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+        <script src="__JS__/bootstrap/jquery.min.js">
+        </script>
+        <script src="__JS__/bootstrap/bootstrap.min.js">
+        </script>
+        <script src="__JS__/bootstrap/bootstrap-select.js">
+        </script>
+        <script src="__JS__/jquery.combo.select.js" type="text/javascript">
+        </script>
+        <script src="__JS__/bui.js" type="text/javascript">
+        </script>
+        <script src="__JS__/config.js" type="text/javascript">
+        </script>
+    </head>
+    <literal>
+        <style>
+            tfoot .bui-grid-cell-text{text-align: center;}
+  .btn-default {height:25px;}
+  .filter-option {margin-top: -4px;}
+  .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+        </style>
+    </literal>
+ <body>
+  <!-- 搜索区 -->
+  <div class="container">
+    <div class="row">
+      <form id="searchForm" class="form-horizontal span48">
+        <input type="hidden" value="advteruser" name="table">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">广告商ID：</label>
+            <div class="controls">
+              <input type="text" class="control-text" name="company_id">
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">广告商名称：</label>
+            <div class="controls">
+              <input type="text" class="control-text" name="company_name">
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">广告商账号：</label>
+            <div class="controls">
+              <input type="text" class="control-text" name="name">
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <select name="principal_id">
+              <option value="">--全部--</option>
+              <volist name="aprincipals" id="val">
+                <option value="{$val.id}" >{$val.principal_name}</option>
+              </volist>
+            </select>
+          </div>
+
+          <div class="control-group span8">
+            <div class="controls">
+              <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="search-grid-container">
+      <div id="grid"></div>
+    </div>
+
+  </div>
+
+  <!-- 弹窗 -->
+  <div id="content" class="hide">
+     
+  </div>
+
+  <script type="text/javascript">
+    BUI.use('common/page');
+  </script>
+
+<script type="text/javascript">
+  function set_status(status,id,obj,type){
+    if(status == 0){
+      //关闭
+      $.post("{:U('Advter/edit')}",{status:1,id:id,table:'admin'},function(ret){
+        if(ret.status == 1){
+          $(obj).attr({src:'__IMG__/toggle_disabled.gif',onclick:'set_status(1,'+id+',this)'});
+        }else{
+          alert(ret.info);
+          return false;
+        }
+      });
+    }else if(status == 1){
+      //开启
+      $.post("{:U('Advter/edit')}",{status:0,id:id,table:'admin'},function(ret){
+        if(ret.status == 1){
+          $(obj).attr({src:'__IMG__/toggle_enabled.gif',onclick:'set_status(0,'+id+',this)'});
+        }else{
+          alert(ret.info);
+          return false;
+        }
+      });
+    }
+    
+  }
+
+
+  //编辑
+  function advterCompanyEdit(id,obj){
+    $('.bui-dialog').remove();
+    $('.mark').show();
+    $('.spinner').show();
+    if(!id) return false;
+    $.get("{:U('Advter/edit')}",{table:'advter_company_user',id:id,tpl:'advterCompanyEdit'},function(ret){
+      $('#content').html(ret._html);
+      $('#content').show();
+      $('.mark').hide();
+      $('.spinner').hide();
+    });
+  }
+
+  BUI.use('common/search',function (Search) {
+    
+    // var enumObj = {"1":"禁用","0":"正常"},
+      editing = new BUI.Grid.Plugins.DialogEditing({
+        contentId : 'content', //设置隐藏的Dialog内容
+        autoSave : true, //添加数据或者修改数据时，自动保存
+        triggerCls : 'btn-edit'
+      }),
+      columns = [
+          {title:'ID',dataIndex:'id',width:100,elCls:'center'},
+          {title:'后台用户ID',dataIndex:'admin_id',width:100,elCls:'center'},
+          {title:'用户名称',dataIndex:'name',width:100,elCls:'center'},
+          {title:'所属广告商',dataIndex:'company_name',width:180,elCls:'center'},
+          {title:'负责人',dataIndex:'principal_name',width:100,elCls:'center'},
+          {title:'邮箱',dataIndex:'email',width:100,elCls:'center'},
+          // {title:'权限',dataIndex:'powers',width:100,elCls:'center'},
+          {title:'状态',dataIndex:'status',width:100,elCls:'center',renderer : function (value,obj) {
+              if(value == 0){
+                //正常
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn" onclick="set_status('+value+','+obj.admin_id+',this)" data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_enabled.gif">';
+              }else if(value == 1){
+                //禁止
+                return '<img data-tdtype="toggle" data-field="status" class="status_btn" onclick="set_status('+value+','+obj.admin_id+',this)" data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_disabled.gif">';
+              }
+            }
+          },
+          {title:'创建时间',dataIndex:'create_time',width:200,elCls:'center'},
+          {title:'操作',dataIndex:'opt',width:300,elCls:'center'}
+        ],
+      store = Search.createStore('{:U("Advter/advterCompanyList")}',{
+        proxy : {
+          save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+          },
+          method : 'POST'
+        },
+        autoSync : true //保存数据后，自动更新
+      }),
+      gridCfg = Search.createGridCfg(columns,{
+        tbar : {
+          items : [
+            {text : '<i class="icon-plus"></i>新增广告商账号',btnCls : 'button button-small opt-btn',handler:addFunction}
+          ]
+        },
+        plugins : [editing,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+      });
+
+    var  search = new Search({
+        store : store,
+        gridCfg : gridCfg
+      }),
+      grid = search.get('grid');
+
+    function addFunction(){
+      /*var newData = {isNew : true}; //标志是新增加的记录
+      editing.add(newData,'name'); //添加记录后，直接编辑*/
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("Advter/add")}',{table:'advter_company_user',tpl:'advterCompanyAdd'},function(ret){
+        $('#content').html(ret._html);
+        $('#content').show();
+        $('.mark').hide();
+        $('.spinner').hide();
+      });
+    }
+
+    //删除操作
+    function delFunction(){
+      var selections = grid.getSelection();
+      delItems(selections);
+    }
+
+    function delItems(items){
+      var ids = [];
+      BUI.each(items,function(item){
+        ids.push(item.id);
+      });
+
+      if(ids.length){
+        BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+          store.save('remove',{ids : ids});
+        },'question');
+      }
+    }
+
+    //监听事件，删除一条记录
+    grid.on('cellclick',function(ev){
+      var sender = $(ev.domTarget); //点击的Dom
+      if(sender.hasClass('btn-del')){
+        var record = ev.record;
+        delItems([record]);
+      }
+    });
+  });
+</script>
+<include file="Public/loading" />
+<body>
+</html>  

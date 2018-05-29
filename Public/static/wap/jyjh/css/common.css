@@ -1,0 +1,271 @@
+/*!css_module/reset/reset.css*/
+/* reset */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%;}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:bold;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+body,textarea,input,button,select,keygen,legend{font:12px/1.14 arial,\5b8b\4f53;color:#333;outline:0;}
+body{background:#fff; font-family: "Microsoft YaHei";text-align:center;width:100%;position: relative;}
+a,a:hover{color:#333;} 
+
+/*!css_module/global/global.css*/
+/* function */
+
+/* 图片预加载处理 */
+body:after{
+    content:"";
+    background: url("../images/jy-surround-img1.png") no-repeat -1000px -1000px,url("../images/jy-surround-img2.png") no-repeat -1000px -1000px,url("../images/jy-surround-img3.png") no-repeat -1000px -1000px,url("../images/jy-surround-img4.png") no-repeat -1000px -1000px,url("../images/jy-sprog-img1.png") no-repeat -1000px -1000px,url("../images/jy-sprog-color-img2.png") no-repeat -1000px -1000px,url("../images/jy-sprog-color-img3.png") no-repeat -1000px -1000px,url("../images/jy-arrow-icon2.png") no-repeat -1000px -1000px,url("../images/jy-arrow-icon3.png") no-repeat -1000px -1000px,url("../images/jy-arrow-icon4.png") no-repeat -1000px -1000px;
+}
+
+.db {
+	display: block;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.jy-none {
+	display: none;
+}
+.jy-re {
+	position: relative;
+}
+.jy-ab{
+	position: absolute;
+}
+
+/* 头部样式 header start */
+.jy-mian {
+	background: #f6f6f6;
+}
+.jy-setting {
+	/* background: url('../images/header1.png') no-repeat center top; */
+	width: 100%;height: 100%;
+}
+.jy-centent {
+	width: 1200px;
+	margin: auto;
+}
+.jy-topdiv {
+	width: 1200px;
+	margin: auto;
+	height: 830px;
+	position: relative;
+	/* background: url(../images/header.png) no-repeat center; */
+}
+.jy-topdiv .jy-logo {
+	width: 170px;
+	height: 140px;
+	background-size: 170px 140px; 
+	position: absolute;
+    left: 30px;
+}
+.jy-topdiv .jy-nav {
+	float: right;
+}
+.jy-topdiv .jy-nav ul li {
+	width: 175px;
+	height: 110px;
+	float: left;
+	line-height: 1.5;
+	position: relative;
+}
+.jy-topdiv .jy-nav ul li i {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url('../images/jy-nopitch.png') no-repeat center;
+	background-size: 16px 16px;
+	position: absolute;
+    left: 5px;
+    top: 40px;
+}
+.jy-topdiv .jy-nav ul li i.pitHover{
+	transition:transform 0.5s;
+	-moz-transition:-moz-transform 0.5s;
+	transform:rotate(180deg);
+	-ms-transform:rotate(180deg); 
+	-webkit-transition:-webkit-transform 0.5s;
+	-o-transition:-webkit-transform 0.5s;
+	-moz-transform:rotate(180deg); 
+	-webkit-transform:rotate(180deg); 
+	-o-transform:rotate(180deg);
+}
+.jy-topdiv .jy-nav ul li i.jy-pitch-color {
+	background: url('../images/jy-pitch.png') no-repeat center;
+}
+.jy-nav-zh {
+	font-size: 24px;
+	font-weight: 600;
+    letter-spacing: 1px;
+    font-family: SimSun;
+    margin-top: 30px;
+}
+.jy-nav-en {
+	font-size: 12px;
+	letter-spacing: 1px;
+}
+/* header end */
+
+/* 底部样式floot start*/
+.jy-floot {
+	width: 100%;
+	height: 220px;
+	background: #2e2e2e;
+}
+.jy-floot-background {
+	width: 100%;
+	background: #dedede;
+	height: 48px;
+}
+.jy-prompt {
+	background: #dedede;
+	width: 1200px;
+	margin: auto;
+	height: 48px;
+	line-height: 48px;
+	font-size: 16px;
+	color: #666666;
+}
+.jy-prompt i {
+	display: inline-block;
+	width: 118px;
+	height: 29px;
+	background: url('../images/jy-cy-logo.png') no-repeat center;
+	background-size: 100% 100%; 
+	position: relative;
+	top: 8.5px;
+	left: -30px;
+}
+.jy-prompt div {
+	display: inline-block;
+}
+.jy-suggest-background {
+	width: 100%;
+}
+.jy-suggest {
+	width: 1200px;
+	margin: auto;
+	padding: 24px 0 44px 0;
+	background: #2e2e2e;
+}
+.jy-suggest p {
+	color: #aeaeae;
+	font-size: 14px;
+	line-height: 1.5;
+}
+.jy-welfare-div {
+	position: absolute;
+	z-index: 5;
+	width: 629px;
+	height: 665px;
+	border: 4px solid #278172;
+	top: 10%;
+	border-radius: 10px;
+	background: #fff;
+}
+.jy-welfare-close  {
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	background: url('../images/jy-welfare-close.png') no-repeat center;
+	background-size: 25px 25px;
+	position: absolute;
+    top: 16px;
+    right: 16px; 
+	z-index: 5;
+}
+.jy-welfare-clone {
+	width: 345px;
+    background: url('../images/jy-welfare-clone.png') no-repeat center;
+    background-size: 345px 20px; 
+    height: 20px;
+    margin: 41px auto 0;
+}
+.jy-welfare-title {
+	font-size: 42px;
+	color: #2cd2b1;
+	font-weight: 600;
+	position: relative;
+	top:-33.5px;
+}
+.jy-welfare-div p {
+	font-size: 18px;
+	color: #292929;
+	text-align: left;
+	padding: 0 35px;
+	line-height: 1.8;
+}
+.jy-welfare-ul {
+	width: 470px;
+	margin: 50px auto 0;
+}
+.jy-welfare-ul ul li {
+	width: 70px;
+	float: left;
+	margin: 0 20px;
+}
+.jy-welfare-pic {
+	width: 70px;
+	height: 70px;
+}
+.jy-welfare-img1 {
+	background: url('../images/jy-welfare-img1.png') no-repeat center;
+	background-size: 70px 70px; 
+}
+.jy-welfare-img2 {
+	background: url('../images/jy-welfare-img2.png') no-repeat center;
+	background-size: 70px 70px; 
+}
+.jy-welfare-img3 {
+	background: url('../images/jy-welfare-img3.png') no-repeat center;
+	background-size: 70px 70px; 
+}
+.jy-welfare-img4 {
+	background: url('../images/jy-welfare-img4.png') no-repeat center;
+	background-size: 70px 70px; 
+}
+.jy-welfare-size {
+	font-size: 14px;
+	color: #020202;
+	margin-top: 14px;
+}
+.jy-welfare-code {
+	width: 148px;
+	height: 148px;
+	display: inline-block;
+	background: url('../images/jy-code-WX-pic.png') no-repeat center;
+	background-size: 148px 148px; 
+	margin-top: 62px;
+}
+.jy-welfare-note {
+	font-size: 18px;
+	color: #58d8bd;
+	margin-top: 15px;
+}
+.jy-shade {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 4;
+	opacity: .8;
+	background: #000;
+}
+/* floot end */

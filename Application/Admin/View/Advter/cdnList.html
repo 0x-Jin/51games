@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CDN域名列表</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+  <script type="text/javascript" src="__JS__/bui.js"></script>
+  <script type="text/javascript" src="__JS__/config.js"></script>
+</head>
+ <body>
+  <!-- 搜索区 -->
+  <div class="container">
+    <div class="row">
+      <form id="searchForm" class="form-horizontal span48">
+        <input type="hidden" name="table" value="{:I('table')}" />
+        <div class="row">
+
+          <div class="control-group span8">
+            <label class="control-label">域名：</label>
+            <div class="controls">
+              <input type="text" class="control-text" name="domain">
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <div class="controls">
+              <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="search-grid-container">
+      <div id="grid"></div>
+    </div>
+
+  </div>
+
+  <!-- 弹窗 -->
+  <div id="content" class="hide">
+     
+  </div>
+
+  <script type="text/javascript">
+    BUI.use('common/page');
+  </script>
+
+<script type="text/javascript">
+
+  //编辑
+  function cdnEdit(id){
+    $('.bui-dialog').remove();
+    $('.mark').show();
+    $('.spinner').show();   
+    if(!id) return false;
+    $.get("{:U('Advter/edit')}",{tpl:'cdnEdit',id:id,table:"{:I('table')}"},function(ret){
+      $('#content').html(ret._html);
+      $('#content').show();
+      $('.mark').hide();
+      $('.spinner').hide();       
+    });
+  }
+
+  BUI.use('common/search',function (Search) {
+    
+    // var enumObj = {"1":"禁用","0":"正常"},
+      editing = new BUI.Grid.Plugins.DialogEditing({
+        contentId : 'content', //设置隐藏的Dialog内容
+        autoSave : true, //添加数据或者修改数据时，自动保存
+        triggerCls : 'btn-edit'
+      }),
+      columns = [
+          {title:'域名ID',dataIndex:'id',width:100,elCls:'center'},
+          {title:'域名',dataIndex:'domain',width:300,elCls:'center'},
+          {title:'服务器',dataIndex:'type',width:150,elCls:'center'},
+          {title:'状态',dataIndex:'status',width:150,elCls:'center'},
+          {title:'操作',dataIndex:'opt',width:100,elCls:'center'}
+        ],
+      store = Search.createStore('{:U("Advter/cdnList")}',{
+        proxy : {
+          save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+          },
+          method : 'POST'
+        },
+        autoSync : true //保存数据后，自动更新
+      }),
+      gridCfg = Search.createGridCfg(columns,{
+        tbar : {
+          items : [
+            {text : '<i class="icon-plus"></i>新增域名',btnCls : 'button button-small opt-btn',handler:addFunction}
+          ]
+        },
+        plugins : [editing,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+      });
+
+    var  search = new Search({
+        store : store,
+        gridCfg : gridCfg
+      }),
+      grid = search.get('grid');
+
+    function addFunction(){
+      /*var newData = {isNew : true}; //标志是新增加的记录
+      editing.add(newData,'name'); //添加记录后，直接编辑*/
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("Advter/add")}',{tpl:'cdnAdd',table:"{:I('table')}"},function(ret){
+        $('#content').html(ret._html);
+        $('#content').show();
+        $('.mark').hide();
+        $('.spinner').hide();
+      });
+    }
+
+    //删除操作
+    function delFunction(){
+      var selections = grid.getSelection();
+      delItems(selections);
+    }
+
+    function delItems(items){
+      var ids = [];
+      BUI.each(items,function(item){
+        ids.push(item.id);
+      });
+
+      if(ids.length){
+        BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+          store.save('remove',{ids : ids});
+        },'question');
+      }
+    }
+
+    //监听事件，删除一条记录
+    grid.on('cellclick',function(ev){
+      var sender = $(ev.domTarget); //点击的Dom
+      if(sender.hasClass('btn-del')){
+        var record = ev.record;
+        delItems([record]);
+      }
+    });
+  });
+</script>
+<include file="Public/loading" />
+
+<body>
+</html>  

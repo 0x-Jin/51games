@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>渠道号列表</title>
+    <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+    <script type="text/javascript" src="__JS__/bootstrap/jquery.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__JS__/bootstrap/bootstrap-select.js"></script>
+</head>
+<literal>
+    <style>
+        tfoot .bui-grid-cell-text{text-align: center;}
+        .btn-default {height:25px;}
+        .filter-option {margin-top: -4px;}
+        .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+    </style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">包编号：</label>
+                    <div class="controls">
+                        <input name="agent" type="text" class="input-normal control-text">
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button type="button" id="btnSearch" class="button button-primary">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+</div>
+<!-- 弹窗 -->
+<div id="content" class="hide">
+</div>
+<script type="text/javascript">
+    //修改状态
+    function set_status (status, id, obj) {
+        var str = "", tip = "";
+        if (status == 1) {
+            str = "enabled";
+            tip = "开启";
+        } else {
+            str = "disabled";
+            tip = "关闭";
+        }
+        BUI.Message.Confirm("是否确认"+tip+"？", function() {
+            var _status = 1 - status, data = {id: id, status: _status, change: 1};
+            $.post ('{:U("Advter/paramEdit")}', data, function (ret) {
+                if (ret.Result == 1) {
+                    $(obj).attr({src:"__IMG__/toggle_"+str+".gif", onclick:"set_status("+_status+","+id+",this)"});
+                    BUI.Message.Alert(tip+"成功！", "success");
+                } else {
+                    BUI.Message.Alert(ret.Msg, "error");
+                }
+            });
+        }, "question");
+    }
+
+    //编辑
+    function paramEdit (id) {
+        $(".bui-dialog:not(.bui-message)").remove();
+        $(".mark").show();
+        $(".spinner").show();
+        $.get("{:U('Advter/paramEdit')}", {id: id}, function (ret) {
+            if (ret.Result) {
+                $("#content").html(ret.Html).show();
+                $(".mark").hide();
+                $(".spinner").hide();
+            } else {
+                BUI.Message.Alert(ret.Msg, "error");
+            }
+        });
+    }
+
+    BUI.use("common/search", function (Search) {
+        var columns = [
+            {title: "ID", dataIndex: "id", width: 50, elCls: "center"},
+            {title: "包编号", dataIndex: "agent", width: 120, elCls: "center"},
+            {title: "包名称", dataIndex: "agentName", width: 280, elCls: "center"},
+            {title: "广告商", dataIndex: "advteruserName", width: 80, elCls: "center"},
+            {title: "状态", dataIndex: "status", width: 60, elCls: "center", renderer: function (value, obj) {
+                if (value == 0) {
+                    //正常
+                    return '<img data-tdtype="toggle" data-field="status" class="status_btn" onclick=set_status('+value+','+obj.id+',this) data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_enabled.gif">';
+                } else if(value == 1) {
+                    //禁止
+                    return '<img data-tdtype="toggle" data-field="status" class="status_btn" onclick=set_status('+value+','+obj.id+',this) data_status='+value+' data_id='+obj.id+' src="__IMG__/toggle_disabled.gif">';
+                }
+            }},
+            {title: "创建时间", dataIndex: "createTime", width: 130, elCls: "center",/*renderer:BUI.Grid.Format.enumRenderer(enumObj),*/renderer: function (value, obj) {
+                return formatDate(value);
+            }},
+            {title: "操作", dataIndex: "opt", width: 100, elCls: "center",/*renderer:BUI.Grid.Format.enumRenderer(enumObj),*/renderer: function (value, obj) {
+                return "<a href='javascript:;' onclick='paramEdit(\""+obj.id+"\")'>编辑</a>";
+            }}
+        ],
+        store = Search.createStore('{:U("Advter/adverParam")}', {
+            proxy: {
+                save: { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+
+                },
+                method: "POST"
+            },
+            autoSync: true //保存数据后，自动更新
+        }),
+        gridCfg = Search.createGridCfg(columns, {
+            tbar: {
+                items: [
+                    {text: '<i class="icon-plus"></i>新增配置', btnCls: 'button button-small opt-btn', handler: addFunction}
+                ]
+            },
+            plugins: [BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        }),
+        search = new Search({
+            store: store,
+            gridCfg: gridCfg
+        }),
+        grid = search.get("grid");
+        function addFunction() {
+            $(".bui-dialog:not(.bui-message)").remove();
+            $(".mark").show();
+            $(".spinner").show();
+            $.get('{:U("Advter/paramAdd")}', "", function (ret) {
+                if (ret.Result) {
+                    $("#content").html(ret.Html).show();
+                    $(".mark").hide();
+                    $(".spinner").hide();
+                } else {
+                    BUI.Message.Alert(ret.Msg, "error");
+                }
+            });
+        }
+    });
+
+    //时间转换
+    function formatDate(time) {
+        var now = new Date(time*1000);
+        var year = now.getFullYear();
+        var month = now.getMonth()+1;
+        var date = now.getDate();
+        var hour = now.getHours();
+        var minute = now.getMinutes();
+        var second = now.getSeconds();
+        return year+"-"+(month<10?"0"+month:month)+"-"+(date<10?"0"+date:date)+" "+(hour<10?"0"+hour:hour)+":"+(minute<10?"0"+minute:minute)+":"+(second<10?"0"+second:second);
+    }
+</script>
+<include file="Public/loading" />
+</body>
+</html>

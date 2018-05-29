@@ -1,0 +1,59 @@
+<body>
+<style type="text/css">
+    input{buser-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Data/editMobile')}">
+        <input type="hidden" value="{$user.userCode}" name="userCode"/>
+        <input type="hidden" value="{$user.mobile}" name="oldMobile"/>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label" style="width: auto;">手机号码：</label>
+                <div class="controls">
+                    <input name="mobile" type="text" value="{$user.mobile}" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label" style="width: auto;">绑定状态：</label>
+                <div class="controls">
+                    <select name="mobileStatus">
+                        <option value="0" <if condition="$user.mobileStatus eq 0">selected</if> >绑定</option>
+                        <option value="1" <if condition="$user.mobileStatus eq 1">selected</if> >未绑定</option> 
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'手机号码绑定',
+            width:380,
+            height:150,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+            <meta content="zh-cn" http-equiv="Content-Language">
+                <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+                    <meta content="webkit" name="renderer">
+                        <title>
+                            龙之影_礼包列表
+                        </title>
+                            <link href="css/jquery.bxslider.css" rel="stylesheet" type="text/css" />
+                            <link href="css/home.css" rel="stylesheet" type="text/css"/>
+                            <script src="js/ajax1.js" type="text/javascript">
+                            </script>
+                            <script src="js/fast_register.js" type="text/javascript">
+                            </script>
+                            <!--[if lte IE 6]>
+                            <script type="text/javascript" src="js/iepng.js"></script>
+                            <script type="text/javascript"> 
+                               //png透明图
+                               EvPNG.fix('div, ul, h1, h3, img, li, input, a, p, li, span');
+                            </script>
+                            <![endif]-->
+                        </link>
+                    </meta>
+                </meta>
+            </meta>
+        </meta>
+    </head>
+    <body>
+        <div class="container">
+            <div class="nei-wrapdiv01">
+                <div class="nei-wrapdiv02">
+                    <div class="nei-wrapdiv pr">
+                        <div class="nei-list-topdiv01 pr">
+                            <div class="nav-top pr">
+                                <a class="hlblogo_a db pa" href="#">
+                                </a>
+                                <ul class="sy_topmenu_ul">
+                                    <li>
+                                        <a class="sy_topmenu_a db" href="index.html">
+                                            首页
+                                        </a>
+                                    </li>
+                                    <li style="margin-right:265px">
+                                        <a class="sy_topmenu_a menu_cur db" href="lb_list.html">
+                                            游戏礼包
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="sy_topmenu_a db" href="xz_list.html">
+                                            下载游戏
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="sy_topmenu_a db" href="#" target="_blank">
+                                            官方论坛
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sy-xz-wrap pa" style="top:498px;">
+                                <a class="sy-ios-a db" href="#">
+                                </a>
+                                <a class="sy-android-a db" href="#">
+                                </a>
+                                <a class="sy-reg-a db pa" href="javascript:;" onclick="$popup('#regpop','.up_close01');">
+                                </a>
+                            </div>
+                            <div class="sytop_tips pa">
+                                <a href="#">
+                                    新服推荐：火爆新服【公测15服 灵魂宝石】
+                                </a>
+                            </div>
+                        </div>
+                        <div class="nei-list-topdiv02">
+                            <div class="nei-wrapdiv-l fl">
+                                <div class="nei-gonggao-top">
+                                    <h2 class="nei-gg-head pr">
+                                        游戏礼包
+                                    </h2>
+                                </div>
+                                <ul class="nei-lb-ul pr">
+                                    <li>
+                                        <div class="lblist_l fl">
+                                            <h4 class="lbhead_h4">
+                                                《龙之影》劳动节礼包
+                                            </h4>
+                                            <p class="lblist_p">
+                                                剩余：10000   价格：
+                                                <span>
+                                                    5积分
+                                                </span>
+                                            </p>
+                                            <p class="lblist_p">
+                                                2倍经验符*000、强化石*000、绑定元宝卡*000
+                                            </p>
+                                        </div>
+                                        <a class="lbdhbtn_a db fr" href="javascript:;">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="lblist_l fl">
+                                            <h4 class="lbhead_h4">
+                                                《龙之影》劳动节礼包
+                                            </h4>
+                                            <p class="lblist_p">
+                                                剩余：10000   价格：
+                                                <span>
+                                                    5积分
+                                                </span>
+                                            </p>
+                                            <p class="lblist_p">
+                                                2倍经验符*000、强化石*000、绑定元宝卡*000
+                                            </p>
+                                        </div>
+                                        <a class="lbdhbtn_a db fr" href="javascript:;">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="lblist_l fl">
+                                            <h4 class="lbhead_h4">
+                                                《龙之影》劳动节礼包
+                                            </h4>
+                                            <p class="lblist_p">
+                                                剩余：10000   价格：
+                                                <span>
+                                                    5积分
+                                                </span>
+                                            </p>
+                                            <p class="lblist_p">
+                                                2倍经验符*000、强化石*000、绑定元宝卡*000
+                                            </p>
+                                        </div>
+                                        <a class="lbdhbtn_a db fr" href="javascript:;">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="lblist_l fl">
+                                            <h4 class="lbhead_h4">
+                                                《龙之影》劳动节礼包
+                                            </h4>
+                                            <p class="lblist_p">
+                                                剩余：10000   价格：
+                                                <span>
+                                                    5积分
+                                                </span>
+                                            </p>
+                                            <p class="lblist_p">
+                                                2倍经验符*000、强化石*000、绑定元宝卡*000
+                                            </p>
+                                        </div>
+                                        <a class="lbdhbtn_a db fr" href="javascript:;">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="lblist_l fl">
+                                            <h4 class="lbhead_h4">
+                                                《龙之影》劳动节礼包
+                                            </h4>
+                                            <p class="lblist_p">
+                                                剩余：10000   价格：
+                                                <span>
+                                                    5积分
+                                                </span>
+                                            </p>
+                                            <p class="lblist_p">
+                                                2倍经验符*000、强化石*000、绑定元宝卡*000
+                                            </p>
+                                        </div>
+                                        <a class="lbdhbtn_a db fr" href="javascript:;">
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!--页码开始-->
+                                <div id="pageNum">
+                                    <a class="sp" href="javascript:void(0);">
+                                        1/10
+                                    </a>
+                                    <a class="sp" href="#">
+                                        首页
+                                    </a>
+                                    <a class="sp2 sp3" href="#">
+                                        1
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        2
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        3
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        4
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        5
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        6
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        7
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        8
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        9
+                                    </a>
+                                    <a class="sp2" href="#">
+                                        10
+                                    </a>
+                                    <a class="sp" href="#">
+                                        末页
+                                    </a>
+                                    <div class="clear">
+                                    </div>
+                                </div>
+                                <!--页码结束-->
+                            </div>
+                            <div class="nei-wrapdiv-r fr">
+                                <div class="nei-r-top">
+                                    <h2 class="nei-r-top-name">
+                                        龙之影
+                                    </h2>
+                                    <p class="nei-r-top-des">
+                                        角色扮演  |  168M
+                                    </p>
+                                </div>
+                                <p class="nei-r-top-des01">
+                                    端游体验，真3D盛宴；次时代超高清画质，360度视觉冲击，呈上一席3D盛宴！相约那鲁亚王城，天使显，圣战出，风云起！
+                                </p>
+                                <div class="nei-r-server">
+                                    <div class="nei-ser-l fl">
+                                        <h2 class="nei-ser-top">
+                                            ios开服
+                                        </h2>
+                                        <ul class="nei-ser-ul">
+                                            <li>
+                                                <a href="#">
+                                                    公测15服  魔云漫天
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    公测15服  魔云漫天
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="nei-ser-r fr">
+                                        <h2 class="nei-ser-top">
+                                            Android开服
+                                        </h2>
+                                        <ul class="nei-ser-ul">
+                                            <li>
+                                                <a href="#">
+                                                    公测15服  魔云漫天
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    公测15服  魔云漫天
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="nei-gonggao-top">
+                                    <h2 class="nei-gg-head pr">
+                                        最新公告
+                                        <a class="nei_gg_more db pa" href="#">
+                                            更多>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <h2 class="nei-gg-title">
+                                    【龙之影】“公测返点”活动说明
+                                </h2>
+                                <div class="nei-gg-con">
+                                    活动时间:2017-03-1310:00:00至2017-03-2014:55:00
+                                    <br>
+                                        活动时间：删档付费测试期间
+                                        <br>
+                                            活动规则：
+                                            <br>
+                                                1.活动期间游戏内充值玩家在游戏正式公测后，可以在游戏内领取测试充值钻石+公测返利钻石；
+                                                <br>
+                                                    2.返利钻石额度200%（例：测试充值1000钻石，公测领取2000钻石）
+                                                    <br>
+                                                        3.“公测返点”活动钻石不计算VIP经验（例：测试充值1000钻石，公测领取2000钻石，VIP经验0）
+                                                    </br>
+                                                </br>
+                                            </br>
+                                        </br>
+                                    </br>
+                                </div>
+                                <div class="nei-gonggao-top">
+                                    <h2 class="nei-gg-head pr">
+                                        游戏礼包
+                                        <a class="nei_gg_more db pa" href="lb_list.html">
+                                            更多>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <ul class="nei-yxlb-ul">
+                                    <li>
+                                        <div class="nei-yxlb-l">
+                                            <p class="nei-yxlb-name">
+                                                【龙之影】  钻石礼包
+                                            </p>
+                                            <p class="nei-yxlb-des">
+                                                礼包内容：绑金3W，初级升星石；10个
+                                            </p>
+                                        </div>
+                                        <a class="linqu_a db pa" href="#">
+                                            领取
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="nei-yxlb-l">
+                                            <p class="nei-yxlb-name">
+                                                【龙之影】  钻石礼包
+                                            </p>
+                                            <p class="nei-yxlb-des">
+                                                礼包内容：绑金3W，初级升星石；10个
+                                            </p>
+                                        </div>
+                                        <a class="linqu_a db pa" href="#">
+                                            领取
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="nei-yxlb-l">
+                                            <p class="nei-yxlb-name">
+                                                【龙之影】  钻石礼包
+                                            </p>
+                                            <p class="nei-yxlb-des">
+                                                礼包内容：绑金3W，初级升星石；10个
+                                            </p>
+                                        </div>
+                                        <a class="linqu_a db pa" href="#">
+                                            领取
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="nei-yxlb-l">
+                                            <p class="nei-yxlb-name">
+                                                【龙之影】  钻石礼包
+                                            </p>
+                                            <p class="nei-yxlb-des">
+                                                礼包内容：绑金3W，初级升星石；10个
+                                            </p>
+                                        </div>
+                                        <a class="linqu_a db pa" href="#">
+                                            领取
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="nei-yxlb-l">
+                                            <p class="nei-yxlb-name">
+                                                【龙之影】  钻石礼包
+                                            </p>
+                                            <p class="nei-yxlb-des">
+                                                礼包内容：绑金3W，初级升星石；10个
+                                            </p>
+                                        </div>
+                                        <a class="linqu_a db pa" href="#">
+                                            领取
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--right侧边栏开始-->
+        <div class="side-nav-right" id="side_right" style="_top:650px;">
+            <div class="r-side-nei pr">
+                <a class="rightside_close db pa" href="javascript:;">
+                </a>
+                <a class="sinawb_btn db pa" href="javascript:;">
+                </a>
+                <a class="txwb_btn db pa" href="javascript:;">
+                </a>
+            </div>
+        </div>
+        <div class="side-nav-right-x dn" id="side_right_xiao">
+        </div>
+        <!--right侧边栏end-->
+        <!--视频弹出框start-->
+        <div class="rule_up" id="sppop">
+            <p class="up_close">
+            </p>
+            <div class="up_content">
+                <object class="" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" height="449" id="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="802">
+                    <param name="movie" value="flvplayer.swf">
+                        <param name="quality" value="high">
+                            <param name="allowFullScreen" value="true">
+                                <param name="FlashVars" value="vcastr_file=images/hlb.flv&BufferTime=3&IsAutoPlay=1">
+                                    <embed allowfullscreen="true" flashvars="vcastr_file=images/hlb.flv&IsAutoPlay=1" height="449" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="flvplayer.swf" type="application/x-shockwave-flash" width="802">
+                                    </embed>
+                                </param>
+                            </param>
+                        </param>
+                    </param>
+                </object>
+            </div>
+        </div>
+        <!--视频弹出框end-->
+        <!--壁纸弹出框start-->
+        <div class="rule_up" id="bzpop">
+            <p class="up_close">
+            </p>
+            <div class="up_content">
+                <img height="449" src="images/bzpic01.jpg" width="802"/>
+            </div>
+        </div>
+        <!--壁纸弹出框end-->
+        <!--注册弹出框start-->
+        <div class="rule_up" id="regpop">
+            <p class="up_close01">
+            </p>
+            <div class="up_content01">
+                <div class="syreg-nei pr">
+                    <form action="" method="">
+                        <!--登录前start-->
+                        <div class="reg_wrap01">
+                            <!--手机号注册start-->
+                            <div class="sy_regdiv01 pa reg_mobile">
+                                <div class="sy_regtiao">
+                                    <input class="sjh_input db" placeholder="请输入您的手机号码" style="width:276px;" type="text" value=""/>
+                                </div>
+                                <div class="sy_regtiao sy_yzmwrap">
+                                    <div class="sy_regtiao fl" style="width:200px; margin-bottom:0;">
+                                        <input class="yzm_input db" placeholder="验证码" type="text" value=""/>
+                                    </div>
+                                    <a class="yzmbtn_a db fr" href="#">
+                                        验证
+                                    </a>
+                                </div>
+                                <div class="sy_regtiao sy_pwd">
+                                    <input class="pwd_input db" placeholder="账户密码" type="password" value=""/>
+                                </div>
+                            </div>
+                            <!--手机号注册end-->
+                            <!--49you帐号注册start-->
+                            <div class="sy_regdiv01 pa dn reg_49you">
+                                <div class="sy_regtiao">
+                                    <input class="you49_input db" placeholder="请输入您的四九账号" type="text" value=""/>
+                                </div>
+                                <div class="sy_regtiao sy_pwd">
+                                    <input class="pwd_input db" placeholder="账户密码" type="password" value=""/>
+                                </div>
+                            </div>
+                            <!--49you帐号注册end-->
+                            <a class="you_49_a db pa" href="javascript:;">
+                            </a>
+                            <!--a href="#" class="qqbtn_a db pa"></a>
+                    <a href="#" class="wxbtn_a db pa"></a-->
+                            <a class="loginbtn_a db pa" href="javascript:;">
+                                登录
+                            </a>
+                            <a class="regbtn_a db pa" href="#">
+                                注册
+                            </a>
+                        </div>
+                        <!--登录前end-->
+                        <!--登录后start-->
+                        <div class="reg_wrap02 dn">
+                            你好！
+                            <span class="reg_dlspan">
+                                guo5619866
+                            </span>
+                            <br>
+                                平台币：
+                                <span class="reg_dlspan">
+                                    0
+                                </span>
+                                <br>
+                                    赠宝：
+                                    <span class="reg_dlspan">
+                                        0
+                                    </span>
+                                    <br>
+                                        积分：
+                                        <span class="reg_dlspan">
+                                            0
+                                        </span>
+                                        <br>
+                                            <a class="index_tc" href="javascript:;">
+                                                退出
+                                            </a>
+                                        </br>
+                                    </br>
+                                </br>
+                            </br>
+                        </div>
+                        <!--登录后end-->
+                        <a class="iosbtn01_a db pa" href="#">
+                        </a>
+                        <a class="androidbtn_a db pa" href="#">
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--注册弹出框end-->
+        <script src="js/jquery1.8.3.js" type="text/javascript">
+        </script>
+        <script language="javascript">
+            $(document).ready(function(){
+    
+    /*视频壁纸tab切换
+    $('#splisttab-title span').hover(function(){
+        $(this).addClass("selected").siblings().removeClass();
+        $("#splisttab-content > div").hide().eq($('#splisttab-title span').index(this)).show();
+    });
+    
+    //视频壁纸mask
+    $('.splist_ul li').hover(function() { 
+        $(this).find('.spbzmask_span').hide(); 
+        $(this).find('.spimg_div').css('border-color','#ffd993');
+    }, function() { 
+        $(this).find('.spbzmask_span').show();
+        $(this).find('.spimg_div').css('border-color','#3f3d6a'); 
+    });*/
+    
+    /*右侧边收缩展开*/ 
+    $('#side_right_xiao').click(function(){
+        $('.side-nav-right-x').animate({
+            right: '-61'
+        },400);
+        $('.side-nav-right').animate({
+            right: '0',
+            opacity: 'show'
+        }, 800 );
+    });
+    $('.rightside_close').click(function(){
+        $('.side-nav-right-x').animate({
+            right: '0',
+            opacity: 'show'
+        },400);
+        $('.side-nav-right').animate({
+            right: '-201',
+            opacity: 'show'
+        }, 800 );
+    });
+    
+    $('.nei-ios-a').click(function(){
+        //console.log('111');
+        $('.r-xzmar01').show();
+        $('.r-xzmar02').hide();
+    });
+    $('.nei-android-a').click(function(){
+        $('.r-xzmar02').show();
+        $('.r-xzmar01').hide();
+    });
+    
+    /*弹出层手机注册和49账号注册切换*/    
+    $('.you_49_a').click(function(){
+        if($('.reg_mobile').css('display') == 'block')
+        {
+            $('.you_49_a').addClass('mobile_a');
+            $('.reg_mobile').hide();
+            $('.reg_49you').show();
+        }else{
+            $('.you_49_a').removeClass('mobile_a');
+            $('.reg_mobile').show();
+            $('.reg_49you').hide();
+        }
+    });
+    
+    //登录
+    $('.loginbtn_a').click(function(){
+        $('.reg_wrap01').hide();
+        $('.reg_wrap02').show();
+    });
+    
+    //退出
+    $('.index_tc').click(function(){
+        $('.reg_wrap02').hide();
+        $('.reg_wrap01').show();
+    });
+    
+});
+        </script>
+    </body>
+</html>

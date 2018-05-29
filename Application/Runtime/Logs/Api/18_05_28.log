@@ -1,0 +1,299 @@
+[ 2018-05-28T19:25:57+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:26:03+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:26:04+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:26:05+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:26:06+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:26:06+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:26:07+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:28:07+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0030s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0010s ]
+
+[ 2018-05-28T19:31:16+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0010s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2018-05-28T19:31:57+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0020s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0010s ]
+
+[ 2018-05-28T19:32:46+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:34:40+08:00 ] 192.168.1.9 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:34:58+08:00 ] 192.168.1.9 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:36:17+08:00 ] 192.168.1.9 /Api/Basic/AccountRegister
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T19:38:53+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0010s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2018-05-28T19:45:13+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0010s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2018-05-28T19:52:19+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0030s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2018-05-28T19:53:42+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0020s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2018-05-28T19:57:13+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0020s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2018-05-28T20:00:08+08:00 ] 192.168.1.254 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `lg_game` [ RunTime:0.0020s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT * FROM `lg_game` WHERE ( id = '112' ) LIMIT 1   [ RunTime:0.0010s ]
+
+[ 2018-05-28T20:10:19+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:20+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:20+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:21+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:22+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:22+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:23+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:40+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+
+[ 2018-05-28T20:10:40+08:00 ] 192.168.1.25 /Api/Basic/Init
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 70 行.
+NOTIC: [8] Undefined index: Gid E:\hadesTso\cmgc_180517\Application\Api\Controller\ApiController.class.php 第 77 行.
+

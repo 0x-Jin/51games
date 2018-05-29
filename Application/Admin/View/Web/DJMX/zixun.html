@@ -1,0 +1,379 @@
+                            {$header}
+
+                            <!-- <div class="sytop_tips pa">
+                                <a href="#">
+                                    新服推荐：火爆新服【公测15服 灵魂宝石】
+                                </a>
+                            </div> -->
+                        </div>
+                        <div class="nei-list-topdiv02">
+                            <div class="nei-wrapdiv-l fl">
+                                <div id="dttab-title">
+                                    <span class="selected">
+                                        最新
+                                    </span>
+                                    <span>
+                                        新闻
+                                    </span>
+                                    <span>
+                                        公告
+                                    </span>
+                                    <span>
+                                        活动
+                                    </span>
+                                    <span style="border-right:0;">
+                                        媒体
+                                    </span>
+                                </div>
+                                <div id="dttab-content">
+                                    <div>
+                                        <ul class="dtnews_ul">
+                                            <volist name="zuixin" id="vo">
+                                                <li>
+                                                    <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+                                                        <span class="news-type">
+                                                            最新
+                                                        </span>
+                                                        {$vo.title}
+                                                    </a>
+                                                    <span class="dttime_span">
+                                                        [{:date('m-d',$vo['createTime'])}]
+                                                    </span>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                        
+                                    </div>
+                                    <div class="hide">
+                                        <ul class="dtnews_ul">
+                                            <volist name="xinwen" id="vo">
+                                                <li>
+                                                    <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+                                                        <span class="news-type">
+                                                            新闻
+                                                        </span>
+                                                        {$vo.title}
+                                                    </a>
+                                                    <span class="dttime_span">
+                                                        [{:date('m-d',$vo['createTime'])}]
+                                                    </span>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                        
+                                    </div>
+                                    <div class="hide">
+                                        <ul class="dtnews_ul">
+                                            <volist name="gonggao" id="vo">
+                                                <li>
+                                                    <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+                                                        <span class="news-type">
+                                                            公告
+                                                        </span>
+                                                        {$vo.title}
+                                                    </a>
+                                                    <span class="dttime_span">
+                                                        [{:date('m-d',$vo['createTime'])}]
+                                                    </span>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                        
+                                    </div>
+                                    <div class="hide">
+                                        <ul class="dtnews_ul">
+                                            <volist name="huodong" id="vo">
+                                                <li>
+                                                    <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+                                                        <span class="news-type">
+                                                            活动
+                                                        </span>
+                                                        {$vo.title}
+                                                    </a>
+                                                    <span class="dttime_span">
+                                                        [{:date('m-d',$vo['createTime'])}]
+                                                    </span>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                        
+                                    </div>
+                                    <div class="hide">
+                                        <ul class="dtnews_ul">
+                                            <volist name="meiti" id="vo">
+                                                <li>
+                                                    <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+                                                        <span class="news-type">
+                                                            媒体
+                                                        </span>
+                                                        {$vo.title}
+                                                    </a>
+                                                    <span class="dttime_span">
+                                                        [{:date('m-d',$vo['createTime'])}]
+                                                    </span>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nei-wrapdiv-r fr">
+                                <div class="nei-r-top">
+                                    <h2 class="nei-r-top-name">
+                                        {$info.name}
+                                    </h2>
+                                    <p class="nei-r-top-des">
+                                        {$info.gameType}  |  {$info.gameSize}M
+                                    </p>
+                                </div>
+                                <p class="nei-r-top-des01">
+                                    {$info.remark}
+                                </p>
+                                <!--div class="nei-r-xiazai pr">
+                            <div class="r-xzmar01 pa"></div>
+                            <div class="r-xzmar02 pa dn"></div>
+                            <a href="javascript:;" class="nei-ios-a db"></a>
+                            <a href="javascript:;" class="nei-android-a db"></a>
+                        </div-->
+                                <div class="nei-r-server">
+                                    <div class="nei-ser-l fl">
+                                        <h2 class="nei-ser-top">
+                                            ios开服
+                                        </h2>
+                                        <ul class="nei-ser-ul" id="iosServers">
+                                            
+                                        </ul>
+                                    </div>
+
+                                    <div class="nei-ser-r fr">
+                                        <h2 class="nei-ser-top">
+                                            Android开服
+                                        </h2>
+                                        <ul class="nei-ser-ul" id="androidServers">
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="nei-gonggao-top">
+                                    <h2 class="nei-gg-head pr">
+                                        最新公告
+                                        <a class="nei_gg_more db pa" href="{$website}zixun">
+                                            更多>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <h2 class="nei-gg-title">
+                                    
+                                </h2>
+                                <div class="nei-gg-con">
+                                    
+                                </div>
+                                <!--<div class="nei-gonggao-top">
+                                    <h2 class="nei-gg-head pr">
+                                        游戏礼包
+                                        <a class="nei_gg_more db pa" href="lb_list.html">
+                                            更多>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <ul class="nei-yxlb-ul">
+                                     <li>
+                                        <div class="nei-yxlb-l">
+                                            <p class="nei-yxlb-name">
+                                                【龙之影】  钻石礼包
+                                            </p>
+                                            <p class="nei-yxlb-des">
+                                                礼包内容：绑金3W，初级升星石；10个
+                                            </p>
+                                        </div>
+                                        <a class="linqu_a db pa" href="#">
+                                            领取
+                                        </a>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--right侧边栏开始-->
+        <div class="side-nav-right" id="side_right" style="_top:650px;background: url({$img_url}{$info.concern}) no-repeat;">
+            <div class="r-side-nei pr">
+                <a class="rightside_close db pa" href="javascript:;">
+                </a>
+                <a class="sinawb_btn db pa" href="javascript:;">
+                </a>
+                <a class="txwb_btn db pa" href="javascript:;">
+                </a>
+            </div>
+        </div>
+        <div class="side-nav-right-x dn" id="side_right_xiao">
+        </div>
+        <!--注册弹出框start-->
+        <div class="rule_up" id="regpop">
+            <p class="up_close01">
+            </p>
+            <div class="up_content01">
+                <div class="syreg-nei pr">
+                    <form action="" method="">
+                        <!--登录前start-->
+                        <div class="reg_wrap01">
+                            <!--手机号注册start-->
+                            <div class="sy_regdiv01 pa reg_mobile">
+                                <div class="sy_regtiao">
+                                    <input class="sjh_input db" placeholder="请输入您的手机号码" style="width:276px;" type="text" value=""/>
+                                </div>
+                                <div class="sy_regtiao sy_yzmwrap">
+                                    <div class="sy_regtiao fl" style="width:200px; margin-bottom:0;">
+                                        <input class="yzm_input db" placeholder="验证码" type="text" value=""/>
+                                    </div>
+                                    <a class="yzmbtn_a db fr" href="#">
+                                        验证
+                                    </a>
+                                </div>
+                                <div class="sy_regtiao sy_pwd">
+                                    <input class="pwd_input db" placeholder="账户密码" type="password" value=""/>
+                                </div>
+                            </div>
+                            <!--手机号注册end-->
+                            <!--49you帐号注册start-->
+                            <div class="sy_regdiv01 pa dn reg_49you">
+                                <div class="sy_regtiao">
+                                    <input class="you49_input db" placeholder="请输入您的四九账号" type="text" value=""/>
+                                </div>
+                                <div class="sy_regtiao sy_pwd">
+                                    <input class="pwd_input db" placeholder="账户密码" type="password" value=""/>
+                                </div>
+                            </div>
+                            <!--49you帐号注册end-->
+                            <a class="you_49_a db pa" href="javascript:;">
+                            </a>
+                            <!--a href="#" class="qqbtn_a db pa"></a>
+                    <a href="#" class="wxbtn_a db pa"></a-->
+                            <a class="loginbtn_a db pa" href="javascript:;">
+                                登录
+                            </a>
+                            <a class="regbtn_a db pa" href="#">
+                                注册
+                            </a>
+                        </div>
+                        <!--登录前end-->
+                        <!--登录后start-->
+                        <div class="reg_wrap02 dn">
+                            你好！
+                            <span class="reg_dlspan">
+                                guo5619866
+                            </span>
+                            <br>
+                                平台币：
+                                <span class="reg_dlspan">
+                                    0
+                                </span>
+                                <br>
+                                    赠宝：
+                                    <span class="reg_dlspan">
+                                        0
+                                    </span>
+                                    <br>
+                                        积分：
+                                        <span class="reg_dlspan">
+                                            0
+                                        </span>
+                                        <br>
+                                            <a class="index_tc" href="javascript:;">
+                                                退出
+                                            </a>
+                                        </br>
+                                    </br>
+                                </br>
+                            </br>
+                        </div>
+                        <!--登录后end-->
+                        <a class="iosbtn01_a db pa" href="#">
+                        </a>
+                        <a class="androidbtn_a db pa" href="#">
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script language="javascript">
+            var cur_index= 0;
+            $(document).ready(function(){
+                //获取区服数据
+                var abbr    = '{$abbr}';
+                var game_id = '{$info.game_id}';
+                var home_id = '{$info.id}';
+                var _data = {agent:abbr,game_id:game_id};
+                $.ajax({  
+                    type : "POST",
+                    dataType:"jsonp",
+                    url : "https://apisdk.chuangyunet.net/Api/Ajax/getServer",
+                    data : _data,
+                    success : function(result) {
+                        console.log(result);
+                        if(result.status == 1){
+                            var ios_html = android_html = '';
+                            $(result['info']['ios']).each(function(_index, _val){
+                              ios_html += "<li><a href='javascript:;'>"+_val['serverName']+"</a></li>"
+                            });
+
+                            $("#iosServers").html(ios_html);
+
+                            $(result['info']['android']).each(function(a_index, a_val){
+                              android_html += "<li><a href='javascript:;'>"+a_val['serverName']+"</a></li>"
+                            });
+                            $("#androidServers").html(android_html);
+                      }
+                    }  
+                });
+
+                $.ajax({  
+                    type : "POST",
+                    dataType:"jsonp",
+                    url : "https://apisdk.chuangyunet.net/Api/Ajax/getNewGongGao",
+                    data : {home_id:home_id},
+                    success : function(result) {
+                        console.log(result);
+                        if(result.status == 1){
+                            var _html = '';
+                            $(".nei-gg-title").html(result['info'][0]['title']);
+                            $(".nei-gg-con").html(result['info'][0]['content']);
+                      }
+                    }  
+                });
+                
+                //新闻tab切换
+                $('#dttab-title span').hover(function(){
+                    $(this).addClass("selected").siblings().removeClass();
+                    $("#dttab-content > div").hide().eq($('#dttab-title span').index(this)).show();
+                });
+                
+                /*右侧边收缩展开*/ 
+                $('#side_right_xiao').click(function(){
+                    $('.side-nav-right-x').animate({
+                        right: '-61'
+                    },400);
+                    $('.side-nav-right').animate({
+                        right: '0',
+                        opacity: 'show'
+                    }, 800 );
+                });
+                $('.rightside_close').click(function(){
+                    $('.side-nav-right-x').animate({
+                        right: '0',
+                        opacity: 'show'
+                    },400);
+                    $('.side-nav-right').animate({
+                        right: '-201',
+                        opacity: 'show'
+                    }, 800 );
+                });
+
+            });
+        </script>
+    </body>
+</html>

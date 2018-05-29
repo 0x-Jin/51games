@@ -1,0 +1,143 @@
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Gift/sdkGiftAdd')}" style="overflow-x: hidden; overflow-y:auto; height: 400px;">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">礼包名称：</label>
+                <div class="controls">
+                    <input type="text" name="gift" data-rules="{required:true}" class="input-normal control-text" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span12">
+                <label class="control-label">礼包内容：</label>
+                <div class="controls" style="height: 78px;">
+                    <textarea name="content" data-rules="{required:true}" style="width: 230px; height: 55px; border-radius: 4px; resize: none;" class="input-normal control-text"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    <select name="game_id" id="add_game_id"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">母包名称：</label>
+                <div class="controls">
+                    <select name="agent" id="add_agent"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">等级限制：</label>
+                <div class="controls">
+                    <select name="level_type" style="width: 100px;" id="level_type" onchange="changeType()">
+                        <option value="0">无限制</option>
+                        <option value="1">大于或等于</option>
+                        <option value="2">小于或等于</option>
+                    </select>
+                    <span id="level_span"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">开始时间：</label>
+                <div class="controls">
+                    <input type="text" id="startTime" class="calendar calendar-time" name="startTime" placeholder="可以不填" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">结束时间：</label>
+                <div class="controls">
+                    <input type="text" id="endTime" class="calendar calendar-time" name="endTime" placeholder="可以不填" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span12">
+                <label class="control-label">展示内容：</label>
+                <div class="controls" id="show_div">
+                    <b style="color: red;">请填写除了礼包的内容以外的展示信息。</b>
+                    <div id="show_1" style="margin-bottom: 5px;">
+                        <input type="text" name="name1" value="" class="input-normal control-text" style="width: 60px;" placeholder="名称" />&nbsp;：&nbsp;<input type="text" name="value1" value="" class="input-normal control-text" style="width: 180px;" placeholder="内容" />&nbsp;<i class="iconfont" onclick="addShow()" style="cursor: pointer;">&#xe726;</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- script start -->
+<script type="text/javascript">
+    var key = 2;
+
+    $(function() {
+        //数据加载
+        gameList("add_game_id");
+        getAgent(0, "add_agent");
+
+        $("#add_game_id").change(function() {
+            getAgent($(this).val(), "add_agent");
+        });
+    });
+
+    //改变等级限制的类型
+    function changeType() {
+        var type = $("#level_type").val();
+        if (type < 1) {
+            $("#level_span").html("");
+        } else {
+            $("#level_span").html("<input type='text' name='level' class='input-normal control-text' style='width: 50px;' />&nbsp;级");
+        }
+    }
+
+    //添加显示内容
+    function addShow() {
+        var str = '<div id="show_'+key+'" style="margin-bottom: 5px;"><input type="text" name="name'+key+'" value="" class="input-normal control-text" style="width: 60px;" placeholder="名称" />&nbsp;：&nbsp;<input type="text" name="value'+key+'" value="" class="input-normal control-text" style="width: 180px;" placeholder="内容" />&nbsp;<i class="iconfont" onclick="deleteShow('+key+')" style="cursor: pointer;">&#xe725;</i></div>';
+        $("#show_div").append(str);
+        key ++;
+    }
+
+    //删除显示内容
+    function deleteShow(id) {
+        $("#show_"+id).remove();
+    }
+
+    BUI.use(["bui/overlay", "bui/form", "bui/calendar"], function (Overlay, Form, Calendar){
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+        var datepicker1 = new Calendar.DatePicker({
+            trigger: "#startTime",
+            dateMask: "yyyy-mm-dd HH:00:00",
+            showTime: true,
+            autoRender: true
+        });
+        var datepicker2 = new Calendar.DatePicker({
+            trigger: "#endTime",
+            dateMask: "yyyy-mm-dd HH:00:00",
+            showTime: true,
+            autoRender: true
+        });
+        var dialog = new Overlay.Dialog({
+            title: "新增礼包",
+            width: 500,
+            height: 450,
+            //配置DOM容器的编号
+            contentId: "content",
+            success: function () {
+                $("#J_Form").submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->

@@ -1,0 +1,242 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>VIP用户流失预警</title>
+    <link href="/static/admin/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/combo.select.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/static/admin/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="/static/admin/js/bui.js"></script>
+    <script type="text/javascript" src="/static/admin/js/config.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.combo.select.js"></script>
+</head>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 90px;">游戏名称：</label>
+                    <div class="controls">
+                        <select name="game_id" id="game_id"></select>
+                    </div>
+                </div>
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 60px;">
+                        录入人：
+                    </label>
+                    <div class="controls">
+                        <select id="creater" name="creater">
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">
+                        未登录查询：
+                    </label>
+                    <div class="controls">
+                        <select id="noLogin" name="noLogin">
+                            <option value=" ">--请选择--</option>
+                            <option value="3">3天未登录</option>
+                            <option value="7">7天未登录</option>
+                            <option value="12">12天未登录</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">
+                        未充值查询：
+                    </label>
+                    <div class="controls">
+                        <select id="noCharge" name="noCharge">
+                            <option value=" ">--请选择--</option>
+                            <option value="3">3天未充值</option>
+                            <option value="7">7天未充值</option>
+                            <option value="12">12天未充值</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">充值金额：</label>
+                    <div class="controls">
+                        <input type="text" id="min" name="min" style="width: 80px"><span> - </span><input type="text" id='max' name="max" style="width: 80px">
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <div class="controls">
+                        <button type="button" id="btnSearch" class="button button-primary">查询</button>
+                    </div>
+                    <div class="controls">
+                        <button class="button button-info" id="export" type="button">导出</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form action='<?php echo U("Data/vipUser");?>' id="subfm" method="post">
+            <input name="game_id"  type="hidden" value="" />
+            <input name="creater"  type="hidden" value="" />
+            <input name="noLogin"  type="hidden" value="" />
+            <input name="noCharge" type="hidden" value="" />
+            <input name="min" type="hidden" value="" />
+            <input name="max" type="hidden" value="" />
+            <input name="export"   type="hidden" value="1"/>
+        </form>
+    </div>
+    <div style="color:red;margin-left:10px;">
+        没有最后登录时间或充值时间的，未登录或未充值天数会默认显示999
+    </div>
+    <div class="search-grid-container span25">
+        <div id="grid"></div>
+    </div>
+    <!-- 弹窗 -->
+    <div class="hide" id="content">
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#export').click(function(){
+            $("#subfm input[name=game_id]").val($("#game_id").val());
+            $("#subfm input[name=creater]").val($("#creater").val());
+            $("#subfm input[name=noLogin]").val($("#noLogin").val());
+            $("#subfm input[name=noCharge]").val($("#noCharge").val());
+            $("#subfm input[name=min]").val($("#min").val());
+            $("#subfm input[name=max]").val($("#max").val());
+            $('#subfm').submit();
+        });
+
+        gameLists();
+        getImportCreater();
+    });
+    
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("<?php echo U('Ajax/getGameList');?>",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+
+    //获取录入人
+    function getImportCreater(){
+        var _html = '';
+        $.post("<?php echo U('Ajax/getImportCreater');?>",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                if(v.creater == '--全部--'){
+                    _html += "<option value=0>"+v.creater+"</option>";
+                }else{
+                    _html += "<option value="+v.creater+">"+v.creater+"</option>";
+                }
+            });
+            $('#creater').html(_html);
+            $('#creater').comboSelect();
+        });
+    }
+
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+    BUI.use('common/search',function (Search) {
+
+        editing = new BUI.Grid.Plugins.DialogEditing({
+            contentId : 'content', //设置隐藏的Dialog内容
+            autoSave : true, //添加数据或者修改数据时，自动保存
+            triggerCls : 'btn-edit'
+        });
+        columns = [
+            {title:'游戏名称',dataIndex:'gameName',width:100,elCls:'center'},
+            {title:'渠道号',dataIndex:'agent',width:150,elCls:'center'},
+            {title:'用户账号',dataIndex:'userName',width:200,elCls:'center'},
+            {title:'区服名称',dataIndex:'serverName',width:150,elCls:'center'},
+            {title:'角色ID',dataIndex:'roleId',width:100,elCls:'center'},
+            {title:'角色名称',dataIndex:'roleName',width:150,elCls:'center'},
+            {title:'最后登录',dataIndex:'lastLogin',width:150,elCls:'center'},
+            {title:'最后充值',dataIndex:'lastCharge',width:150,elCls:'center'},
+            {title:'累计充值',dataIndex:'amount',width:100,elCls:'center'},
+            {title:'QQ',dataIndex:'qq',width:100,elCls:'center'},
+            {title:'手机号',dataIndex:'phone',width:100,elCls:'center'},
+            {title:'未登录天数',dataIndex:'noLogin',width:100,elCls:'center',renderer: function(value, obj) {
+            if(value < 3){
+                return value;
+            }else{
+                return '<span style="color:red;">'+value+'</span>';
+            }
+        }},
+            {title:'未充值天数',dataIndex:'noCharge',width:100,elCls:'center',renderer: function(value, obj) {
+            if(value < 7){
+                return value;
+            }else{
+                return '<span style="color:red;">'+value+'</span>';
+            }
+        }},
+        ];
+        store = Search.createStore('<?php echo U("Data/vipUser");?>',{
+            proxy : {
+                save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                },
+                method : 'POST'
+            },
+            autoSync : true //保存数据后，自动更新
+        });
+        gridCfg = Search.createGridCfg(columns,{
+            tbar : {
+              items : [
+                {text : '<i class="icon-plus"></i>VIP用户录入', btnCls : 'button button-small opt-btn',handler:addFunction},
+                {text : '<i class="icon-plus"></i>VIP用户导入', btnCls : 'button button-small opt-btn', handler : importFunction}
+              ]
+            },
+            plugins : [editing,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        });
+
+        var  search = new Search({
+                // autoSearch: false,
+                store : store,
+                gridCfg : gridCfg
+        }),
+        grid = search.get('grid');
+
+        function addFunction(){
+          $('.bui-dialog').remove();
+          $('.mark').show();
+          $('.spinner').show();
+          $.get('<?php echo U("Data/add");?>',{table:'vip_user',tpl:'vipUserAdd'},function(ret){
+            $('#content').html(ret._html);
+            $('#content').show();
+            $('.mark').hide();
+            $('.spinner').hide();
+          });
+        }
+
+        //导入成本
+        function importFunction() {
+          $('.bui-dialog').remove();
+          $('.mark').show();
+          $('.spinner').show();
+          $.get('<?php echo U("Data/importVIP");?>', {
+            table: 'vip_user',
+            tpl: 'importVIP'
+          }, function(ret) {
+            $('#content').html(ret._html);
+            $('.mark').hide();
+            $('.spinner').hide();
+            $('#content').show();
+          });
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0,user-scalable=yes"/>
+	<title>{$info.name}</title>
+	<link rel="stylesheet" href="{$static_url}/css/common.css">
+	<link rel="stylesheet" href="{$static_url}/css/orderList.css">
+	<script type="text/javascript" src="{$static_url}/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="{$static_url}/js/orderList.js?1"></script>
+</head>
+<body>
+	<div class="xh-header pr">
+		<div class="xh-mian">
+			<div class="xh-topdiv">
+				<div class="xh-nav-header">
+					<!-- 首页导航 start -->
+					<div class="xh-nav">
+						<ul>
+							<li>
+								<a href="{$website}"><p>官网首页</p><div class="xh-nav-en">HOME</div></a>
+							</li>
+							<li>
+								<a href="{$website}zixun"><p>新闻资讯</p><div class="xh-nav-en">NEWS</div></a>
+							</li>
+							<li>
+								<a href="{$website}"><img src="{$static_url}/images/xh-logo.png" alt=""></a>
+							</li>
+							<li>
+								<a href="#"><p>攻略资料</p><div class="xh-nav-en">GAMEDATA</div></a>
+							</li>
+							<li class="xh-last-nav">
+								<a href="#"><p>福利中心</p><div class="xh-nav-en">GIFTS</div></a>
+							</li>
+						</ul>
+					</div>
+					<!-- 首页导航 end -->
+
+					<div class="xh-orderwave pr"></div>
+				</div>
+			</div>
+		</div>
+		<div class="rx-order-content">
+			<div class="rx-order-mian">
+				<div class="rx-order-title">最新资讯</div>
+				<div class="nei-wrapdiv-l">
+					<div id="dttab-title">
+						<span class="selected" id="zuixin">
+							最新
+							<i></i>
+						</span>
+						<span class="" id="gonggao">
+							公告
+						</span>
+						<span class="" id="huodong">
+							活动
+						</span>
+						<span class="" id="gonglve">
+							攻略
+						</span>
+					</div>
+					<div id="dttab-content">
+						<div>
+							<ul class="dtnews_ul">
+								<volist name="zuixin" id="vo">
+								    <li>
+								        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+								        	<div class="dtnews-taide">
+									            <span class="news-type">
+									                最新
+									            </span>
+									            <div class="dtnews-box">
+									            	<div class="dtnews_til">{:date('m-d',$vo['createTime'])}&nbsp;&nbsp;{$vo.title}</div>
+									            	<div class="dtnews_p">{$vo.description}</div>
+									            </div>
+								        	</div>
+								        </a>
+								    </li>
+								</volist>
+							</ul>
+						</div>
+						<div class="hide dn">
+							<ul class="dtnews_ul">
+								<volist name="gonggao" id="vo">
+								    <li>
+								        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+								        	<div class="dtnews-taide">
+									            <span class="news-type">
+									                公告
+									            </span>
+									            <div class="dtnews-box">
+									            	<div class="dtnews_til">{:date('m-d',$vo['createTime'])}&nbsp;&nbsp;{$vo.title}</div>
+									            	<div class="dtnews_p">{$vo.description}</div>
+									            </div>
+								        	</div>
+								        </a>
+								    </li>
+								</volist>
+							</ul>
+						</div>
+						<div class="hide dn">
+							<ul class="dtnews_ul">
+								<volist name="huodong" id="vo">
+								    <li>
+								        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+								        	<div class="dtnews-taide">
+									            <span class="news-type">
+									                活动
+									            </span>
+									            <div class="dtnews-box">
+									            	<div class="dtnews_til">{:date('m-d',$vo['createTime'])}&nbsp;&nbsp;{$vo.title}</div>
+									            	<div class="dtnews_p">{$vo.description}</div>
+									            </div>
+								        	</div>
+								        </a>
+								    </li>
+								</volist>
+							</ul>
+						</div>
+						<div class="hide dn">
+							<ul class="dtnews_ul">
+								<volist name="gonglve" id="vo">
+								    <li>
+								        <a class="dtnews_title_a" href="{$vo.link}/{$vo.id}.html">
+								        	<div class="dtnews-taide">
+									            <span class="news-type">
+									                攻略
+									            </span>
+									            <div class="dtnews-box">
+									            	<div class="dtnews_til">{:date('m-d',$vo['createTime'])}&nbsp;&nbsp;{$vo.title}</div>
+									            	<div class="dtnews_p">{$vo.description}</div>
+									            </div>
+								        	</div>
+								        </a>
+								    </li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+					<div class="dttab-setting">
+						<div class="dttab-page">
+						</div>
+						<span class="dttab-icon dttab-setting-img1"></span>
+						<span class="dttab-icon dttab-setting-img2 dttab-setting-color2"></span>
+					</div>
+				</div>
+				<div class="xh-back-floot"></div>
+			</div>
+			<!-- 底部start -->
+			<div class="xh-list-floot">
+				<div class="xh-floot-box">
+					<div class="xh-floot-logo fl"></div>
+					<div class="xh-floot-info fr">
+						<p>关于可以游戏客服中心商务合作用户协议未成年人家长监护</p>
+						<p>抵制不良游戏 / 拒绝盗版游戏 / 注意自我保护 / 谨防受骗上当 / 适度游戏益脑 / 沉迷游戏伤身 / 合理安排时间 / 享受健康生活</p>
+						<p>CopyRight © 2014-2018 苏州好玩友网络科技有限公司.ALL RIGHTS RESERVED.</p>
+						<p>苏B2-20140397苏ICP备14031847号-1苏网文〔2017〕5261-110号网络出版服务许可证文网游备字〔2017〕M-RPG 0541号</p>
+					</div>
+				</div>
+			</div>
+			<!-- 底部 end -->
+		</div>
+		
+		
+		<!-- right左侧导航 start -->
+		<div class="side-nav-left" id="side_right">
+            <div class="r-side-nei">
+            	<div class="r-side-code"></div>
+            </div>
+            <div class="r-side-bottom">
+            	<div class="r-bottom-code"></div>
+            </div>
+            <div class="xh-side-title">{$info.serviceQQ}</div>
+            <div class="xh-smallicon"></div>
+            <div class="rx-close"></div>
+        </div>
+	</div>
+
+	<!-- 福利中心 -->
+	<div class="xh-welfare-div dn">
+		<div class="xh-welfare-kid">
+			<i></i>
+			<span class="xh-kid-title">加群礼包</span>
+			<p class="xh-kid-top">活动长期有效</p>
+			<p class="xhkid-color">礼包规则：加入官方交流QQ群“<span>556314388</span>”，即可领取新手加群礼包。</p>
+			<p class="xh-kid-noun">注：每个角色只能使用一次，礼包内容以公众号内发放为准</p>
+			<div class="xh-kid-show">
+				<ul class="xh-show-img">
+					<li><img src="{$static_url}/images/xh-kid-show-img1.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img2.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img3.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img4.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img5.png" alt=""></li>
+				</ul>
+				<ul class="xh-show-centent">
+					<li>坐骑进阶丹x10</li>
+					<li>仙羽进阶丹x10</li>
+					<li>校花经验书x30</li>
+					<li>校花令x10</li>
+					<li>银两x5w</li>
+				</ul>
+			</div>
+			<div class="xh-kid-back pa"></div>
+			<div class="xh-back-show">扫一扫关注公众号领取福利</div>
+		</div>
+		<div class="xh-welfare-close"></div>
+		<div class="xh-welfare-code"></div>
+	</div>
+	<div class="xh-shade dn"></div>
+</body>
+</html>

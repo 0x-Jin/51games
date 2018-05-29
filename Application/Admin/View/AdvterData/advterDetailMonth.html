@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>投放账号月报</title>
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap.min.css">
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/pagestyle.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/viewer.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/easyui/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+    <script src="__JS__/viewer.min.js"></script>
+
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script type="text/javascript" src="__JS__/echart/echarts.min.js"></script>
+    <script type="text/javascript" src="__JS__/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">月份:</label>
+                    <div class="controls">
+                        <input type="text" id="month" value='{:date("Y-m-01")}' class="calendar" name="month"/>
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">账号：</label>
+                    <div class="controls">
+                        <input type="text" class="input-normal" name="account" id="account" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <div class="controls">
+                        <input type="button" id="btnSearch" name="search" class="button button-primary" value="搜索" />
+                        <input type="button" id="btnCreate" name="search" class="button button-info" value="录入" />
+                        <input type="button" id="btnExport" name="search" class="button button-warning" value="导出" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form  method="post" action='{:U("AdvterData/advterDetailMonth")}' id="subfm">
+            <input name="month" value="" type="hidden" />
+            <input name="account" value="" type="hidden" />
+            <input name="export" value=1 type="hidden" />
+        </form>
+    </div>
+    <div class="search-grid-container span48">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide"></div>
+
+<script type="text/javascript">
+    $(function() {
+        BUI.use(["bui/calendar"], function (Calendar) {
+            var DatePicker = new Calendar.DatePicker({
+                trigger: "#month",
+                autoRender: true
+            });
+        });
+        doSearch();
+    });
+
+    $("#btnSearch").click(function(){
+        doSearch();
+    });
+
+    //录入
+    $("#btnCreate").click(function(){
+        $(".bui-dialog:not(.bui-message)").remove();
+        $(".mark").show();
+        $(".spinner").show();
+        $.get('{:U("AdvterData/advterDetailAdd")}', "", function(ret){
+            if (ret.Result) {
+                $("#content").html(ret.Html);
+                $("#content").show();
+            } else {
+                BUI.Message.Alert(ret.Msg, "error");
+            }
+            $(".mark").hide();
+            $(".spinner").hide();
+        });
+    });
+
+    //导出
+    $("#btnExport").click(function(){
+        $("#subfm input[name=month]").val($("#month").val());
+        $("#subfm input[name=account]").val($("#account").val());
+        $("#subfm").submit();
+    });
+
+    function doSearch() {
+        getData();
+    }
+
+    function getData(){
+        var m = {}, _param = {}, _columns;
+        m.month     = $("#month").val();
+        m.account   = $("#account").val();
+        if (m.month == "" || m.month == null) {
+            alert("请选择时间！");
+            return false;
+        }
+        _param      = m;
+        _columns    = [[
+            {title: "月份", field: "month", width: 120, align: "center"},
+            {title: "账号", field: "account", width: 160, align: "center"},
+            {title: "代理商", field: "proxyName", width: 200, align: "center"},
+            {title: "渠道", field: "companyName", width: 100, align: "center"},
+            {title: "充值", field: "cz", width: 80, align: "center"},
+            {title: "转入", field: "zr", width: 80, align: "center"},
+            {title: "赠送", field: "zs", width: 80, align: "center"},
+            {title: "转出", field: "zc", width: 80, align: "center"},
+            {title: "消耗", field: "xh", width: 250, align: "center"},
+            {title: "余额", field: "balance", width: 100, align: "center"}
+        ]];
+
+        $("#grid").treegrid({
+            cache: false,
+            idField: "parentId",
+            treeField: "month",
+            height: 750,
+            width: 2000,
+            url: '{:U("AdvterData/advterDetailMonth")}',
+            onBeforeLoad: function(row, param) {
+                if (typeof param == "undefined") {param = {};}
+
+                for (var p in _param) {
+                    if (_param[p] == "" || _param[p] == 0 || _param[p] == null) continue;
+                    param[p] = _param[p];
+                }
+                if ($("#btnSearch").attr("disable") == "true") {
+                    $("#btnSearch").removeAttr("disable");
+                    return false;
+                } else {
+                    $("#btnSearch").attr("disable", "true");
+                }
+                $("#grid").treegrid("reload");
+            },
+            onLoadSuccess: function(data) {
+                $("#grid").removeAttr("disable");
+            },
+            columns: _columns
+        });
+
+    }
+</script>
+<include file="Public/loading" />
+</body>
+</html>

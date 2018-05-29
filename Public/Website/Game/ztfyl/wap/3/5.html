@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="telephone=no,email=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<title>择天风云录</title>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/ztfyl/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/ztfyl/css/swiper.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/ztfyl/css/style.css"/>
+<script src="http://img.chuangyunet.net/static/wap/ztfyl/js/jquery-1.11.1.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/ztfyl/js/bootstrap.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/ztfyl/js/swiper.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/ztfyl/js/swiper.min.js"></script>
+
+<script type="text/javascript">
+var ua = navigator.userAgent.toLowerCase();
+var isios = /ipad|ipod|iphone|mac/.test(ua);
+window.onload=function(){
+    $and = 'http://www.baidu.com';
+    $ios = 'http://www.baidu.com';
+    if(isios){
+        $('#ostype').attr('href',$ios);
+    }else{
+        $('#ostype').attr('href',$and);
+    }
+	//使用rem
+	var clientWidth = document.documentElement.clientWidth;
+	if(clientWidth>=640){
+		document.documentElement.style.fontSize = '100px';
+    }else{
+		document.documentElement.style.fontSize = innerWidth/6.4 +"px";
+		window.addEventListener("resize",function(){document.documentElement.style.fontSize = innerWidth/6.4  + "px"; },false)}
+    }
+	
+</script>
+
+</head>
+
+</head>
+
+<body style="background-color:#0d0d0e">
+<div class="wrapdiv">
+	<!--顶部start-->
+    <div class="topnav_wrap contentbox box_orient fixed">
+    	<img src="http://img.chuangyunet.net/Uploads/website/qrcode/103/ceshi/2/2_2.png" id="dzzlogo" />
+        <div class="topmid_div box_flex01">
+        	<p class="topyxname_p">择天风云录</p>
+            <p class="topyxdes_p"><img src="http://img.chuangyunet.net/static/wap/ztfyl/images/yxrdimg.png"><br>网络游戏</p>
+        </div>
+        <a href="" id='ostype' class="topxz_a db"></a>
+    </div>
+    <div class="symidpic_div pr"><img src="http://img.chuangyunet.net/Uploads/website/qrcode/101/ztfyl/2/2_2.jpg" />    <div class="topaddress_div box_orient">    	
+        <div class="topaddress_l box_flex01"><a href="http://fx.chuangyunet.net/ztfyl/wap/">择天风云录</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="http://fx.chuangyunet.net/ztfyl/wap/zixun/">列表</a>&nbsp;&nbsp;-&nbsp;&nbsp;公告</div>
+        <div class="topaddress_r"></div>
+    </div>
+    <h3 class="contitle_h3">IOS更新公告</h3>
+    <p class="contime_p">发布于 2017-09-13</p>
+    <div class="content_wrap">
+    	<p>IOS择天风云录将于周二更新</p>        <a href="javascript:;" class="backtop_a db"><img src="http://img.chuangyunet.net/static/wap/ztfyl/images/backtopbtn.png" /></a>
+    </div>
+</div>
+
+<script src="js/swiper.min.js"></script>
+<script> 
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: 5000,//可选选项，自动滑动
+	pagination : '.swiper-pagination',
+	paginationClickable: true,
+	loop:true
+})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    //返回到顶部
+	$('.backtop_a').click(function(){	
+		$("html,body").animate({scrollTop:0}, 500);				
+	});
+	
+	//切换效果
+	$('#tab-title span').click(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+		var t=$('#tab-title span').index(this);
+		$("#tab-content > div").hide().eq(t).show();
+		
+	});
+	
+	//职业展示
+	$('#zy_01').click(function(){
+      $("#zy_02").show();
+	  $("#zy_04").hide();
+    });
+	
+	$('#zy_03').click(function(){
+      $("#zy_02").hide();
+	  $("#zy_04").show();
+    });	
+	
+	$('#morediv1').click(function(){
+		$("#ul1").css('height','auto');
+		$('#morediv1').hide();
+	});
+	$('#morediv2').click(function(){
+		$("#ul2").css('height','auto');
+		$('#morediv2').hide();
+	});
+	$('#morediv3').click(function(){
+		$("#ul3").css('height','auto');
+		$('#morediv3').hide();
+	});
+	$('#morediv4').click(function(){
+		$("#ul4").css('height','auto');
+		$('#morediv4').hide();
+	});
+	
+});
+</script>
+</body>
+</html>

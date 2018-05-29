@@ -1,0 +1,119 @@
+    {$header}
+    	<a href="{$info.iosDownload}" class="dlbtn_ios pa db"><img src="{$static_url}/images/dl_ios.png" /></a>
+        <a href="{$info.androidDownload}" class="dlbtn_android pa db"><img src="{$static_url}/images/dl_android.png" /></a>
+    </div>
+    
+    <div class="newswrap_div">
+    	<div id="tab-title">
+            <span class="selected">最新</span><span>新闻</span><span>公告</span><span>活动</span>
+        </div>
+        <div id="tab-content">
+            <div>
+            	<ul class="news_ul">
+                	
+                    <volist id="vo" name="zuixin">
+                        <li>
+                            <li class="box_orient"><span class="newstype_span db">最新</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                        </li>
+                    </volist>
+                </ul>
+                <a href="{$website}zixun/" class="newsmore_a db"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+            <div class="hiden">
+            	<ul class="news_ul">
+                	<volist id="vo" name="xinwen">
+                        <li>
+                            <li class="box_orient"><span class="newstype_span db">新闻</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                        </li>
+                    </volist>
+                </ul>
+                <a href="{$website}zixun/" class="newsmore_a db"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+            <div class="hiden">
+            	<ul class="news_ul">
+                	<volist id="vo" name="gonggao">
+                        <li>
+                            <li class="box_orient"><span class="newstype_span db">公告</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                        </li>
+                    </volist>
+                </ul>
+                <a href="{$website}zixun/" class="newsmore_a db"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+            <div class="hiden">
+            	<ul class="news_ul">
+                	<volist id="vo" name="huodong">
+                        <li>
+                            <li class="box_orient"><span class="newstype_span db">活动</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                        </li>
+                    </volist>
+                </ul>
+                <a href="{$website}/wap/zixun/" class="newsmore_a db"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+        </div>
+    </div>
+    <div class="midwrap_div">
+    	<div class="headtiao_div">职业介绍</div>
+        <div class="ziliao">
+              {:W('Slide/slideList', array($info['agent'], 14 , 2, 0))}
+        </div>
+        <div class="headtiao_div">游戏截图</div>
+        <div class="topfoc_wrap outer">
+            <div class="swiper-container outer">
+              {:W('Slide/slideList', array($info['agent'], 14 , 2, 1))}
+              <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="bttiao_div">
+        	<div class="kf_wrap fl">
+            	<div class="kftop_div">
+                	<div class="headtiao_div">联系客服</div>
+                </div>
+                <p class="kf_p">客服QQ：{$info.serviceQQ}</p>
+            </div>
+            <div class="kf_wrap fr">
+            	<div class="kftop_div">
+                	<div class="headtiao_div">微信号</div>
+                </div>
+                <p class="kf_p">微信号：{$info.serviceWX}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script> 
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: 5000,//可选选项，自动滑动
+	pagination : '.swiper-pagination',
+	paginationClickable: true,
+	loop:true
+})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    
+	//切换效果
+	$('#tab-title span').click(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+		var t=$('#tab-title span').index(this);
+		$("#tab-content > div").hide().eq(t).show();
+		
+	});
+	
+	//职业展示
+	$('#zy_01').click(function(){
+      $("#zy_02").show();
+	  $("#zy_04").hide();
+    });
+	
+	$('#zy_03').click(function(){
+      $("#zy_02").hide();
+	  $("#zy_04").show();
+    });
+	
+	
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<body>
+    <style type="text/css">
+        input{border-radius: 4px;}
+    </style>
+    <div class="demo-content">
+        <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+        <form action="{:U('Advter/edit')}" class="form-horizontal" id="J_Form" method="post">
+            <input name="id" type="hidden" value="{:I('id',0,'trim')}"/>
+            <input name="table" type="hidden" value="advter_account"/>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        广告账号：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" data-rules="{required:true}" name="account" type="text" value="{$info.account}">
+                        </input>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        账号密码：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" name="password" type="text" placeholder="不填则不修改" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span10">
+                    <label class="control-label">
+                        所属部门：
+                    </label>
+                    <div class="controls">
+                        <select class="j_departmentId" name="departmentId">
+                            <option value="">无</option>
+                            <option value="1" <if condition="$info['departmentId'] eq 1">selected</if>>发行一部</option>
+                            <option value="2" <if condition="$info['departmentId'] eq 2">selected</if>>发行二部</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span10">
+                    <label class="control-label">
+                        所属广告商：
+                    </label>
+                    <div class="controls">
+                        <select class="j_advteruserId" data-actions-box="true" data-live-search="true" id="j_advteruserId" name="advteruserId">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span10">
+                    <label class="control-label">
+                        所属代理商：
+                    </label>
+                    <div class="controls">
+                        <select class="j_proxy" data-actions-box="true" data-live-search="true" id="j_proxy" name="proxyId">
+                        </select>
+    
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        折返类型：
+                    </label>
+                    <div class="controls">
+                        <select name="rebateType">
+                            <option value="0" <if condition="$info['rebateType'] eq 0">selected</if>>返点</option>
+                            <option value="1" <if condition="$info['rebateType'] eq 1">selected</if>>返现</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        折返比率：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" style="width: 50px;" name="rebate" type="text" value="{$info.rebate}"/>%
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        账号状态：
+                    </label>
+                    <div class="controls">
+                        <select name="status">
+                            <option value="1" <if condition="$info['status'] eq 1">selected</if>>开启</option>
+                            <option value="0" <if condition="$info['status'] eq 0">selected</if>>关闭</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        监控状态：
+                    </label>
+                    <div class="controls">
+                        <select name="controlStatus">
+                            <option value="1" <if condition="$info['controlStatus'] eq 1">selected</if>>开启</option>
+                            <option value="0" <if condition="$info['controlStatus'] eq 0">selected</if>>关闭</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- script start -->
+    <script type="text/javascript">
+        $(function(){
+          adv_company();
+          getProxy();
+          $('.j_advteruserId,.j_proxy,.j_departmentId').selectpicker({
+                selectAllText: '全选',
+                deselectAllText: '不选',
+                showSubtext: true,
+                liveSearchPlaceholder: '搜索关键字',
+                noneSelectedText: '',
+                multipleSeparator: ',',
+                liveSearch: true,
+                actionsBox: true
+            });
+        });
+
+        var advteruserId = '{$info.advteruserId}';
+        var companyIdArr = advteruserId.split(',');
+
+        var proxy    = '{$info.proxyId}';
+        var proxyArr = proxy.split(',');
+
+        function in_array(search,array){
+        for(var i in array){
+            if(array[i]==search){
+                return true;
+            }
+        }
+        return false;
+      }
+
+      //获取广告商
+      function adv_company(){
+          var _html = '';
+          $.post("{:U('Ajax/adv_company')}",'',function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                if(in_array(v.id,companyIdArr)){
+                    _html += "<option value="+v.id+" selected >"+v.company_name+"</option>";
+                  }else{
+                    _html += "<option value="+v.id+">"+v.company_name+"</option>";
+                  }
+              });
+              $('#j_advteruserId').html(_html);
+              $('.j_advteruserId').selectpicker('refresh');
+          });
+      }
+
+      //获取代理商
+      function getProxy(){
+          var _html = '';
+          $.post("{:U('Ajax/getProxy')}",'',function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                if(in_array(v.id,proxyArr)){
+                    _html += "<option value="+v.id+" selected >"+v.proxyName+"</option>";
+                  }else{
+                    _html += "<option value="+v.id+">"+v.proxyName+"</option>";
+                  }
+              });
+              $('#j_proxy').html(_html);
+              $('.j_proxy').selectpicker('refresh');
+          });
+      }
+
+      BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'编辑-{$info.account}',
+            width:450,
+            height:400,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+    <!-- script end -->
+</body>

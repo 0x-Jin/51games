@@ -1,0 +1,201 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('System/userEdit')}" style="height: 460px; overflow-y: auto; overflow-x: hidden;">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">管理员账号：</label>
+            <div class="controls">
+              <span>{$info.name}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">真实姓名：</label>
+            <div class="controls">
+              <input name="real" type="text" value="{$info.real}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">密码：</label>
+            <div class="controls">
+              <input name="password" type="password" value="" placeholder="不修改则留空" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">确认密码：</label>
+            <div class="controls">
+              <input name="repassword" type="password" value="" placeholder="不修改则留空" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属角色：</label>
+            <div class="controls">
+                <select name="manager_id" id="manager_id" class="input-normal">
+                  {$role_list}
+                </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row"  <if condition="$info.manager_id neq 16">style="display: none;"</if> id="game_main">
+          <div class="control-group span10">
+            <label class="control-label">游戏名称：</label>
+            <div class="controls" id="agent_contain">
+                <select id="game_id" name="game_id[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+                    {$game_list}
+                </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">所属部门：</label>
+            <div class="controls control-row4">
+              <select name="partment" id="partment">
+                <option value="0" <if condition="$info['partment'] ==0">selected="selected"</if> >全部</option>
+                <volist name="partment" id="val">
+                  <option value="{$val.partment_id}"<if condition="$val['partment_id'] eq $info['partment']">selected="selected"</if> >{$val.name}</option>
+                
+                </volist>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="height:170px;">
+          <div class="control-group span15">
+            <label class="control-label">可查看的负责人：</label>
+            <div class="controls control-row4">
+              <select name="principal_id[]" id="principal_id" multiple="multiple" style="height:150px;">
+                <option value="0">全部</option>
+                <?php foreach($aprincipals as $k=>$v){?>
+                <option value="<?php echo $v['id']?>"<?php if(in_array($v['id'],explode(",",$info['principal_id']))) echo "selected"?>><?php echo $v['principal_name']?></option>
+                <?php }?>
+              </select>
+            </div>
+          </div>
+        </div>
+
+          <div class="row">
+              <div class="control-group span15">
+                  <label class="control-label">绑定的后台账号：</label>
+                  <div>
+                      <select data-actions-box="true" data-live-search="true" name="backstage_account_id[]" id="backstage_account_id" multiple="multiple" style="width: 280px;">
+                          <option value="0">无</option>
+                          <?php foreach($backstage as $k=>$v){?>
+                          <option value="<?php echo $v['id']?>"<?php if(in_array($v['id'],explode(",",$info['backstage_account_id']))) echo "selected"?>><?php echo $v['backstage_name']?></option>
+                          <?php }?>
+                      </select>
+                  </div>
+              </div>
+          </div>
+
+      </form>
+  </div>
+    
+ 
+ 
+<!-- script start --> 
+<script type="text/javascript">
+  $(function() {
+      $('#backstage_account_id').selectpicker({
+          selectAllText: '全选',
+          deselectAllText: '不选',
+          showSubtext: true,
+          liveSearchPlaceholder: '搜索关键字',
+          noneSelectedText: '',
+          multipleSeparator: ',',
+          size: 8,
+          liveSearch: true,
+          actionsBox: true
+      });
+      $('#backstage_account_id').selectpicker('refresh');
+
+    //部门负责人
+    $('#partment').change(function() {
+      var _html = '<option value="0">全部</option>';
+      $.post('{:U("Ajax/departmentPrincipals")}', {
+        departmentId: $(this).val()
+      }, function(ret) {
+        var ret = eval('(' + ret + ')');
+        $(ret).each(function(i, v) {
+          _html += "<option value=" + v.id + ">" + v.name + "</option>";
+        });
+        $('#principal_id').html(_html);
+      });
+    });
+
+    $('#manager_id').change(function() {
+      var val = $(this).val();
+      if(val == 16){
+        $('#game_main').show();
+      }else{
+        $('#game_main').hide();
+      }
+    });
+
+    $('.selectpicker').selectpicker({
+      selectAllText: '全选',
+      deselectAllText: '不选',
+      liveSearchPlaceholder: '搜索关键字',
+      noneSelectedText: '',
+      multipleSeparator: ',',
+      liveSearch: true,
+      actionsBox: true
+  });
+
+  });
+
+  BUI.use(['bui/overlay', 'bui/form'], function(Overlay, Form) {
+
+    var form = new Form.HForm({
+      srcNode: '#J_Form'
+    }).render();
+
+    var dialog = new Overlay.Dialog({
+      title: '编辑-用户信息',
+      width: 600,
+      height: 520,
+      //配置DOM容器的编号
+      contentId: 'content',
+      success: function() {
+        var password = $('input[name=password]').val();
+        var repassword = $('input[name=repassword]').val();
+        if (password != '' || repassword != '') {
+          if (password != repassword) {
+            alert('新密码和确认密码不一致');
+            return false;
+          }
+          var patten = /^[a-zA-Z]{1}[\w!@#$%]{5,16}$/;
+          if (!patten.test(password) || !patten.test(repassword)) {
+            alert('新密码格式有误，请检查');
+            return false;
+          }
+        }
+        $('#J_Form').submit();
+      }
+    });
+    dialog.show();
+  });
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

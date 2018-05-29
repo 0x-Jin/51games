@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$info.name}</title>
+	<link rel="stylesheet" href="{$static_url}/css/common.css">
+	<link rel="stylesheet" href="{$static_url}/css/cooperate.css">
+	<script type="text/javascript" src="{$static_url}/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="{$static_url}/js/index.js?1"></script>
+</head>
+<body>
+	<div class="gs-header">
+		<!-- 首页导航 start -->
+		<div class="gs-topdiv">
+			<div class="gs-nav-header pr">
+				<!-- LOGO显示 start -->
+				<a href="{$website}">
+					<div class="gs-logo pa"></div>
+				</a>
+				<!-- LOGO显示 end -->
+
+				<!-- 首页导航 start -->
+				<div class="gs-nav">
+					<ul>
+						<li><a href="{$website}">
+							<p class="gs-nav-zh nav-first">首页</p>
+						</a></li>
+						<li><a href="{$website}gamehub/">
+							<p class="gs-nav-zh">游戏中心</p>
+						</a></li>
+						<li><a href="{$website}zixun/">
+							<p class="gs-nav-zh">资讯中心</p>
+						</a></li>
+						<li><a href="{$website}cooperate/">
+							<p class="gs-nav-zh">联系合作</p>
+						</a></li>
+						<li><a href="{$website}recruit/">
+							<p class="gs-nav-zh">招贤纳士</p>
+						</a></li>
+					</ul>
+				</div>
+
+				<!-- 游戏列表 -->
+			</div>
+			<!-- 首页导航 end -->
+		</div>
+		<div class="gs-coop-title">
+			<div class="gs-coop-mian">
+				<div class="gs-coop-div">
+					<i></i>
+					<span>资讯详情</span>
+				</div>
+			</div>
+		</div>
+		<div class="gs-coop-content">
+			<div class="gs-coop-code pa">
+			</div>
+			<div class="gs-coop-mar pr">
+				<div class="gs-coop-box">
+					<div class="gs-coop-left">
+						<div class="rx-order-mian">
+							<div class="rx-order-title">{$read['title']}</div>
+							<div class="rx-details-data">
+								<a href="javascript:history.go(-1)">
+									<!-- <i class="icon-zhixiang-zuo iconfont"></i> -->
+									返回
+								</a>
+							</div>
+							<p>发布日期：{:date('Y-m-d',$read['createTime'])}</p>
+						</div>
+						<div class="rx-details-text">
+							{$read['content']}
+						</div>
+					</div>
+				</div>
+				<div class="gs-coop-back pa">
+					<div class="gs-coop-code-box">
+						<img src="{$static_url}/images/gs-coop-code-box.png" alt="">
+					</div>
+					<h4>可以游戏公众号</h4>
+					<p>关注微信公众号，了解更多！</p>
+				</div>
+			</div>
+		</div>
+		<!-- 底部 start -->
+		<div class="gs-foot">
+			<div class="gs-foot-coud">关于我们<span>|</span>商务合作<span>|</span>联系我们<span>|</span>招贤纳士</div>
+			<div class="gs-foot-info">
+				版权所有：澄迈贵诚网络科技有限责任公司 琼ICP备17004448号 琼网文：琼网文〔2017〕10488-439号<br>
+				增值电信业务经营许可证：琼B2-20170197 <br>
+				地址：海南省老城高新技术产业示范区海南生态软件园A09幢二层201室 <br>
+				电话：020-87085703 邮箱：chenjiale@17okgame.com <br>
+				12318违法网站内容举报链接：www.jb.ccm.gov.cn 
+			</div>
+			<div class="gs-foot-img-box">
+				<img src="{$static_url}/images/gs-logo.png" alt="">
+			</div>
+		</div>
+		<!-- 底部 end -->
+	</div>
+</body>
+<script type="text/javascript">
+	$(function(){
+		// $("img.lazy").lazyload();//
+		if(navigator.userAgent.indexOf("MSIE 6.0")>0){   
+	        $('.zl-main').css('display','none');
+			$('body').html('浏览器版本过低，请升级浏览器，或选用其他浏览器');   
+	    }  
+	    if(navigator.userAgent.indexOf("MSIE 7.0")>0){  
+	        $('.zl-main').css('display','none');
+			$('body').html('浏览器版本过低，请升级浏览器，或选用其他浏览器'); 
+	    }   
+	      if(navigator.userAgent.indexOf("MSIE 8.0")>0 && !window.innerWidth){
+	        $('.zl-main').css('display','none');
+			$('body').html('浏览器版本过低，请升级浏览器，或选用其他浏览器');  
+	    }
+	})
+</script>
+</html>

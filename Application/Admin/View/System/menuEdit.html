@@ -1,0 +1,113 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('System/menuEdit')}">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">上级菜单：</label>
+            <div class="controls">
+                <select name="pid" class="input-normal">
+                  <option value="0">{:L('作为一级菜单')}</option>
+                  {$select_menus}
+                </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">菜单名称：</label>
+            <div class="controls">
+              <input name="name" type="text" value="{$info.name}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">控制器名称：</label>
+            <div class="controls">
+              <input name="controllerName" type="text" value="{$info.controllerName}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">方法名称：</label>
+            <div class="controls">
+              <input name="actionName" type="text" value="{$info.actionName}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">参数：</label>
+            <div class="controls">
+              <input name="data" type="text" value="{$info.data}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">备注：</label>
+            <div class="controls control-row4">
+              <textarea name="remark" class="input-large bui-form-field" type="text" aria-disabled="false" aria-pressed="false">{$info.remark}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">排序：</label>
+            <div class="controls">
+              <input name="order_id" type="text" value="{$info.order_id}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">是否显示菜单：</label>
+            <div class="controls">
+              <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq 1">checked="checked"</if> />是</label>
+              <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq 0">checked="checked"</if> />否</label>
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+    
+ 
+ 
+<!-- script start --> 
+    <script type="text/javascript">
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'修改菜单',
+            width:500,
+            height:420,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+<!-- script end -->
+  </div>
+</body>
+</html>

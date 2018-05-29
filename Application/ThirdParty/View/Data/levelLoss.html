@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>等级流失率统计</title>
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap.min.css">
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap-select.css">
+    
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script src="__JS__/echart/echarts.min.js" type="text/javascript"></script>
+</head>
+<literal>
+<style>
+  tfoot .bui-grid-cell-text{text-align: center;}
+  .btn-default {height:25px;}
+  .filter-option {margin-top: -4px;}
+  .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+</style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" method="post" class="form-horizontal span48">
+            <div class="row">
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">游戏名称：</label>
+                    <div class="controls">
+                        <select name="game_id" id="game_id"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">系统类型：</label>
+                    <div class="controls">
+                        <select name="os" id="os">
+                            <option value="0">全部</option>
+                            <option value="1">Android</option>
+                            <option value="2">IOS</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">注册日期：</label>
+                    <div class="controls">
+                        <input type="text" class="calendar" name="startDate" id="startDate" value="{:date('Y-m-d',strtotime(date('Y-m-d').' -7 day'))}"><span> - </span><input type="text" class="calendar" name="endDate" id="endDate" value="{:date('Y-m-d')}">
+                    </div>
+                </div>
+
+                <div class="control-group span5">
+                    <label class="control-label" style="width: 80px;">流失类型：</label>
+                    <div class="controls">
+                        <select name="loosType" id="loosType" class="input-small">
+                            <option value="1">所有用户</option>
+                            <option value="2">付费用户</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span5">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                    </div>
+
+                    <div class="controls">
+                        <button  type="button" id="export" class="button button-info">导出</button>
+                    </div>
+                </div>
+                   
+                </div>
+            </div>
+        </form>
+        <form  method="post" action='{:U("Data/levelLoss")}' id="subfm">
+        <input name="game_id" value="" type="hidden" />
+        <input name="os" value="" type="hidden" />
+        <input name="startDate" value="" type="hidden" />
+        <input name="endDate" value="" type="hidden" />
+        <input type="hidden" name="loosType" />
+        <input type="hidden" name="export" value=1 /></form>
+    </div>
+
+    <div class="search-grid-container span25">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+    
+    $(function () {
+        $('.selectpicker').selectpicker({
+                selectAllText: '全选',
+                deselectAllText: '不选',
+                liveSearchPlaceholder: '搜索关键字',
+                noneSelectedText: '',
+                multipleSeparator: ',',
+                liveSearch: true,
+                actionsBox: true
+            });
+        $('#export').click(function(){
+            $("#subfm input[name=game_id]").val($("#game_id").val());
+            $("#subfm input[name=loosType]").val($("#loosType").val());
+            $("#subfm input[name=os]").val($('#os').val());
+            $("#subfm input[name=startDate]").val($("#startDate").val());
+            $("#subfm input[name=endDate]").val($("#endDate").val());
+            $('#subfm').submit();
+        })
+        gameLists();
+    });
+
+    //获取母包渠道号
+    function getPAgentByGame(game_id){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{game_id:game_id},function(ret){
+            _html += "<option>--请选择母包--</option>";
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+            });
+            $('#agent_p').html(_html);
+            $('#agent_p').selectpicker('refresh');
+            $('#agent_p').selectpicker('val', '--请选择母包--');
+        });
+    }
+
+    //获取子包渠道号
+    function getAgentByGame() {
+        var agent = $("#agent_p").val();
+        if (agent != "--请选择渠道号--" && agent != null) {
+            var _html = '';
+            $.post("{:U('Ajax/getChildAgentByAgent')}", {agent:agent}, function(ret){
+                _html += "<option>--请选择子包--</option>";
+                var ret = eval('('+ret+')');
+                $(ret).each(function(i,v){
+                    _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+                });
+                $('#agent').html(_html);
+                $('#agent').selectpicker('refresh');
+                $('#agent').selectpicker('val', '--请选择子包--');
+            });
+        }
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+
+    /**
+     * 获取区服列表
+     * @return {[type]} [description]
+     */
+     function serverList(){
+      var _html = '';
+      var game_id = $("#game_id").val();
+      var agent = $("#agent_p").val();
+      $.post("{:U('Ajax/getServerList')}",{game_id:game_id,agent:agent},function(ret){
+          _html += "<option value='0'>--全部--</option>";
+          var ret = eval('('+ret+')');
+          $(ret).each(function(i,v){
+              _html += "<option value="+v.serverId+">"+v.serverName+'['+v.serverId+']'+"</option>";
+          });
+          $('#serverId').html(_html);
+          $('#serverId').selectpicker('refresh');
+      })
+     }
+
+    BUI.use('common/search',function (Search) {
+    Summary = new BUI.Grid.Plugins.Summary(),
+    editing = new BUI.Grid.Plugins.DialogEditing({
+        contentId : 'content', //设置隐藏的Dialog内容
+        autoSave : true, //添加数据或者修改数据时，自动保存
+        triggerCls : 'btn-edit'
+    }),
+    columns = [
+        {title : '等级',dataIndex :'level', width:150,elCls:'center'},
+        {title : '流失角色（三天未登录）',dataIndex :'day3', width:150,elCls:'center',summary: true},
+        {title : '占比',dataIndex :'day3Rate', width:120,elCls:'center',summary: true},
+        {title : '流失角色（七天未登录）',dataIndex :'day7', width:150,elCls:'center',summary: true},
+        {title : '占比',dataIndex :'day7Rate', width:100,elCls:'center',summary: true},
+    ],
+    store = Search.createStore('{:U("Data/levelLoss")}', {
+            proxy: {
+                save: { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                },
+                method: 'POST'
+            },
+            pageSize:1000,
+            autoSync: true //保存数据后，自动更新
+        }),
+        gridCfg = Search.createGridCfg(columns, {
+            forceFit : true,
+            plugins: [editing, Summary, BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        });
+
+    var search = new Search({
+            store: store,
+            gridCfg: gridCfg
+        }),
+        grid = search.get('grid');
+    });
+
+</script>
+<include file="Public/loading" />
+</body>
+</html>

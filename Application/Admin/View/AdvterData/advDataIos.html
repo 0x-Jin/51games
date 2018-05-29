@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>投放数据概况统计</title>
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap.min.css">
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min2.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap-select.css">
+    
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script src="__JS__/echart/echarts.min.js" type="text/javascript"></script>
+</head>
+<literal>
+<style>
+  tfoot .bui-grid-cell-text{text-align: center;}
+  .btn-default {height:25px;}
+  .filter-option {margin-top: -4px;}
+  .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+  .helpTipWrap{
+    width: 250px;
+    margin: -10px 0px 0px -340px;
+    padding:10px;
+    position: absolute;
+    z-index: 9999;
+    background-color: #fff;
+    border: 1px solid #00a9e8;
+  }
+  .combo-dropdown{
+    z-index: 1999;
+  }
+
+  .helpTipWrap:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent transparent transparent #00a9e8;
+    border-style: solid;
+    border-width: 5px;
+    bottom: 100%;
+    left: initial;
+    content: '';
+    right: -4%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+}
+
+</style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" method="post" class="form-horizontal span48">
+            <div class="row">
+
+                <div class="control-group span9">
+                    <label class="control-label" style="width: 80px;">游戏名称：</label>
+                    <div class="controls" id="agent_contain">
+                        <select id="agent_id" name="agent[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">渠道商：</label>
+                    <div class="controls">
+                        <select name="advteruser_id" id="advteruser_id"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">推广活动组：</label>
+                    <div class="controls">
+                        <select id="events_groupId" name="events_groupId[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8" id="advter">
+                    <label class="control-label" style="width: 80px;">推广活动：</label>
+                    <div class="controls">
+                        <select id="advter_id" name="advter_id[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">统计日期：</label>
+                    <div class="controls">
+                        <input type="text" class="calendar" name="startDate" id="startDate" value="{:date('Y-m-d',strtotime(date('Y-m-d').' -3 day'))}"><span> - </span><input type="text" class="calendar" name="endDate" id="endDate" value="{:date('Y-m-d')}">
+                    </div>
+                </div>
+                
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button class="button button-primary" id="btnSearch" type="button">
+                            搜索
+                        </button>
+                    </div>
+                    <div class="controls">
+                        <button class="button button-info" id="export" type="button">
+                            导出
+                        </button>
+                    </div>
+                   
+                </div>
+            </div>
+        </form>
+        <form  method="post" action='{:U("AdvterData/advDataIos")}' id="subfm"><input name="agent" value="" type="hidden"><input name="advteruser_id" value="" type="hidden"><input name="advter_id" value="" type="hidden"><input name="startDate" value="" type="hidden"><input name="endDate" value="" type="hidden"><input type="hidden" name="export" value=1 /></form>
+    </div>
+
+    <div class="search-grid-container span25">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+    
+    $(function () {
+        BUI.use(['bui/calendar'],function (Calendar) {
+            var datepicker1 = new Calendar.DatePicker({
+              trigger: '#startDate',
+              autoRender: true
+            });
+
+            var datepicker2 = new Calendar.DatePicker({
+              trigger: '#endDate',
+              autoRender: true
+            });
+        });
+        $('.selectpicker').selectpicker({
+                selectAllText: '全选',
+                deselectAllText: '不选',
+                liveSearchPlaceholder: '搜索关键字',
+                noneSelectedText: '',
+                multipleSeparator: ',',
+                liveSearch: true,
+                actionsBox: true
+            });
+        $('#export').click(function(){
+            $("#subfm input[name=agent]").val($('#agent_id').val());
+            $("#subfm input[name=advter_id]").val($('#advter_id').val());
+            $("#subfm input[name=advteruser_id]").val($("#advteruser_id").val());
+            $("#subfm input[name=startDate]").val($("#startDate").val());
+            $("#subfm input[name=endDate]").val($("#endDate").val());
+            $('#subfm').submit();
+        })
+        gameLists();
+        advteruser_id();
+        getEventList();
+        groupList();
+
+        $('#events_groupId').change(function() {
+            var events_groupId = $(this).val();
+            getEventByGroup(events_groupId);
+        });
+    });
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{gameType:2},function(ret){
+            var _html = '<option>--请选择游戏--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+            });
+            $('#agent_id').html(_html);
+            $('.selectpicker').selectpicker('refresh');
+            $('.selectpicker').selectpicker('val', '--请选择游戏--');
+        });
+    }
+
+    //获取推广组
+    function groupList(){
+        var _html = '';
+        $.post("{:U('Ajax/getEventGroup')}",'',function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.groupName+"</option>";
+            });
+            $('#events_groupId').html(_html);
+            $('#events_groupId').selectpicker('refresh');
+            $('#events_groupId').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取推广活动列表
+    function getEventList(){
+        var _html = '';
+        $.post("{:U('Ajax/getEventList')}",{all:1},function(ret){
+            var _html = '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.events_name+"</option>";
+            });
+            $('#advter_id').html(_html);
+            $('#advter_id').selectpicker('refresh');
+            $('#advter_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取广告商
+    function advteruser_id(){
+        var _html = '';
+        $.post("{:U('Ajax/adv_company')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.company_name+"</option>";
+            });
+            $('#advteruser_id').html(_html);
+            $('#advteruser_id').comboSelect();
+        });
+    }
+
+    //通过组获取推广活动
+    function getEventByGroup(events_groupId){
+        var _html = '';
+        $.post("{:U('Ajax/getEventByGroup')}",{events_groupId:events_groupId},function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.events_name+"</option>";
+            });
+            $('#advter_id').html(_html);
+            $('#advter_id').selectpicker('refresh');
+            $('#advter_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //金额格式化
+    function fmoney(s, n) {
+      n = n > 0 && n <= 20 ? n : 2;
+      s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+      var l = s.split(".")[0].split("").reverse(),
+        r = s.split(".")[1];
+      t = "";
+      for (i = 0; i < l.length; i++) {
+        t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+      }
+      return t.split("").reverse().join("") + "." + r;
+    }
+ //获得事件
+function getEvent(){
+     if(window.event)    {return window.event;}
+     func=getEvent.caller;
+     while(func!=null){
+         var arg0=func.arguments[0];
+         if(arg0){
+             if((arg0.constructor==Event || arg0.constructor ==MouseEvent
+                || arg0.constructor==KeyboardEvent)
+                ||(typeof(arg0)=="object" && arg0.preventDefault
+                && arg0.stopPropagation)){
+                 return arg0;
+             }
+         }
+         func=func.caller;
+     }
+     return null;
+}
+
+function showTip(obj){
+    var e = getEvent();
+    //一般用在鼠标或键盘事件上
+      if((e && e.stopPropagation) || e.preventDefault){
+          //W3C取消冒泡事件
+          e.stopPropagation();
+      }else if (window.event){
+          //IE取消冒泡事件
+          window.event.cancelBubble = true;
+      }
+    $(obj).children('.helpTipWrap').fadeToggle("fast","linear");
+}
+
+$('body').click(function(){
+    $('.helpTipWrap').hide();
+})
+
+function getTreeData(_data){
+    BUI.use(['bui/extensions/treegrid'],function (TreeGrid) {
+      var data = _data;
+      //由于这个树，不显示根节点，所以可以不指定根节点
+      var tree = new TreeGrid({
+        render : '#grid',
+        nodes : data,
+        columns : [
+            {title : '日期',dataIndex :'dayTime', width:150,elCls:'center',sortable : false},
+            {title : '游戏名称',dataIndex :'gameName', width:250,elCls:'center',sortable : false},
+            {title : '所属广告商',dataIndex :'advteruserName', width:100,elCls:'center',sortable : false}, 
+            {title : '推广活动',dataIndex :'eventName', width:200,elCls:'center',sortable : false}, 
+            {title : '成本<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>成本：</h6>选择日期范围内，每天每个渠道号的成本。</div></span>',dataIndex :'cost', width:100,elCls:'center',sortable : false},
+            {title : '新增设备数<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增设备数：</h6>选择日期范围内，每天新增加的设备数。</div></span>',dataIndex :'newDevice', width:100,elCls:'center',sortable : false},
+            {title : '唯一注册数<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>唯一注册数：</h6>选择日期范围内，每天新增并注册的设备数。</div></span>',dataIndex :'disUdid', width:100,elCls:'center',sortable : false},
+            {title : '新增账号数<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增账号数：</h6>选择日期范围内，每天新增加的账号数。</div></span>',dataIndex :'newUser', width:100,elCls:'center',sortable : false},
+            {title : '注册转化率<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>注册转化率：</h6>选择日期范围内，唯一注册数/新增设备数。</div></span>',dataIndex :'regRate', width:100,elCls:'center',sortable : false},
+            {title : '注册单价<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>注册转化率：</h6>选择日期范围内，成本/新增账号数。</div></span>',dataIndex :'regCost', width:100,elCls:'center',sortable : false},
+            {title : '新增充值金额<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增充值金额：</h6>选择日期范围内，新增玩家在当日的充值金额。</div></span>',dataIndex :'newPay', width:100,elCls:'center',sortable : false},
+            {title : '新增充值人数<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增充值人数：</h6>选择日期范围内，新增当天注册并充值人数。</div></span>',dataIndex :'newPayUser', width:100,elCls:'center',sortable : false},
+            {title : '新增付费率<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增付费率：</h6>选择日期范围内，新增充值人数/新增账号数。</div></span>',dataIndex :'newPayRate', width:100,elCls:'center',sortable : false},
+            {title : '新增ARPU<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增ARPU：</h6>选择日期范围内，新增充值金额/新增账号数。</div></span>',dataIndex :'newARPU', width:100,elCls:'center',sortable : false},
+            {title : '新增ARPPU<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>新增ARPPU：</h6>选择日期范围内，新增充值金额/新增充值人数。</div></span>',dataIndex :'newARPPU', width:100,elCls:'center',sortable : false},
+            {title : '当天充值金额<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>当天充值金额：</h6>选择日期范围内，每天的总充值金额。</div></span>',dataIndex :'allPay', width:100,elCls:'center',sortable : false},
+            {title : '充值人数<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>充值人数：</h6>选择日期范围内，每天的总充值人数。</div></span>',dataIndex :'allPayUser', width:100,elCls:'center',sortable : false},
+            {title : '活跃付费率<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>活跃付费率：</h6>选择日期范围内，去重活跃充值人数/DAU。</div></span>',dataIndex :'actPayRate', width:100,elCls:'center',sortable : false},
+            {title : '活跃ARPU<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>活跃ARPU：</h6>选择日期范围内，当天充值金额/DAU。</div></span>',dataIndex :'ARPU', width:100,elCls:'center',sortable : false},
+            {title : '活跃ARPPU<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>活跃ARPU：</h6>选择日期范围内，当天充值金额/充值人数。</div></span>',dataIndex :'ARPPU', width:100,elCls:'center',sortable : false},
+            {title : '次留<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>次留：</h6>选择日期范围内，次日有登录玩家数/新增账号数。</div></span>',dataIndex :'day1', width:100,elCls:'center',sortable : false},
+            {title : '老用户活跃数<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>老用户活跃数：</h6>选择日期范围内，非新增活跃玩家去重汇总。</div></span>',dataIndex :'oldUserLogin', width:100,elCls:'center',sortable : false},
+            {title : 'DAU<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>DAU：</h6>选择日期范围内，活跃玩家去重汇总。</div></span>',dataIndex :'DAU', width:100,elCls:'center',sortable : false},
+            {title : '1日回本率<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>1日回本率：</h6>选择日期范围内，新增充值金额/成本。</div></span>',dataIndex :'dayRate', width:100,elCls:'center',sortable : false},
+            {title : '区间充值总额<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>区间充值总额：</h6>当天注册并且在选定日期内的充值金额（实时）。</div></span>',dataIndex :'allPayNow', width:100,elCls:'center',sortable : false},
+            {title : '区间回本率<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>区间回本率：</h6>选择日期范围内，区间充值总额/成本（实时）。</div></span>',dataIndex :'allPayRate', width:100,elCls:'center',sortable : false},
+            {title : '至今充值金额<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>至今充值金额：</h6>选择日期范围内，每个包历史总充值金额（非实时，每天凌晨更新前一天充值）。</div></span>',dataIndex :'totalPay', width:100,elCls:'center',sortable : false},
+            {title : '至今回本率<span class="icon-question-sign" onclick="showTip(this)" style="z-index: 22222;"><div class="helpTipWrap" style="display: none; "><h6>至今回本率：</h6>选择日期范围内，至今充值金额/成本。</div></span>',dataIndex :'totalPayRate', width:100,elCls:'center',sortable : false}
+          ],
+        height:520
+      });
+      tree.render();
+      
+  });
+
+}
+
+$('#btnSearch').click(function(){
+    var _url = '{:U("AdvterData/advDataIos")}';
+    $('.mark').show();
+    $('.spinner').show();
+    var _data = $('#searchForm').serialize();
+    $.post(_url,_data,function(ret){
+        var ret = eval('('+ret+')');
+        console.log(ret.rows.length);
+        if(ret.rows.length > 0){
+            $('#grid').html('');
+            getTreeData(ret.rows);
+            $('.mark').hide();
+            $('.spinner').hide();
+        }else{
+            alert('无搜索结果');
+            $('.mark').hide();
+            $('.spinner').hide();
+            return false;
+        }
+        
+    });
+});
+
+</script>
+<include file="Public/loading" />
+</body>
+</html>

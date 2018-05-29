@@ -1,0 +1,125 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('AdvterData/edit')}">
+        <input type="hidden" value="advter_cost" name="table"/>
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">日期：</label>
+            <div class="controls">
+                <input type="text" class="calendar" name="costMonth" id="costMonth" value="{$info.costMonth}" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+                <input type="text" value="{$info.principal}" name="principal" class="input-normal" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">系统：</label>
+            <div class="controls">
+              <select name="gameType" id="gameType">
+                <option value="IOS" <if condition="$info.gameType eq IOS or $info.gameType eq ios">selected</if> >IOS</option>
+                <option value="安卓" <if condition="$info.gameType eq 安卓">selected</if>>安卓</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">包号：</label>
+            <div class="controls">
+                <input type="text" id="agent" value="{$info.agent}" class="input-normal" data-rules="{required:true}" name="agent" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">游戏名称：</label>
+            <div class="controls">
+                <input type="text" id="gameName" value="{$info.gameName}" class="input-normal" data-rules="{required:true}" name="gameName" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">渠道账号：</label>
+            <div class="controls">
+                <input type="text" id="channelAccount" class="input-normal" name="channelAccount" value="{$info.channelAccount}" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">媒体：</label>
+            <div class="controls">
+                <input type="text" id="media" class="input-normal" name="media" value="{$info.media}" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">支出金额：</label>
+            <div class="controls">
+                <input type="text" class="input-normal" name="cost" value="{$info.cost}" />
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+
+BUI.use(['bui/overlay', 'bui/form', 'bui/calendar'], function(Overlay, Form, Calendar) {
+
+  var form = new Form.HForm({
+    srcNode: '#J_Form'
+  }).render();
+
+  var dialog = new Overlay.Dialog({
+    title: '成本修改',
+    width: 450,
+    height: 370,
+    //配置DOM容器的编号
+    contentId: 'content',
+    success: function() {
+      var _data = $('#J_Form').serialize();
+      $.post("{:U('AdvterData/edit')}",_data,function(ret){
+        alert(ret.info);
+        dialog.hide();
+        loadData();
+      });
+      // $('#J_Form').submit();
+    }
+  });
+  
+  var datepicker = new Calendar.DatePicker({
+    trigger: '#costMonth',
+    dateMask: 'yyyy/mm/dd',
+    autoRender: true
+  });
+
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

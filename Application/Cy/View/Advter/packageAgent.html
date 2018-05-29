@@ -1,0 +1,91 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/packageAgent')}">
+        <input type="hidden" value="agent" name="table"/>
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label" style="width: 80px;">类型：</label>
+                <div class="controls">
+                    <select name="type" id="type" onchange="changeType(this)" style="width: 80px;">
+                        <option value="1">单个</option>
+                        <option value="2">批量</option>
+                    </select>
+                    <span style="color: red; display: none" id="agent_tip">&nbsp;&nbsp;例子：如重打qyj001-qyj050</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="one">
+            <div class="control-group span10">
+                <label class="control-label" style="width: 80px;">渠道号：</label>
+                <div class="controls">
+                    <input name="agent" id="agent" class="input-normal control-text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="more_first" style="display: none">
+            <div class="control-group span10">
+                <label class="control-label" style="width: 80px;">前缀：</label>
+                <div class="controls">
+                    <input name="agent_first" id="agent_first" class="input-normal control-text" />
+                    <span style="color: red">&nbsp;&nbsp;输入：qyj</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="more_last" style="display: none">
+            <div class="control-group span10">
+                <label class="control-label" style="width: 80px;">编号：</label>
+                <div class="controls">
+                    <input name="agent_last1" id="agent_last1" class="input-normal control-text" style="width: 80px;" />  -  <input name="agent_last2" id="agent_last2" class="input-normal control-text" style="width: 80px;" />
+                    <span style="color: red">&nbsp;&nbsp;输入：001 - 050</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    function changeType(obj) {
+        var type = $(obj).val();
+        if (type == 1) {
+            $("#one").show();
+            $("#agent_tip").hide();
+            $("#more_first").hide();
+            $("#more_last").hide();
+        } else {
+            $("#one").hide();
+            $("#agent_tip").show();
+            $("#more_first").show();
+            $("#more_last").show();
+        }
+    }
+
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'重打渠道包',
+            width:450,
+            height:160,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

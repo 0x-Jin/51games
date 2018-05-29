@@ -1,0 +1,318 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:450px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/agentAdd')}">
+        <input type="hidden" value="agent" name="table"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属广告商：</label>
+            <div class="controls">
+              <select name="advteruser_id" id="advteruser_Name"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属主体：</label>
+            <div class="controls">
+              <select name="mainbody_id" id="mainbody"></select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属渠道分类：</label>
+            <div class="controls">
+              <select name="channel_id" id="channel_Name"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">推广游戏：</label>
+            <div class="controls">
+              <select name="game_id" id="game_Id"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row"> 
+          <div class="control-group span8">
+            <label class="control-label">包编号：</label>
+            <div class="controls">
+              <input name="agent" id="agentnum" data-rules="{required:true}"  class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row"> 
+          <div class="control-group span8">
+            <label class="control-label">包名称：</label>
+            <div class="controls">
+              <input name="agentName" id="agentName" data-rules="{required:true}" class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="row"> 
+          <div class="control-group span8">
+            <label class="control-label">渠道充值回调地址：</label>
+            <div class="controls">
+              <input name="agentCallbackUrl" id="agentCallbackUrl"  class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">部门：</label>
+            <div class="controls">
+              <select name="departmentId" id="departmentId">
+                {$tplPartment}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏类型：</label>
+                <div class="controls">
+                    <select name="gameType" id="gameType">
+                        <option value="1">Android</option>
+                        <option value="2">IOS</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="appleId_main" style="display:none;">
+            <div class="control-group span8">
+                <label class="control-label">苹果ID：</label>
+                <div class="controls">
+                    <input type="text" name="appleId" id="appleId" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="bundleId_main" style="display:none;">
+            <div class="control-group span8">
+                <label class="control-label">苹果包名：</label>
+                <div class="controls">
+                    <input type="text" name="bundleId" id="bundleId" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="iosDownUrl_main" style="display:none;">
+            <div class="control-group span8">
+                <label class="control-label">苹果下载链接：</label>
+                <div class="controls">
+                    <input type="text" name="iosDownUrl" id="iosDownUrl" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">渠道状态：</label>
+            <div class="controls">
+              <select name="status">
+                <option value="0">开启</option>
+                <option value="1">关闭</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">登录状态：</label>
+            <div class="controls">
+              <select name="loginStatus">
+                <option value="0">开启</option>
+                <option value="1">关闭</option>
+                <option value="2">关闭新增</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">充值状态：</label>
+            <div class="controls">
+              <select name="payStatus">
+                <option value="0">开启</option>
+                <option value="1">关闭</option>
+                <option value="2">切充值</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+$(function(){
+  //数据加载
+  // principal();
+  gameList();
+  channelType();
+  adv_company();
+  getMainBody();
+
+  $('#gameType').change(function(){
+    var val = $(this).val();
+    if(val == 1){
+      $('#bundleId_main').hide();
+      $('#bundleId').val('');
+      $('#appleId_main').hide();
+      $('#appleId').val('');
+      $('#iosDownUrl_main').hide();
+      $('#iosDownUrl').val('');
+    }else{
+      $('#bundleId_main').show();
+      $('#appleId_main').show();
+      $('#iosDownUrl_main').show();
+    }
+  });
+
+  $('#game_Id').change(function(){
+    autoCreateAgent($(this).val());
+  });
+
+    $('#channel_Name').change(function(){
+        channelKey($(this).val());
+    });
+
+  //获取渠道分类
+  function channelType(){
+    var _html = '';
+      $.post("{:U('Ajax/getChannelList')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            if(v.id == 1){
+              _html += "<option value="+v.id+" selected>"+v.channelName+"</option>";
+            }else{
+              _html += "<option value="+v.id+">"+v.channelName+"</option>";
+            }
+        });
+        $('#channel_Name').html(_html);
+        $('#channel_Name').comboSelect();
+      });
+  }
+
+  //获取广告商
+  function adv_company(){
+      var _html = '';
+      $.post("{:U('Ajax/adv_company')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.company_name+"</option>";
+        });
+        $('#advteruser_Name').html(_html);
+        $('#advteruser_Name').comboSelect();
+      });
+  }
+
+  //获取主体
+  function getMainBody(){
+      var _html = '';
+      $.post("{:U('Ajax/getMainBody')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.mainBody+"</option>";
+        });
+        $('#mainbody').html(_html);
+        $('#mainbody').comboSelect();
+      });
+  }
+
+  //获取负责人
+  /*function principal(){
+    var _html = '';
+      $.post("{:U('Ajax/principals')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.name+"</option>";
+        });
+        $('#principal_Id').html(_html);
+        $('#principal_Id').comboSelect();
+      });
+  }*/
+
+  //获取游戏
+  function gameList(){
+    var _html = '';
+      $.post("{:U('Ajax/getGameList')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+            _html += "<option value="+v.id+">"+v.gameName+"</option>";
+        });
+        $('#game_Id').html(_html);
+        $('#game_Id').comboSelect();
+        autoCreateAgent($('#game_Id').val());
+      });
+  }
+
+  //获取渠道号
+  function autoCreateAgent(game_id){
+    $.post("{:U('Ajax/autoCreateAgent')}",{game_id:game_id},function(ret){
+        var ret = eval('('+ret+')');
+        $('#agentnum').val(ret[0]['agent']);
+      });
+  }
+
+  //渠道值
+  function channelKey(id) {
+      $(".param_value").remove();
+      if (id > 1) {
+          $.post("{:U('Ajax/getChannelKey')}", {id: id}, function(ret){
+              var _ret = eval("("+ret+")"), _html = "";
+              $(_ret).each(function(i, v){
+                  _html += '<div class="row param_value">'+
+                      '<div class="control-group span8">'+
+                      '<label class="control-label">'+v.value+'：</label>'+
+                      '<div class="controls">'+
+                      '<input name="value'+v.name+'" class="input-normal control-text" />'+
+                      '</div>'+
+                      '</div>'+
+                      '</div>';
+              });
+              $("#J_Form").append(_html);
+          });
+      }
+  }
+});
+BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+var form = new Form.HForm({
+  srcNode : '#J_Form'
+}).render();
+
+var dialog = new Overlay.Dialog({
+      title:'新增包编号',
+      width:450,
+      height:520,
+      //配置DOM容器的编号
+      contentId:'content',
+      success:function () {
+        $('#J_Form').submit();
+      }
+    });
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" style="height: 340px; overflow-y:auto;" action="{:U('Data/orderSupplement')}">
+        <input type="hidden" name="orderId" value="{$order.orderId}">
+        <b>订单信息</b>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">唯一标识符：</label>
+                <div class="controls">
+                    {$order.userCode}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">订单号：</label>
+                <div class="controls">
+                    {$order.orderId}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">渠道名称：</label>
+                <div class="controls">
+                    {$order.channelName}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    {$agent.agentName}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">金额：</label>
+                <div class="controls">
+                    {$order.amount}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">下单时间：</label>
+                <div class="controls">
+                    <if condition="$order['createTime']">{$order.createTime|date="Y-m-d H:i:s",###}<else />无</if>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">渠道订单号：</label>
+                <div class="controls">
+                    <input type="text" name="tranId" value="" class="input-normal"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span9">
+                <label class="control-label">充值时间：</label>
+                <div class="controls">
+                    <input type="text" id="paymentTime" class="calendar calendar-time" name="paymentTime" />
+                    &nbsp;<input type="button" class="button-info" onclick="makeTime()" value="取此时" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(["bui/overlay", "bui/form", "bui/calendar"], function(Overlay, Form, Calendar) {
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+        var dialog = new Overlay.Dialog({
+            title: "补单",
+            width: 400,
+            height: 380,
+            //配置DOM容器的编号
+            contentId: "content",
+            success:function () {
+                $("#J_Form").submit();
+            }
+        });
+        var datepicker = new Calendar.DatePicker({
+            trigger: "#paymentTime",
+            dateMask: "yyyy-mm-dd HH:MM:ss",
+            showTime: true,
+            autoRender: true
+        });
+        dialog.show();
+    });
+    
+    function makeTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth()+1;
+        var date = now.getDate();
+        var hour = now.getHours();
+        var minute = now.getMinutes();
+        var second = now.getSeconds();
+        var time = year+"-"+(month<10?"0"+month:month)+"-"+(date<10?"0"+date:date)+" "+(hour<10?"0"+hour:hour)+":"+(minute<10?"0"+minute:minute)+":"+(second<10?"0"+second:second);
+        $("#paymentTime").val(time);
+    }
+</script>

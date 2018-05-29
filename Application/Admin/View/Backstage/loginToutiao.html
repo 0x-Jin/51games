@@ -1,0 +1,61 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <form id="sub_form" method="post" action="{:U('Backstage/toutiaoLogin')}">
+        <input type="hidden" name="account" value="{$account.account}">
+        <input type="hidden" name="password" value="{$account.password}">
+        <input type="hidden" name="toutiao" value="{:urlencode($toutiao)}">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">请输入验证码：<img src="data:image/png;base64,{$code}"/></label>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><input name="code" id="code" type="text" class="input-normal control-text" /></label>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(["bui/overlay", "bui/form"], function (Overlay, Form) {
+
+        var form = new Form.HForm({
+                srcNode: "#J_Form"
+            }).render(),
+
+            dialog = new Overlay.Dialog({
+                title: "验证码输入",
+                width: 300,
+                height: 150,
+                //配置DOM容器的编号
+                contentId: "content",
+                buttons: [
+                    {
+                        text: "确定",
+                        elCls: "button button-primary",
+                        handler: function() {
+                            $("#sub_form").submit();
+                            this.close();
+                        }
+                    },{
+                        text: "取消",
+                        elCls: "button",
+                        handler: function(){
+                            this.close();
+                        }
+                    }
+                ]
+            });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

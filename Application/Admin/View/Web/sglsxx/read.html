@@ -1,0 +1,208 @@
+                {$header}
+                   <!--  <div class="sytop_tips pa">
+                       <a href="#">
+                           新服推荐：火爆新服【公测15服 灵魂宝石】
+                       </a>
+                   </div> -->
+                </div>
+                <div class="nei-topdiv02">
+                    <div class="nei-wrapdiv-l fl">
+                        <h1 class="nei-l-top-title">
+                            {$read['title']}
+                        </h1>
+
+                        <div class="nei-l-top-address pr">
+                            <a href="{$website}">{$info.name}</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="{$website}zixun/">列表</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;{$column_name}
+                            <div class="nei-l-top-date pa">
+                                {:date('Y年m月d日',$read['createTime'])}
+                            </div>
+                        </div>
+                        <div class="nei-l-con">
+                            {$read['content']}
+                        </div>
+                    </div>
+                    <div class="nei-wrapdiv-r fr">
+                        <div class="nei-r-top"  style="background: url({$img_url}{$info.gameLogo}) left top no-repeat;background-size: contain;">
+                            <h2 class="nei-r-top-name">
+                                {$info.name}
+                            </h2>
+                            <p class="nei-r-top-des">
+                                {$info.gameType}  |  {$info.gameSize}M
+                            </p>
+                        </div>
+                        <p class="nei-r-top-des01">
+                            {$info.remark}
+                        </p>
+                        <div class="nei-r-xiazai pr">
+                            <div class="r-xzmar01 pa" id="QR" >
+                            </div>
+                            <div class="r-xzmar02 pa dn">
+                            </div>
+                            <a class="nei-ios-a db" href="{$info.iosDownload}">
+                            </a>
+                            <a class="nei-android-a db" href="{$info.androidDownload}">
+                            </a>
+                        </div>
+                        <div class="nei-r-server">
+                            <div class="nei-ser-l fl">
+                                <h2 class="nei-ser-top">
+                                    ios开服
+                                </h2>
+                                <ul class="nei-ser-ul" id="iosServers">
+                                    
+                                </ul>
+                            </div>
+                            <div class="nei-ser-r fr">
+                                <h2 class="nei-ser-top">
+                                    Android开服
+                                </h2>
+                                <ul class="nei-ser-ul" id="androidServers">
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="nei-gonggao-top">
+                            <h2 class="nei-gg-head pr">
+                                最新公告
+                                <a class="nei_gg_more db pa" href="{$website}zixun/">
+                                    更多>
+                                </a>
+                            </h2>
+                        </div>
+                        <h2 class="nei-gg-title">
+                            
+                        </h2>
+                        <div class="nei-gg-con">
+                            
+                        </div>
+                        <!--<div class="nei-gonggao-top">
+                            <h2 class="nei-gg-head pr">
+                                游戏礼包
+                                <a class="nei_gg_more db pa" href="{$website}libao/">
+                                    更多>
+                                </a>
+                            </h2>
+                        </div>
+                        <ul class="nei-yxlb-ul">
+                             <li>
+                                <div class="nei-yxlb-l">
+                                    <p class="nei-yxlb-name">
+                                        【龙之影】  钻石礼包
+                                    </p>
+                                    <p class="nei-yxlb-des">
+                                        礼包内容：绑金3W，初级升星石；10个
+                                    </p>
+                                </div>
+                                <a class="linqu_a db pa" href="#">
+                                    领取
+                                </a>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!--right侧边栏开始-->
+        <div class="side-nav-right" id="side_right" style="_top:650px;background: url({$img_url}{$info.concern}) no-repeat;">
+            <div class="r-side-nei pr">
+                <a class="rightside_close db pa" href="javascript:;">
+                </a>
+                <a class="sinawb_btn db pa" href="javascript:;">
+                </a>
+                <a class="txwb_btn db pa" href="javascript:;">
+                </a>
+            </div>
+        </div>
+        <div class="side-nav-right-x dn" id="side_right_xiao">
+        </div>
+
+      
+       
+        <script language="javascript">
+            var cur_index= 0;
+$(document).ready(function(){
+    var abbr = '{$info.abbr}';
+    var link = '{$url_short}';
+    var _data = {width: 107,height: 107,text: link};
+    $('#QR').qrcode(_data);
+    //获取区服数据
+    var abbr    = '{$abbr}';
+    var game_id = '{$info.game_id}';
+    var home_id = '{$info.id}';
+    var _data = {agent:abbr,game_id:game_id};
+    $.ajax({  
+        type : "POST",
+        dataType:"jsonp",
+        url : "https://apisdk.chuangyunet.net/Api/Ajax/getServer",
+        data : _data,
+        success : function(result) {
+            console.log(result);
+            if(result.status == 1){
+                var ios_html = android_html = '';
+                $(result['info']['ios']).each(function(_index, _val){
+                  ios_html += "<li><a href='javascript:;'>"+_val['serverName']+"</a></li>"
+                });
+
+                $("#iosServers").html(ios_html);
+
+                $(result['info']['android']).each(function(a_index, a_val){
+                  android_html += "<li><a href='javascript:;'>"+a_val['serverName']+"</a></li>"
+                });
+                $("#androidServers").html(android_html);
+          }
+        }  
+    });
+
+    $.ajax({  
+        type : "POST",
+        dataType:"jsonp",
+        url : "https://apisdk.chuangyunet.net/Api/Ajax/getNewGongGao",
+        data : {home_id:home_id},
+        success : function(result) {
+            console.log(result);
+            if(result.status == 1){
+                var _html = '';
+                $(".nei-gg-title").html(result['info'][0]['title']);
+                $(".nei-gg-con").html(result['info'][0]['content']);
+          }
+        }  
+    });
+    
+    /*右侧边收缩展开*/ 
+    $('#side_right_xiao').click(function(){
+        $('.side-nav-right-x').animate({
+            right: '-61'
+        },400);
+        $('.side-nav-right').animate({
+            right: '0',
+            opacity: 'show'
+        }, 800 );
+    });
+    $('.rightside_close').click(function(){
+        $('.side-nav-right-x').animate({
+            right: '0',
+            opacity: 'show'
+        },400);
+        $('.side-nav-right').animate({
+            right: '-201',
+            opacity: 'show'
+        }, 800 );
+    });
+    
+    $('.nei-ios-a').click(function(){
+        //console.log('111');
+        $('.r-xzmar01').show();
+        $('.r-xzmar02').hide();
+    });
+    $('.nei-android-a').click(function(){
+        $('.r-xzmar02').show();
+        $('.r-xzmar01').hide();
+    });
+    
+    
+});
+        </script>
+    </body>
+</html>

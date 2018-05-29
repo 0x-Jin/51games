@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0,user-scalable=yes"/>
+    <title>{$info.name}</title>
+    <link rel="stylesheet" href="{$static_url}/css/common.css">
+    <link href="{$static_url}/css/video-js.css" rel="stylesheet" type="text/css"> 
+    <link rel="stylesheet" href="{$static_url}/css/index.css">
+    <script src="https://img.chuangyunet.net/static/web/lsyxzj/js/jquery1.8.3.js" type="text/javascript"></script>
+    <script src="https://img.chuangyunet.net/static/web/lsyxzj/js/jquery.bxslider.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://img.chuangyunet.net/static/web/lsyxzj/js/jquery.qrcode.min.js"></script>
+    <script src="{$static_url}/js/video.js"></script>
+    <script src="{$static_url}/js/index.js"></script>
+    <!-- 视频兼容ie -->
+    <script>  
+        videojs.options.flash.swf = "https://example.com/path/to/video-js.swf";  
+    </script>  
+</head>
+<body>
+    <div class="jy-mian jy-re">
+        <div class="jy-setting jy-ab" style="background: url('{$static_url}/images/header1.png') no-repeat center top;">
+            
+        </div>
+        <div class="jy-centent" >
+            <div class="jy-topdiv" style="background: url('{$static_url}/images/header.png') no-repeat center top;">
+                <!-- logo显示 -->
+                <a href="{$website}">
+                    <div class="jy-logo"></div>
+                </a>
+                
+                <!-- 首页导航 start -->
+                <div class="jy-nav">
+                    <ul>
+                        <li><a href="{$website}">
+                            <i class="jy-pitch-color"></i>
+                            <div class="jy-nav-zh">官网首页</div>
+                            <div class="jy-nav-en">HOME</div>
+                        </a></li>
+                        <li><a href="#">
+                            <i></i>
+                            <div class="jy-nav-zh">新闻资讯</div>
+                            <div class="jy-nav-en">NEWS  INFORMATION</div>
+                        </a></li>
+                        <li><a href="#">
+                            <i></i>
+                            <div class="jy-nav-zh jy-welfare">福利中心</div>
+                            <div class="jy-nav-en">WELFARE  CENTER</div>
+                        </a></li>
+                        <li><a href="#">
+                            <i></i>
+                            <div class="jy-nav-zh">游戏特色</div>
+                            <div class="jy-nav-en">GAME  FEATURES</div>
+                        </a></li>
+                    </ul>
+                </div>
+                <!-- 首页导航 end -->
+                <!-- 链接生成二维码 start -->
+                <div class="jy-qrcode">
+                    <div class="jy-div" id="QR"></div>
+                    <div class="jy-div2">
+                        <a href="{$info.androidDownload}" class="jy-android-a db"></a>
+                        <a href="{$info.iosDownload}" class="jy-ios-a db"></a>
+                    </div>
+                </div>
+                <!-- 链接生成二维码 end -->
+
+            </div>
+            <div class="jy_focnews">
+                <!-- 轮播 start -->
+                <div class="jy_foc fl">
+                    {:W('Slide/slideList', array($info['agent'], 13 , 1 , 0))}
+                </div>
+                <!-- 轮播 end -->
+                
+                <!-- 各个文章列表切换 start -->
+                <div class="jy_news fr">
+                    <div class="news">
+                        <a class="more news-more" href="{$website}zixun/" target="_blank" title="更多资讯">
+                            more+
+                        </a>
+                        <ul class="news-nav">
+                            <li class="on" data-newsid="zuixin">
+                                <a class="news-1">
+                                    最新
+                                </a>
+                            </li>
+                            <li data-newsid="xinwen">
+                                <a class="news-2">
+                                    新闻
+                                </a>
+                            </li>
+                            <li data-newsid="huodong">
+                                <a class="news-3">
+                                    公告
+                                </a>
+                            </li>
+                            <li data-newsid="meiti">
+                                <a class="news-4">
+                                    活动
+                                </a>
+                            </li>
+                            <li data-newsid="gonglve">
+                                <a class="news-5">
+                                    攻略
+                                </a>
+                            </li>
+                        </ul>
+                        <volist name="gonggao" id="vo" offset="0" length='1'>
+                            <a href="{$vo.link}/{$vo.id}.html" target="_blank" title="">
+                                <div class="jy-news-title">
+                                    {$vo.title}
+                                </div>
+                            </a>
+                        </volist>
+                        <div class="jy-news-title-border"></div>
+                        <ul class="news-list">
+                            <volist id="vo" name="zuixin" offset="0" length='4'>
+                            <li>
+                                <span class="news-date">
+                                    [{:date('m-d',$vo['createTime'])}]
+                                </span>
+                                <a class="news-title fl" href="{$vo.link}/{$vo.id}.html" target="_blank" title="">
+                                    {$vo.title}
+                                </a>
+                                <div class="jy-news-li-border"></div>
+                            </li>
+                            </volist>
+                        </ul>
+                        <ul class="news-list hidden jy-none">
+                            <volist id="vo" name="xinwen" offset="0" length='4'>
+                            <li>
+                                <span class="news-date">
+                                    [{:date('m-d',$vo['createTime'])}]
+                                </span>
+                                <a class="news-title fl" href="{$vo.link}/{$vo.id}.html" target="_blank" title="">
+                                    {$vo.title}
+                                </a>                                
+                                <div class="jy-news-li-border"></div>
+                            </li>
+                            </volist>
+                        </ul>
+                        <ul class="news-list hidden jy-none">
+                            <volist id="vo" name="gonggao" offset="0" length='4'>
+                            <li>
+                                <span class="news-date">
+                                    [{:date('m-d',$vo['createTime'])}]
+                                </span>
+                                <a class="news-title fl" href="{$vo.link}/{$vo.id}.html" target="_blank" title="">
+                                    {$vo.title}
+                                </a>
+                                <div class="jy-news-li-border"></div>
+                            </li>
+                            </volist>
+                        </ul>
+                        <ul class="news-list hidden jy-none">
+                            <volist id="vo" name="huodong" offset="0" length='4'>
+                            <li>
+                                <span class="news-date">
+                                    [{:date('m-d',$vo['createTime'])}]
+                                </span>
+                                <a class="news-title fl" href="{$vo.link}/{$vo.id}.html" target="_blank" title="">
+                                    {$vo.title}
+                                </a>
+                                <div class="jy-news-li-border"></div>
+                            </li>
+                            </volist>
+                        </ul>
+                        <ul class="news-list hidden jy-none">
+                            <volist id="vo" name="gonglve" offset="0" length='4'>
+                            <li>
+                                <span class="news-date">
+                                    [{:date('m-d',$vo['createTime'])}]
+                                </span>
+                                <a class="news-title fl" href="{$vo.link}/{$vo.id}.html" target="_blank" title="">
+                                    {$vo.title}
+                                </a>
+                                <div class="jy-news-li-border"></div>
+                            </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                <!-- 各个文章列表切换 end -->
+        </div>
+        <div class="jy-official">
+            <div class="jy-sprog fl">
+                <div class="jy-sprog-daile fl jy-re">
+                    <div class="jy-daile">
+                        <div class="jy-daile-zh">新手指引</div>
+                        <div class="jy-daile-en">Novice guide</div>
+                    </div>
+                    <div class="jy-introduce">
+                        <div class="jy-introduce-left fl">
+                            <a href="{$website}zixun/#gonglve">
+                                <div class="jy-introduce-zh">高手进阶</div>
+                                <div class="jy-introduce-en">Advanced master</div>
+                            </a>
+                        </div>
+                        <div class="jy-introduce-right fr">
+                            <div class="jy-introduce-zh">热门玩法</div>
+                            <div class="jy-introduce-en">Hot play</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ios/android切换 start -->
+                <div class="jy-sprog-region fr">
+                    <div class="jy-sprog-nav jy-re">
+                        <ul>
+                            <li class="on">
+                                <div class="jy-class-img jy-sprog-img1 jy-color-img1"></div>
+                            </li>
+                            <li class="">
+                                <div class="jy-class-img jy-sprog-img2"></div>
+                            </li>
+                            <li>
+                                <div class="jy-class-img jy-sprog-img3"></div>
+                            </li>
+                        </ul>
+                        <div class="jy-border-img"></div>
+                    </div>
+                    <ul class="jy-sprog-div jy-sprog-ios active" id="iosServers"></ul>
+                    <ul class="jy-none jy-sprog-div jy-sprog-android" id="androidServers"></ul>
+                    <ul class="jy-none jy-sprog-div jy-sprog-news" id="newServers"></ul>
+                </div>
+                <!-- ios/android切换 end -->
+            </div>
+            <div class="jy-video fr">
+                <video id="video_id" class="video-js vjs-default-skin vjs-big-play-centered" controls="controls" poster="{$static_url}/images/jy-slide-img0.jpg" preload="none" width="516px" height="272px"  data-setup="{}">
+                    <source src="{$static_url}/videos/video.mp4" type='video/mp4' />   
+                    <source src="{$static_url}/videos/video.webm" type='video/webm' />   
+                    <source src="{$static_url}/videos/video.ogg" type='video/ogg' /> 
+                </video>  
+            </div>
+        </div>
+
+        <!-- 职业介绍 start -->
+        <div class="jy-occupation">
+            <div class="jy-occu-title jy-re"><em>职业介绍</em><span>/ Career introduction</span></div>
+            <div class="jy-occu-div jy-re">
+                <div class="jy-occu-datile fl">
+                    <div class="jy-datile-writ fl">
+                        <div class="jy-writ-title">无极</div>
+                        <div class="jy-writ-icon"></div>
+                        <div class="jy-writ-block">勇猛刚毅，瞬秒群敌</div>
+                        <p>职业属性：高血量，物理攻击</p>
+                        <p>武器：无极剑</p>
+                        <p>定位：近战、群攻</p>
+                        <p>技能：无极剑，八荒剑阵，无极参差剑</p>
+                        <div class="jy-skill">
+                            <img src="{$static_url}/images/jy-skill2.png" alt="">
+                            <img src="{$static_url}/images/jy-skill3.png" alt="">
+                            <img src="{$static_url}/images/jy-skill4.png" alt="">
+                        </div>
+                    </div>
+                    <div class="jy-datile-writ fl jy-none">
+                        <div class="jy-writ-title">绝情</div>
+                        <div class="jy-writ-icon"></div>
+                        <div class="jy-writ-block">灵动隐秘，单攻刺杀</div>
+                        <p>职业属性：高闪避，物理攻击</p>
+                        <p>武器：绝情剑</p>
+                        <p>定位：远攻、单体</p>
+                        <p>技能：绝情剑，九绝剑阵，无极辟水剑</p>
+                        <div class="jy-skill">
+                            <img src="{$static_url}/images/jy-skill5.png" alt="">
+                            <img src="{$static_url}/images/jy-skill6.png" alt="">
+                            <img src="{$static_url}/images/jy-skill7.png" alt="">
+                        </div>
+                    </div>
+                    <div class="jy-detile-pro fr">
+                        <div class="jy-pro-context-setting fl jy-re"><span>无极</span><div class="jy-pro-context-ada jy-ab"></div></div>
+                        <div class="jy-pro-context-setting jy-setting-two jy-pro-context-replace fr jy-re"><span>绝情</span><div class="jy-pro-context-ada jy-ab"></div></div>
+                    </div>
+                </div>
+                <div class="jy-occu-massk jy-occu-massk-img1 jy-occu-show jy-ab"></div>
+                <div class="jy-occu-massk jy-occu-massk-img2 jy-ab"></div>
+                <div class="jy-occu-right fr">
+                    <div class="tack-div jy-tack-top">
+                        <div class="tack-title">游戏背景</div>
+                        <p>盘古初开，女蜗造人，又造万物生灵。人得道者可成仙，生灵得道者可成妖... </p>
+                    </div>
+                    <div class="tack-div jy-tack-bottom">
+                        <div class="tack-title">游戏特色</div>
+                        <p class="tack-p">第一章：隐龙山初出江湖</p>
+                        <p>第二章：水中月师兄传法</p>
+                        <p>第三章：初入京城</p>
+                        <div class="jy-tack-more"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 职业介绍 end -->
+
+        <!-- 属性介绍 start -->
+        <div class="jy-nature jy-re">
+            <div class="jy-nature-background">
+                <div class="jy-nature-content jy-re">
+                    <div class="jy-picture jy-ab">
+                        <div class="jy-picture-img1"></div>
+                        <div class="jy-picture-clone jy-picture-img3"></div>
+                        <div class="jy-picture-title">阴阳烛</div>
+                    </div>
+                    <div class="jy-nature-left-div jy-re">
+                        <div class="jy-stting-div jy-ab">
+                            <div class="jy-ab">
+                                <div class="jy-nature-stting jy-ab jy-none">
+                                    <ul class="jy-mount jy-re">
+                                        <li><div class="jy-tabs-img jy-mount-img1"></div></li>
+                                        <li class="active"><div class="jy-tabs-img jy-mount-img2 jy-mount-color-img2"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img3"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img4"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img5"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img6"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img7"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img8"></div></li>
+                                        <li><div class="jy-tabs-img jy-mount-img9"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="jy-ab">
+                                <div class="jy-nature-stting jy-ab">
+                                    <ul class="jy-anima jy-re">
+                                        <li><div class="jy-tabs-img jy-anima-img1"></div></li>
+                                        <li class="active"><div class="jy-tabs-img jy-anima-img2 jy-anima-color-img2"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img3"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img4"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img5"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img6"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img7"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img8"></div></li>
+                                        <li><div class="jy-tabs-img jy-anima-img9"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="y-ab">
+                                <div class="jy-nature-stting jy-ab jy-none">
+                                    <ul class="jy-magic jy-re">
+                                        <li><div class="jy-tabs-img jy-magic-img1"></div></li>
+                                        <li class="active"><div class="jy-tabs-img jy-magic-img2 jy-magic-color-img2"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img3"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img4"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img5"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img6"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img7"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img8"></div></li>
+                                        <li><div class="jy-tabs-img jy-magic-img9"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class=" jy-ab">
+                                <div class="jy-nature-stting jy-ab jy-none">
+                                    <ul class="jy-wing jy-re">
+                                        <li><div class="jy-tabs-img jy-wing-img1"></div></li>
+                                        <li class="active"><div class="jy-tabs-img jy-wing-img2 jy-wing-color-img2"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img3"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img4"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img5"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img6"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img7"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img8"></div></li>
+                                        <li><div class="jy-tabs-img jy-wing-img9"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="jy-alltabs-btn jy-ab">
+                                <span class="but jy-prev"></span>
+                                <span class="but jy-next jy-next-color"></span>
+                            </div>
+                        </div>
+                        <div class="jy-nature-title jy-ab">
+                            <div class="jy-nature-bold">二阶法器-阴阳烛</div>
+                            <div class="jy-nature-block">勇猛刚毅，瞬秒群敌</div>
+                            <p>四蹄踏火，双眼如火焰，尾巴如烈焰，是为焰光神驹，无人知道它来自哪里，不过江湖人士都知道，有了它，冬天行走江湖不再畏惧寒冷。</p>
+                        </div>
+                    </div>
+                    <div class="jy-nature-right-div">
+                        <div class="jy-nature-surround jy-surround-img2"></div>
+                        <ul class="jy-surround-icon jy-re">
+                            <li class="jy-surround-li1 jy-ab"><div class="surround-icon jy-surround-icon1"></div><div class="jy-surround-pic"></div></li>
+                            <li class="jy-surround-li2 jy-ab active"><div class="surround-icon jy-surround-icon2"></div><div class="jy-surround-pic jy-surround-color-icon2"></div></li>
+                            <li class="jy-surround-li3 jy-ab"><div class="surround-icon jy-surround-icon3 "></div><div class="jy-surround-pic"></div></li>
+                            <li class="jy-surround-li4 jy-ab"><div class="surround-icon jy-surround-icon4 "></div><div class="jy-surround-pic"></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 属性介绍 end -->
+        
+        <!-- 公众号 start -->
+        <div class="jy-ER-code jy-re">
+            <div class="jy-ER-code-background">
+                <div class="jy-code-div">
+                    <div class="jy-WX-code">
+                        <div class="jy-code-title">微信公众号</div>
+                        <div class="jy-code-border"></div>
+                        <div class="jy-code-tabs">
+                            <div class="jy-code-WX-pic">
+                                <img src="{$img_url}/{$info.concern}" alt="">
+                            </div>
+                            <div class="jy-code-right">
+                                <p>剑雨江湖手游</p>
+                                <p>扫一扫</p>
+                                <p>立即关注领取礼包</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jy-KF-code">
+                        <div class="jy-code-title">客服中心</div>
+                        <div class="jy-code-border"></div>
+                        <div class="jy-code-tabs">
+                            <div class="jy-code-WX-pic">
+                                <img src="{$img_url}/{$info.concern}" alt="">
+                            </div>
+                            <div class="jy-code-right">
+                                <p>BUG反馈、游戏问题、提交建议</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 公众号 end -->
+        
+        <!-- 底部 start -->
+        <div class="jy-floot jy-re">
+            <div class="jy-floot-background">
+                <div class="jy-prompt">
+                    <i></i>
+                    <div>健康游戏公告：抵制不良游戏，拒绝盗版游戏。 注意自我保护，谨防受骗上当。 适度游戏益脑，沉迷游戏伤身。 合理安排时间，享受健康</div>
+                </div>
+            </div>
+            <div class="jy-suggest-background">
+                <div class="jy-suggest">
+                    <p>关于创娱|创娱招聘|联系创娱|家长监护|客服热线：0756-2680580</p>
+                    <p>广州创娱网络科技有限公司 版权所有 © 2005-2006 Chuangyu.com[创娱游戏]</p>
+                    <p>粤网文[2015]1712-302号|文网游备字 [2015]W-RPG 1145号|新广出审[2015]1202号|粤B2-20050785|粤TCP备09075143号</p>
+                    <p>抵制不良游戏 拒绝盗版游戏 注意自我保护 谨防受骗上当 适度游戏益脑 沉迷游戏伤身 合理安排时间 享受健康</p>
+                    <p>本游戏适合18岁以上用户，不含有暴力、恐怖、残酷、色情等妨害未成年身心健康的内容，属于绿色健康产品。</p>
+                </div>
+            </div>
+        </div>
+        <!-- 底部 end -->
+    </div>
+    <div class="jy-welfare-div jy-none">
+        <div class="jy-welfare-close"></div>
+        <div class="jy-welfare-clone"></div>
+        <div class="jy-welfare-title">微信礼包</div>
+        <p>-活动长期有效</p>
+        <p>-礼包规则：关注官方微信公众号“剑雨江湖”（微信号jyjh），即可领取</p>
+        <div class="jy-welfare-ul">
+            <ul>
+                <li>
+                    <div class="jy-welfare-pic jy-welfare-img1"></div>
+                    <div class="jy-welfare-size">经验符</div>
+                </li>
+                <li>
+                    <div class="jy-welfare-pic jy-welfare-img2"></div>
+                    <div class="jy-welfare-size">绑定元宝</div>
+                </li>
+                <li>
+                    <div class="jy-welfare-pic jy-welfare-img3"></div>
+                    <div class="jy-welfare-size">装备强化石</div>
+                </li>
+                <li>
+                    <div class="jy-welfare-pic jy-welfare-img4"></div>
+                    <div class="jy-welfare-size">攻击符文</div>
+                </li>
+            </ul>
+        </div>
+        <div class="jy-welfare-code"></div>
+        <div class="jy-welfare-note">(扫码关注公众号)</div>
+    </div>
+    <div class="jy-shade jy-none"></div>
+
+    <script language="javascript">
+        $(document).ready(function(){
+            //生成二维码
+            var link = '{$url_short}';
+            var qr_data = {width: 150,height: 150,text: link};
+            $('#QR').qrcode(qr_data);
+            //获取区服数据
+            var abbr    = '{$info.agent}';
+            var game_id = '{$info.game_id}';
+            var home_id = '{$info.id}';
+            var _data = {agent:abbr,game_id:game_id};
+            $.ajax({  
+                type : "POST",
+                dataType:"jsonp",
+                url : "https://apisdk.chuangyunet.net/Api/Ajax/getServer",
+                data : _data,
+                success : function(result) {
+                    if(result.status == 1){
+                        var ios_html = android_html = new_html = '';
+                        $(result['info']['ios']).each(function(_index, _val){
+                            ios_html += "<li><a href='javascript:;'><i></i><div>"+_val['serverName']+"</div></a></li>"
+                        });
+
+                        $("#iosServers").html(ios_html);
+
+                        $(result['info']['android']).each(function(a_index, a_val){
+                          android_html += "<li><a href='javascript:;'><i></i><div>"+a_val['serverName']+"</div></a></li>"
+                        });
+                        $("#androidServers").html(android_html);
+
+                        $(result['info']['new']).each(function(a_index, n_val){
+                          new_html += "<li><a href='javascript:;'><i></i><div>"+n_val['serverName']+"</div></a></li>"
+                        });
+                        $("#newServers").html(new_html);
+                  }
+                }  
+            });
+        });
+    </script>
+</body>
+</html>

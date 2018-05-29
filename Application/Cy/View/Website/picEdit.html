@@ -1,0 +1,94 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+    .combo-select{width:200px;}
+    .combo-select .text-input{width:200px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Website/picEdit')}" enctype="multipart/form-data">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">标题名称：</label>
+                <div class="controls">
+                    <input name="picTitle" value={$info.picTitle} type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">图片链接：</label>
+                <div class="controls">
+                    <input type="text" name="link" value="{$info.link}" class="input-normal control-text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span20">
+                <label class="control-label">小图：</label>
+                <div class="controls" style="height:80px">
+                    <input type="file" name="smlPic" /><img src="{$info.smlPic}" alt="小图" style="max-width:100px;max-height:80px" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">大图：</label>
+                <div class="controls" style="height:80px">
+                    <input type="file" name="bigPic" /><img src="{$info.bigPic}" alt="大图" style="max-width:100px;max-height:80px" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">状态：</label>
+                <div class="controls">
+                    显示<input type="radio" name='status' value='0' <if condition="$info.status eq 0">checked="checked"</if> />
+                    关闭<input type="radio" name='status' value='1' <if condition="$info.status eq 1">checked="checked"</if> />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">简介：</label>
+                <div class="controls">
+                    <textarea name="description" id="" cols="30" rows="10">{$info.description}</textarea>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+   
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'编辑幻灯片',
+            width:650,
+            height:400,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+                $('#J_Form').submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资讯列表</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+</head>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">资讯ID：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="id">
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">官网名称：</label>
+                    <div class="controls">
+                        <select name="home_id" id="home"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">文章标题：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="title">
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        homeLists();
+    });
+
+    //获取官网
+    function homeLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getWebsiteHome')}", {all:1}, function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i, v){
+                _html += "<option value="+v.id+">"+v.name+"</option>";
+            });
+            $('#home').html(_html).comboSelect();
+        });
+    }
+
+    //资讯静态化
+    function statis_html(abbr,id){
+        $('.mark').show();
+        $('.spinner').show();
+        $.get("{:U('Web/read')}",{abbr:abbr,id:id,cache:1},function(ret){
+            alert(ret.info);
+            $('.mark').hide();
+            $('.spinner').hide();
+          });
+    }
+
+    //删除
+    function articleDelete(id){
+        $('.bui-dialog').remove();
+        if(!id) return false;
+        if(confirm('确定删除该记录吗？')){
+          $.post("{:U('Website/articleDelete')}",{id:id},function(ret){
+            alert(ret.info);
+            if(ret.status == 1){
+              window.location.reload();
+            }
+          });
+        }
+    }
+
+    BUI.use('common/search',function (Search) {
+        editing = new BUI.Grid.Plugins.DialogEditing({
+            contentId : 'content', //设置隐藏的Dialog内容
+            autoSave : true, //添加数据或者修改数据时，自动保存
+            triggerCls : 'btn-edit'
+        }),
+        columns = [
+            {title:'资讯ID',dataIndex:'id',width:60,elCls:'center'},
+            {title:'资讯标题',dataIndex:'title',width:200,elCls:'center'},
+            {title:'官网缩写',dataIndex:'abbr',width:100,elCls:'center',visible:false},
+            {title:'官网名称',dataIndex:'homeName',width:100,elCls:'center'},
+            {title:'栏目',dataIndex:'columnName',width:100,elCls:'center'},
+            {title:'状态',dataIndex:'status',width:60,elCls:'center',/*renderer:BUI.Grid.Format.enumRenderer(enumObj),*/renderer : function (value,obj) {
+                if(value == 1){
+                    //正常
+                    return '<img src="__IMG__/toggle_enabled.gif">';
+                }else if(value == 0){
+                    //禁止
+                    return '<img src="__IMG__/toggle_disabled.gif">';
+                }
+            }},
+            {title:'发布时间',dataIndex:'release',width:150,elCls:'center'},
+            {title:'操作',dataIndex:'opt',width:70,elCls:'center'}
+        ],
+        store = Search.createStore('{:U("Website/article")}',{
+            proxy : {
+                save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                },
+                method : 'POST'
+            },
+            autoSync : true //保存数据后，自动更新
+        }),
+        gridCfg = Search.createGridCfg(columns,{
+            tbar : {
+                items : [
+                    {text : '<i class="icon-plus"></i>新增资讯',btnCls : 'button button-small opt-btn',handler:addFunction},
+                    {text : '<i class="icon-refresh"></i>批量静态',btnCls : 'button button-small opt-btn',handler : statisFunction}
+                ]
+            },
+            plugins : [editing,BUI.Grid.Plugins.CheckSelection,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        });
+
+        var  search = new Search({
+            store : store,
+            gridCfg : gridCfg
+        }),
+        grid = search.get('grid');
+
+        function addFunction(){
+            if(top.topManager){
+                //打开左侧菜单中配置过的页面
+                top.topManager.openPage({
+                    id : "articleAdd",
+                    href : "{:U('Website/articleAdd')}",
+                    title : "新增资讯",
+                    reload : true
+                });
+            }
+        }
+
+        //资讯静态化
+        function statisFunction(){
+            $('.mark').show();
+            $('.spinner').show();
+            var selections = grid.getSelection();
+            console.log(selections);
+            var id = createItems(selections);
+            $.get("{:U('Web/read')}",{type:'batchStatic',id:id},function(ret){
+                alert(ret.info);
+                $('.mark').hide();
+                $('.spinner').hide();
+              });
+        }
+
+        function createItems(items){
+            var id = [];
+            BUI.each(items,function(item){
+              id.push(item.id+'_'+item.abbr);
+            });
+            return id;
+          }
+
+          //监听事件，删除一条记录
+          grid.on('cellclick',function(ev){
+            var sender = $(ev.domTarget); //点击的Dom
+            if(sender.hasClass('btn-del')){
+              var record = ev.record;
+              delItems([record]);
+            }
+          });
+    });
+</script>
+<include file="Public/loading" />
+
+</body>
+</html>

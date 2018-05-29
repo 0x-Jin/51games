@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lgame Check</title>
+    <script src="./jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<h1 style="margin:0 auto;text-align:center">Lgame审核页</h1>
+<div><a href="javascript:;" id="btn">点击强制更新</a></div>
+</body>
+<script>
+    var _html = '';
+    $('#btn').click(function(){
+        $.ajax({
+            url:'./index.php',
+            data:{},
+            dataType:'jsonp',
+            success:function(data){
+                $(data).each(function(index,val){
+                    _html += val+'<br/>';
+                });
+               $('body').append('<br/>'+_html);
+            }
+        });
+
+
+    })
+</script>
+</html>

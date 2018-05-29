@@ -1,0 +1,88 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Data/importVIP')}" enctype="multipart/form-data" >
+        <input type="hidden" value="vip_user" name="table"/>
+        <div class="row">
+          <div class="control-group span14">
+            <label class="control-label">VIP用户文件：</label>
+            <div class="controls">
+              <input type="file" name="vipUserFile" id="vipUserFile"><span>支持Excel格式为：'xls', 'csv', 'xlsx'</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span14">
+            <label class="control-label">模板下载：</label>
+            <div class="controls">
+              <a href="http://{:$_SERVER['SERVER_NAME']}/Uploads/vipUser.xlsx">vipUser.xlsx</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <div class="controls">
+                    <p style="position: relative; left: 300px"><b>示例：</b></p>
+                    <div style="border: 1px solid #d5dfe8; width: 700px; overflow: auto; position: relative;">
+                        <table width="100%" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td align="center">用户标识符</td>
+                                <td align="center">区服</td>
+                                <td align="center">角色名</td>
+                                <td align="center">角色ID</td>
+                                <td align="center">QQ</td>
+                                <td align="center">电话</td>
+                                <td align="center">姓名</td>
+                            </tr>
+                            <tr>
+                                <td align="center">Ls511503042611c9ed4c6cea</td>
+                                <td align="center">S14反客为主</td>
+                                <td align="center">御龙在天</td>
+                                <td align="center">6455518926251568878</td>
+                                <td align="center">430050375</td>
+                                <td align="center">15888152808</td>
+                                <td align="center">王岳龙</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+
+BUI.use(['bui/overlay', 'bui/form', 'bui/calendar'], function(Overlay, Form, Calendar) {
+
+  var form = new Form.HForm({
+    srcNode: '#J_Form'
+  }).render();
+
+  var dialog = new Overlay.Dialog({
+    title: 'VIP用户导入',
+    width: 800,
+    height: 300,
+    //配置DOM容器的编号
+    contentId: 'content',
+    success: function() {
+      $('#J_Form').submit();
+    }
+  });
+
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

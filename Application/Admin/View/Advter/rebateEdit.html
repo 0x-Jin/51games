@@ -1,0 +1,141 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/rebateEdit')}">
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">
+                    所属广告商：
+                </label>
+                <div class="controls">
+                    <select class="r_advteruser" data-actions-box="true" data-live-search="true" id="r_advteruser" name="advteruserId"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">
+                    所属代理商：
+                </label>
+                <div class="controls">
+                    <select class="r_proxy" data-actions-box="true" data-live-search="true" id="r_proxy" name="proxyId"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span10">
+                <label class="control-label">
+                    折返类型：
+                </label>
+                <div class="controls">
+                    <select class="r_rebateType" data-actions-box="true" data-live-search="true" name="rebateType" id="r_rebateType">
+                        <option value="0">返点</option>
+                        <option value="1">返现</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">
+                    折返比率：
+                </label>
+                <div class="controls">
+                    <input class="input-normal control-text" style="width: 50px;" name="rebate" type="text" />%
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span12">
+                <label class="control-label">
+                    账号列表：
+                </label>
+                <div class="controls">
+                    <div style="width: 320px; height: 180px; overflow: auto" id="accountList"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- script start -->
+<script type="text/javascript">
+    $(function () {
+        getCompany();
+        getProxy();
+        $(".r_advteruser,.r_proxy,.r_rebateType").selectpicker({
+            showSubtext: true,
+            liveSearchPlaceholder: "搜索关键字",
+            noneSelectedText: "",
+            multipleSeparator: ",",
+            liveSearch: true,
+            actionsBox: true
+        });
+        $("#r_proxy,#r_advteruser").change(function() {
+            getAccountList();
+        });
+    });
+
+    //获取广告商
+    function getCompany() {
+        $.post("{:U('Ajax/adv_company')}", "", function(_ret) {
+            var ret = eval("("+_ret+")"), _html = "<option value='0'>请选择广告商</option>";
+            $(ret).each(function(i, v) {
+                _html += "<option value="+v.id+">"+v.company_name+"</option>";
+            });
+            $("#r_advteruser").html(_html).selectpicker("refresh");
+        });
+    }
+
+    //获取代理商
+    function getProxy() {
+        $.post("{:U('Ajax/getProxy')}", "", function(_ret) {
+            var ret = eval("("+_ret+")"), _html = "<option value='0'>请选择代理商</option>";
+            $(ret).each(function(i, v) {
+                _html += "<option value="+v.id+">"+v.proxyName+"</option>";
+            });
+            $("#r_proxy").html(_html).selectpicker("refresh");
+        });
+    }
+
+    //显示账号
+    function getAccountList() {
+        var _proxy = $("#r_proxy").val();
+        var _advteruser = $("#r_advteruser").selectpicker("val");
+        var _html = "";
+        if (_proxy != 0 && _advteruser != 0) {
+            $.post("{:U('Ajax/getAdvterAccount')}", {advteruserId: _advteruser, proxyId: _proxy}, function(_ret) {
+                var ret = eval("("+_ret+")");
+                $(ret).each(function(i, v) {
+                    _html += "<p style='font-size: 16px; font-weight: bold;'>"+v.account+"</p>";
+                });
+                $("#accountList").html(_html);
+            });
+        } else {
+            $("#accountList").html(_html);
+        }
+    }
+
+    BUI.use(["bui/overlay", "bui/form"], function(Overlay, Form) {
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+        var dialog = new Overlay.Dialog({
+            title: "批量修改返点",
+            width: 500,
+            height: 400,
+            //配置DOM容器的编号
+            contentId: "content",
+            success: function () {
+                $("#J_Form").submit();
+            }
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

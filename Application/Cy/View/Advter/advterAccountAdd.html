@@ -1,0 +1,153 @@
+<body>
+    <style type="text/css">
+        input{border-radius: 4px;}
+    </style>
+    <div class="demo-content">
+        <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+        <form action="{:U('Advter/add')}" class="form-horizontal" id="J_Form" method="post">
+            <input name="table" type="hidden" value="advter_account"/>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        广告账号：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" data-rules="{required:true}" name="account" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        账号密码：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" data-rules="{required:true}" name="password" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span10">
+                    <label class="control-label">
+                        所属部门：
+                    </label>
+                    <div class="controls">
+                        <select class="j_departmentId" name="departmentId">
+                            <option value="">无</option>
+                            <option value="1">发行一部</option>
+                            <option value="2">发行二部</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span10">
+                    <label class="control-label">
+                        所属广告商：
+                    </label>
+                    <div class="controls">
+                        <select class="j_advteruserId" data-actions-box="true" data-live-search="true" id="j_advteruserId" name="advteruserId">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span10">
+                    <label class="control-label">
+                        所属代理商：
+                    </label>
+                    <div class="controls">
+                        <select class="j_proxy" data-actions-box="true" data-live-search="true" id="j_proxy" name="proxyId">
+                        </select>
+    
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        折返类型：
+                    </label>
+                    <div class="controls">
+                        <select name="rebateType">
+                            <option value="0">返点</option>
+                            <option value="1">返现</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">
+                        折返比率：
+                    </label>
+                    <div class="controls">
+                        <input class="input-normal control-text" style="width: 50px;" name="rebate" type="text" />%
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- script start -->
+    <script type="text/javascript">
+        $(function(){
+          adv_company();
+          getProxy();
+          $('.j_advteruserId,.j_proxy,.j_departmentId').selectpicker({
+                selectAllText: '全选',
+                deselectAllText: '不选',
+                liveSearchPlaceholder: '搜索关键字',
+                noneSelectedText: '',
+                multipleSeparator: ',',
+                liveSearch: true,
+                actionsBox: true
+            });
+        });
+
+      //获取广告商
+      function adv_company(){
+          var _html = '';
+          $.post("{:U('Ajax/adv_company')}",'',function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.company_name+"</option>";
+              });
+              $('#j_advteruserId').html(_html);
+              $('.j_advteruserId').selectpicker('refresh');
+          });
+      }
+
+      //获取代理商
+      function getProxy(){
+          var _html = '';
+          $.post("{:U('Ajax/getProxy')}",'',function(ret){
+              var ret = eval('('+ret+')');
+              $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.proxyName+"</option>";
+              });
+              $('#j_proxy').html(_html);
+              $('.j_proxy').selectpicker('refresh');
+          });
+      }
+
+      BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'添加广告账号',
+            width:450,
+            height:320,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+    <!-- script end -->
+</body>

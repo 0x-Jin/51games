@@ -1,0 +1,73 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/edit')}">
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <input type="hidden" value="{:I('table','','trim')}" name="table"/>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">域名：</label>
+            <div class="controls">
+              <input name="domain" type="text" value="{$info.domain}" data-rules="{required:true}" class="input-normal control-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">服务器：</label>
+                <div class="controls">
+                    <select name="type">
+                      <option value=1 <if condition="$info.type eq 1">selected</if>>腾讯云</option>
+                      <option value=2 <if condition="$info.type eq 2">selected</if>>阿里云</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">状态：</label>
+                <div class="controls">
+                    <select name="status">
+                      <option value=1 <if condition="$info.status eq 1">selected</if>>启用</option>
+                      <option value=0 <if condition="$info.status eq 0">selected</if>>关闭</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+      </form>
+  </div>
+    
+ 
+ 
+<!-- script start --> 
+    <script type="text/javascript">
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#J_Form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'编辑域名',
+            width:400,
+            height:200,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              $('#J_Form').submit();
+            }
+          });
+        dialog.show();
+      });
+    </script>
+<!-- script end -->
+  </div>
+</body>
+</html>

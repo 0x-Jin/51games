@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="telephone=no,email=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<title>刀剑萌侠</title>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/swiper.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/style.css"/>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/jquery-1.11.1.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/bootstrap.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/swiper.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/swiper.min.js"></script>
+
+<script type="text/javascript">
+var ua = navigator.userAgent.toLowerCase();
+var isios = /ipad|ipod|iphone|mac/.test(ua);
+window.onload=function(){
+    $and = '';
+    $ios = '';
+    if(isios){
+        $('#ostype').attr('href',$ios);
+    }else{
+        $('#ostype').attr('href',$and);
+    }
+	//使用rem
+	var clientWidth = document.documentElement.clientWidth;
+	if(clientWidth>=640){
+		document.documentElement.style.fontSize = '100px';
+    }else{
+		document.documentElement.style.fontSize = innerWidth/6.4 +"px";
+		window.addEventListener("resize",function(){document.documentElement.style.fontSize = innerWidth/6.4  + "px"; },false)}
+    }
+	
+</script>
+
+</head>
+
+</head>
+
+<body style="background-color:#0d0d0e">
+<div class="wrapdiv">
+	<!--顶部start-->
+    <div class="topnav_wrap contentbox box_orient fixed">
+    	<img src="http://img.chuangyunet.net" id="dzzlogo" />
+        <div class="topmid_div box_flex01">
+        	<p class="topyxname_p">刀剑萌侠</p>
+            <p class="topyxdes_p"><img src="http://img.chuangyunet.net/static/wap/DJMX/images/yxrdimg.png"><br></p>
+        </div>
+        <a href="" id='ostype' class="topxz_a db"></a>
+    </div>
+    <div class="symidpic_div pr"><img src="http://img.chuangyunet.net" />    <div class="topaddress_div box_orient">    	
+        <div class="topaddress_l box_flex01"><a href="http://fx.chuangyunet.net/DJMX/wap/">刀剑萌侠</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="http://fx.chuangyunet.net/DJMX/wap/zixun/">列表</a>&nbsp;&nbsp;-&nbsp;&nbsp;攻略</div>
+        <div class="topaddress_r"></div>
+    </div>
+    <h3 class="contitle_h3">共同作战---帮派系统</h3>
+    <p class="contime_p">发布于 2018-01-06</p>
+    <div class="content_wrap">
+    	<p>一、概述</p><p>在《校花的贴身高手》中，帮派是庇护高手们的港湾。创建或加入一个帮派可以结交一些志同道合的朋友，共同参与帮派活动，获取大量的额外福利。</p><p><br/></p><p>二、帮派创建与申请</p><p>&nbsp;&nbsp;<img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515231695286881.png" title="1515231695286881.png" alt="image.png"/></p><p>创建帮派界面</p><p><br/></p><p>完成特定主线任务后将开启帮派功能，点击屏幕右下角的帮派图标，再点击创建帮会按钮，花费一定的灵玉或绑定灵玉可以创建一个帮派，创建者即为帮主。 &nbsp; &nbsp;如果不想创建帮派，可以向已有的帮派申请入帮，审核通过后便可加入该帮派。</p><p><br/></p><p>三、帮派信息</p><p>&nbsp;<img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515231725548342.png" title="1515231725548342.png" alt="image.png"/></p><p>帮派信息界面</p><p>帮主可以修改帮派公告和帮派名称。帮派存在等级，等级越高成员数上限越高、帮派每日福利越好、帮派buff加成越高。帮派等级随着帮派资金的增加而提升，帮派资金可以通过成员捐赠和参加活动增加。帮派里面的职位分为帮主、副帮主、长老、精英和帮众。</p><p><br/></p>        <a href="javascript:;" class="backtop_a db"><img src="http://img.chuangyunet.net/static/wap/DJMX/images/backtopbtn.png" /></a>
+    </div>
+</div>
+
+<script src="js/swiper.min.js"></script>
+<script> 
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: 5000,//可选选项，自动滑动
+	pagination : '.swiper-pagination',
+	paginationClickable: true,
+	loop:true
+})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    //返回到顶部
+	$('.backtop_a').click(function(){	
+		$("html,body").animate({scrollTop:0}, 500);				
+	});
+	
+	//切换效果
+	$('#tab-title span').click(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+		var t=$('#tab-title span').index(this);
+		$("#tab-content > div").hide().eq(t).show();
+		
+	});
+	
+	//职业展示
+	$('#zy_01').click(function(){
+      $("#zy_02").show();
+	  $("#zy_04").hide();
+    });
+	
+	$('#zy_03').click(function(){
+      $("#zy_02").hide();
+	  $("#zy_04").show();
+    });	
+	
+	$('#morediv1').click(function(){
+		$("#ul1").css('height','auto');
+		$('#morediv1').hide();
+	});
+	$('#morediv2').click(function(){
+		$("#ul2").css('height','auto');
+		$('#morediv2').hide();
+	});
+	$('#morediv3').click(function(){
+		$("#ul3").css('height','auto');
+		$('#morediv3').hide();
+	});
+	$('#morediv4').click(function(){
+		$("#ul4").css('height','auto');
+		$('#morediv4').hide();
+	});
+	
+});
+</script>
+</body>
+</html>

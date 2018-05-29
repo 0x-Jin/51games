@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0,user-scalable=yes"/>
+	<title>{$info.name}</title>
+	<link rel="stylesheet" href="{$static_url}/css/common.css">
+	<link rel="stylesheet" href="{$static_url}/css/index.css">
+	<link href="{$static_url}/css/video-js.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{$static_url}/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="{$static_url}/js/jquery.bxslider.js" ></script>
+	<script type="text/javascript" src="{$static_url}/js/index.js?1"></script>
+	<script type="text/javascript" src="{$static_url}/js/zoom.js"  charset="utf-8"></script>
+	<script type="text/javascript" src="{$static_url}/js/jquery.lazyload.min.js"></script>
+	<script type="text/javascript" src="{$static_url}/js/jquery.qrcode.min.js"></script>
+
+	<script src="{$static_url}/js/video.js"></script>
+</head>
+<body>
+	<div class="xh-header pr">
+		<div class="xh-mian">
+			<div class="xh-topdiv">
+				<div class="xh-nav-header">
+					<!-- 首页导航 start -->
+					<div class="xh-nav">
+						<ul>
+							<li>
+								<a href="{$website}"><p>官网首页</p><div class="xh-nav-en">HOME</div></a>
+							</li>
+							<li>
+								<a href="{$website}zixun"><p>新闻资讯</p><div class="xh-nav-en">NEWS</div></a>
+							</li>
+							<li>
+								<a href="{$website}"><img src="{$static_url}/images/xh-logo.png" alt=""></a>
+							</li>
+							<li>
+								<a href="#"><p>攻略资料</p><div class="xh-nav-en">GAMEDATA</div></a>
+							</li>
+							<li class="xh-last-nav">
+								<a href="#"><p>福利中心</p><div class="xh-nav-en">GIFTS</div></a>
+							</li>
+						</ul>
+					</div>
+					<!-- 首页导航 end -->
+
+					<!-- 播放跳动 start -->
+					<a class="xh-play-btn" title="视频播放"></a>
+					<!-- 播放跳动 end -->
+
+					<!-- 链接生成二维码 start -->
+					<div class="xh-qrcode">
+						<div class="xh-div" id="QR"></div>
+						<div class="xh-div2">
+							<a href="{$info.iosDownload}" class="xh-ios-a db"></a>
+							<a href="{$info.androidDownload}" class="xh-android-a db"></a>
+						</div>
+					</div>
+					<!-- 链接生成二维码 end -->
+
+					<div class="xh-wave pr"></div>
+				</div>
+			</div>
+		</div>
+		<div class="xh-news-slid">
+			<div class="xh-focnews pr">
+
+				<!-- 轮播 start -->
+				<div class="xh_foc fl">
+					{:W('Slide/slideList', array($info['agent'], 13 , 1 , 0))}
+				</div>
+				<div id="btnBg""></div>
+				<!-- 轮播 end -->
+
+				<!-- 各个文章列表切换 start -->
+				<div class="xh_news fr">
+					<div class="news">
+						<a class="more news-more" href="{$website}zixun" target="_blank" title="更多资讯">
+							+
+						</a>
+						<ul class="news-nav">
+							<li class="on news-first" data-newsid="zuixin">
+								<a class="news-1">
+									最新
+								</a>
+							</li>
+							<li data-newsid="gonggao">
+								<a class="news-2">
+									公告
+								</a>
+							</li>
+							<li data-newsid="huodong">
+								<a class="news-3">
+									活动
+								</a>
+							</li>
+							<li data-newsid="gonglve">
+								<a class="news-4">
+									攻略
+								</a>
+							</li>
+						</ul>
+						<div class="xh-nav-border pr">
+							<div class="xh-news-pic pa"></div>
+						</div>
+						<div class="hidden">
+							<ul class="news-list">
+								<volist id="vo" name="tuijian" offset="0" length='1'>
+									<li class="news-recommend">
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">推荐</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+								<volist id="vo" name="zuixin" offset="0" length='6'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">最新</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+							</ul>
+							<ul class="news-list dn">
+								<volist id="vo" name="tuijian" offset="0" length='1'>
+									<li class="news-recommend">
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">推荐</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+								<volist id="vo" name="gonggao" offset="0" length='6'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">公告</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+							</ul>
+							<ul class="news-list dn">
+								<volist id="vo" name="tuijian" offset="0" length='1'>
+									<li class="news-recommend">
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">推荐</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+								<volist id="vo" name="huodong" offset="0" length='6'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">活动</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+							</ul>
+							<ul class="news-list dn">
+								<volist id="vo" name="tuijian" offset="0" length='1'>
+									<li class="news-recommend">
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">推荐</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+								<volist id="vo" name="gonglve" offset="0" length='6'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											<span class="news-date">攻略</span>
+											<span class="news-title">{$vo.title}</span>
+											<span class="news-time">{:date('m.d',$vo['createTime'])}</span>
+										</a>
+									</li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- 各个文章列表切换 end -->
+			</div>
+			<!-- 游戏特色 start -->
+			<div class="xh-feature">
+				<div class="xh-feature-title"></div>
+				<div>
+					<div class="xh-banner">
+						<ul class="xh-img">
+							<li><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img1.jpg"></a></li>
+							<li><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img2.jpg"></a></li>
+							<li><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img3.jpg"></a></li>
+							<li><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img4.jpg"></a></li>
+							<li><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img1.jpg"></a></li>
+							<li><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img2.jpg"></a></li>
+							<li style="margin-right:0"><a href="#"><img alt="" src="{$static_url}/images/xh-banner-img3.jpg"></a></li>
+						</ul>
+						<div class="xh-banner-centent">
+							<div class="xh-banner-box">
+								<ul class="xh-list">
+									<li><span>武斗之巅 周一，二，四，五，日 20:00开启</span></li>
+									<li><span>领地争夺战 周三，六 20:00开启</span></li>
+									<li><span>巅峰竞技 周二，五 21:00开启</span></li>
+									<li><span>美人帮派战 每日20:30开启</span></li>
+									<li><span>武斗之巅 周一，二，四，五，日 20:00开启</span></li>
+									<li><span>领地争夺战 周三，六 20:00开启</span></li>
+									<li><span>巅峰竞技 周二，五 21:00开启</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 游戏特色 end -->
+		</div>
+
+		<!-- 贴身校花 start -->
+		<div class="xh-skin">
+			<div class="xh-skin-title pr"></div>
+			<div class="xh-skin-next pr">
+				<div class="xh-skin-top">
+					<div class="xh-detail-left pr fl">
+						<h4>双儿</h4>
+						<p>拥有倾国倾城的美貌，从小爱诗文，相貌艳丽，可谓才貌双全翩若惊鸿，婉若游龙，荣曜秋菊，华茂春松彷佛兮若轻云之蔽月，飘廷兮若流风之回雪，远而望之，皎若太阳升朝霞；迫而察之，灼若芙蓉出渌波真是形象鲜明，色彩艳丽，令人目不暇接。</p>
+						<div class="xh-sub-button pa">
+							<span class="xh-button-first">进阶前</span>
+							<span class="xh-button-last">进阶后</span>
+						</div>
+					</div>
+					<div class="xh-detail-right fr">
+						<div class="xh-right-padding">
+							<h4>天资</h4>
+							<p>资质：<span class="xh-natural">34</span></p>
+							<p>悟性：<span class="xh-savvy">10720</span></p>
+							<h4 class="xh-h-one">三围属性</h4>
+							<p>攻击<i class="xh-bust xh-bust-icon1"></i></p>
+							<p>防御<i class="xh-bust xh-bust-icon2"></i></p>
+							<p>生命<i class="xh-bust xh-bust-icon3"></i></p>
+							<h4 class="xh-h-two">元素抗性</h4>
+							<div id="xh-element" class="xh-element-two1">
+								<span class="xh-element-zh1 pa">冰</span>
+								<span class="xh-element-zh2 pa">火</span>
+								<span class="xh-element-zh3 pa">雷</span>
+								<span class="xh-element-zh4 pa">毒</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="xh-skin-bpic">
+					<ul>
+						<li class="active">
+							<img class="lazy" alt="" width="100" height="100" data-original="{$static_url}/images/xh-skin-img1.png">
+						</li>
+						<li>
+							<img class="lazy" alt="" width="100" height="100" data-original="{$static_url}/images/xh-skin-an-img2.png">
+						</li>
+						<li>
+							<img class="lazy" alt="" width="100" height="100" data-original="{$static_url}/images/xh-skin-an-img3.png">
+						</li>
+						<li>
+							<img class="lazy" alt="" width="100" height="100" data-original="{$static_url}/images/xh-skin-an-img4.png">
+						</li>
+					</ul>
+				</div>
+				<div id="xh-skin-big" class="xh-skin-two-img1"></div>
+			</div>
+		</div>
+		<!-- 贴身校花 end -->
+		
+		<!-- 游戏攻略 start -->
+		<div class="xh-strategy">
+			<div class="xh-strategy-box pr">
+				<div class="xh-strategy-title"></div>
+				<div class="xh-strategy-centent">
+					<div class="xh-strategy-left fl">
+						<div class="xh-notice"><span>入门须知</span></div>
+						<div class="xh-notice-centent">
+							<ul>
+								<volist id="vo" name="tuijian" offset="0" length='4'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											{$vo.title2}
+										</a>
+									</li>
+								</volist>
+							</ul>
+						</div>
+						<div class="xh-notice"><span>游戏指南</span></div>
+						<div class="xh-notice-centent">
+							<ul>
+								<volist id="vo" name="huodong" offset="0" length='4'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											{$vo.title2}
+										</a>
+									</li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+					<div class="xh-strategy-rigth fr">
+						<div class="xh-notice-centent">
+							<ul>
+								<volist id="vo" name="gonglve" offset="0" length='4'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											{$vo.title2}
+										</a>
+									</li>
+								</volist>
+							</ul>
+						</div>
+						<div class="xh-notice"><span>游戏系统</span></div>
+						<div class="xh-notice-centent">
+							<ul>
+								<volist id="vo" name="gonggao" offset="0" length='4'>
+									<li>
+										<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+											{$vo.title2}
+										</a>
+									</li>
+								</volist>
+							</ul>
+						</div>
+						<div class="xh-notice"><span>游戏玩法</span></div>
+					</div>
+				</div>
+				<div class="xh-notback-img pa"></div>
+			</div>
+		</div>
+		<!-- 游戏攻略 end -->
+
+		<!-- 图片专区 start -->
+		<div class="xh-print pr">
+			<div class="xh-print-centent pr">
+				<div class="xh-print-title"></div>
+				<div class="xh-print-box">
+					<div class="xh-print-nav">
+						<ul>
+							<li>
+								<div class="xh-print-click">
+									<div><span>壁纸</span></div>
+									<i class="icon"></i>
+								</div>
+							</li>
+							<li>
+								<div class="xh-print-click">
+									<div><span>原画</span></div>
+									<i></i>
+								</div>
+							</li>
+							<li>
+								<div class="xh-print-click">
+									<div><span>截图</span></div>
+									<i></i>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="xh-print-show">
+						<div class="xh-print-div">
+							<ul class="">
+								<li>
+									<img src="{$static_url}/images/xh-print-show1.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big1.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show2.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big2.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show3.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big3.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show4.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big4.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+							</ul>
+							<ul class="dn">
+								<li>
+									<img src="{$static_url}/images/xh-print-show3.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big3.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show1.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big1.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show2.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big2.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show4.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big4.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+							</ul>
+							<ul class="dn">
+								<li>
+									<img src="{$static_url}/images/xh-print-show2.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big2.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show4.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big4.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show2.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big2.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+								<li>
+									<img src="{$static_url}/images/xh-print-show1.png" alt="" class="img-wrap">
+									<img src="{$static_url}/images/xh-print-big1.png" alt="" class="img-ship" width="240" height="144" data-action="zoom">
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 二维码专区 start -->
+			<div class="xh-code pa">
+				<div class="xh-code-box pr">
+					<ul class="pa">
+						<li>
+							<img class="lazy" alt="" width="160" height="120" data-original="{$static_url}/images/xh-QR-img.png">
+							<div class="xh-QR-hr">
+								<h4>官方微信</h4>
+								<p>-扫描二维码</p>
+								<p>-关注官方微信</p>
+							</div>
+						</li>
+						<li>
+							<img class="lazy" alt="" width="160" height="120" data-original="{$static_url}/images/xh-QR-img.png">
+							<div class="xh-QR-hr">
+								<h4>官方微信</h4>
+								<p>-扫描二维码</p>
+								<p>-关注官方微信</p>
+							</div>
+						</li>
+						<li>
+							<img class="lazy" alt="" width="160" height="120" data-original="{$static_url}/images/xh-QR-img.png">
+							<div class="xh-QR-hr">
+								<h4>官方微信</h4>
+								<p>-扫描二维码</p>
+								<p>-关注官方微信</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 二维码专区 end -->
+		</div>
+		<!-- 图片专区 end -->
+		
+		<!-- 底部版权 start -->
+
+		<div class="xh-floot">
+			<div class="xh-floot-box">
+				<div class="xh-floot-logo fl"></div>
+				<div class="xh-floot-info fr">
+					<p>关于可以游戏客服中心商务合作用户协议未成年人家长监护</p>
+					<p>抵制不良游戏 / 拒绝盗版游戏 / 注意自我保护 / 谨防受骗上当 / 适度游戏益脑 / 沉迷游戏伤身 / 合理安排时间 / 享受健康生活</p>
+					<p>CopyRight © 2014-2018 苏州好玩友网络科技有限公司.ALL RIGHTS RESERVED.</p>
+					<p>苏B2-20140397苏ICP备14031847号-1苏网文〔2017〕5261-110号网络出版服务许可证文网游备字〔2017〕M-RPG 0541号</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- 底部版权 end -->
+		
+	</div>
+
+	<!-- 福利中心 -->
+	<div class="xh-welfare-div dn">
+		<div class="xh-welfare-kid">
+			<i></i>
+			<span class="xh-kid-title">加群礼包</span>
+			<p class="xh-kid-top">活动长期有效</p>
+			<p class="xhkid-color">礼包规则：加入官方交流QQ群“<span>556314388</span>”，即可领取新手加群礼包。</p>
+			<p class="xh-kid-noun">注：每个角色只能使用一次，礼包内容以公众号内发放为准</p>
+			<div class="xh-kid-show">
+				<ul class="xh-show-img">
+					<li><img src="{$static_url}/images/xh-kid-show-img1.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img2.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img3.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img4.png" alt=""></li>
+					<li><img src="{$static_url}/images/xh-kid-show-img5.png" alt=""></li>
+				</ul>
+				<ul class="xh-show-centent">
+					<li>坐骑进阶丹x10</li>
+					<li>仙羽进阶丹x10</li>
+					<li>校花经验书x30</li>
+					<li>校花令x10</li>
+					<li>银两x5w</li>
+				</ul>
+			</div>
+			<div class="xh-kid-back pa"></div>
+			<div class="xh-back-show">扫一扫关注公众号领取福利</div>
+		</div>
+		<div class="xh-welfare-close"></div>
+		<div class="xh-welfare-code"></div>
+	</div>
+	
+
+	<div class="xh-shade dn"></div>
+	<!-- 遮罩层 -->
+	<div class="layer dn"></div>
+	<!-- 视频模块 -->
+	<div class="pop pop_video dn">
+		<a href="javascript:;" title="关闭" class="pop_close pop_close_video"></a>
+		<div id="video"></div>
+	</div>
+	<script>
+		$(function() {
+		    $("img.lazy").lazyload();
+		    if(navigator.userAgent.indexOf("MSIE 6.0")>0){   
+		        $('.xh-header').css('display','none');
+				$('body').html('浏览器版本过低，请升级浏览器，活选用其他浏览器');   
+		     }  
+		    if(navigator.userAgent.indexOf("MSIE 7.0")>0){  
+		        $('.xh-header').css('display','none');
+				$('body').html('浏览器版本过低，请升级浏览器，活选用其他浏览器'); 
+		     }   
+		      if(navigator.userAgent.indexOf("MSIE 8.0")>0 && !window.innerWidth){
+		        $('.xh-header').css('display','none');
+				$('body').html('浏览器版本过低，请升级浏览器，活选用其他浏览器');  
+		     }
+		});
+	</script>
+</body>
+</html>

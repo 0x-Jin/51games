@@ -1,0 +1,220 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色列表</title>
+    <link href="/static/admin/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/combo.select.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/static/admin/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="/static/admin/js/bui.js"></script>
+    <script type="text/javascript" src="/static/admin/js/config.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.combo.select.js"></script>
+</head>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <input type="hidden" id="accurate" name="accurate" value="0" />
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">用户标识符：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="userCode" style="width: 200px;">
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">用户账号：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="userName" style="width: 200px;">
+                    </div>
+                </div>
+
+                <div class="control-group span9">
+                    <label class="control-label">角色名称：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text input-normal" name="roleName">
+                    </div>
+                </div>
+
+                <div class="control-group span9">
+                    <label class="control-label">角色ID：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text input-normal" name="roleId">
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">区服名称：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text input-normal" name="serverName">
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">渠道号：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text input-normal" name="agent">
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 90px;">游戏名称：</label>
+                    <div class="controls">
+                        <select name="game_id" id="game_id"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span11">
+                    <label class="control-label" style="width: 100px;">角色创建时间：</label>
+                    <div class="controls">
+                        <input type="text" class="calendar calendar-time" name="startDate" value="<?php echo date('Y-m-d 00:00:00');?>"><span> - </span><input type="text" class="calendar calendar-time" name="endDate" value="<?php echo date('Y-m-d 00:00:00',strtotime(date('Y-m-d').' +1 day'));?>">
+                    </div>
+                </div>
+
+                <div class="control-group span6">
+                    <div class="controls">
+                        <button  type="button" id="btnAccSearch" class="button button-primary">精确搜索</button>
+                    </div>
+
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-info">模糊搜索</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container span25">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        gameLists();
+    });
+
+    $('#btnAccSearch').click(function() {
+       $('#accurate').val(1);
+       $('#btnSearch').trigger('click');
+       $('#accurate').val(0);
+    });
+
+    
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("<?php echo U('Ajax/getGameList');?>",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+    BUI.use('common/search',function (Search) {
+
+        editing = new BUI.Grid.Plugins.DialogEditing({
+            contentId : 'content', //设置隐藏的Dialog内容
+            autoSave : true, //添加数据或者修改数据时，自动保存
+            triggerCls : 'btn-edit'
+        });
+        columns = [
+            {title:'用户标识符',dataIndex:'userCode',width:180,elCls:'center'},
+            {title:'用户账号',dataIndex:'userName',width:180,elCls:'center'},
+            {title:'游戏名称',dataIndex:'gameName',width:150,elCls:'center'},
+            {title:'角色ID',dataIndex:'roleId',width:150,elCls:'center'},
+            {title:'角色名称',dataIndex:'roleName',width:180,elCls:'center'},
+            {title:'区服ID',dataIndex:'serverId',width:120,elCls:'center'},
+            {title:'区服名称',dataIndex:'serverName',width:120,elCls:'center'},
+            {title:'渠道号',dataIndex:'agent',width:80,elCls:'center'},
+            {title:'角色等级',dataIndex:'level',width:80,elCls:'center',renderer : function (value,obj) {
+                if(value && value !== 'null'){
+                    return value;
+                }else{
+                    return '（无）';
+                }
+            }},
+            {title:'元宝余额',dataIndex:'currency',width:100,elCls:'center',renderer : function (value,obj) {
+                if(value && value !== 'null'){
+                    return value;
+                }else{
+                    return '（无）';
+                }
+            }},
+            {title:'游戏币余额',dataIndex:'balance',width:100,elCls:'center',renderer : function (value,obj) {
+                if(value && value !== 'null'){
+                    return value;
+                }else{
+                    return '（无）';
+                }
+            }},
+            {title:'vip',dataIndex:'vip',width:100,elCls:'center',renderer : function (value,obj) {
+                if(value && value !== 'null'){
+                    return value;
+                }else{
+                    return '（无）';
+                }
+            }},
+            {title:'战斗力',dataIndex:'power',width:180,elCls:'center',renderer : function (value,obj) {
+                if(value && value !== 'null'){
+                    return value;
+                }else{
+                    return '（无）';
+                }
+            }},
+            {title:'新手',dataIndex:'processId',width:80,elCls:'center',renderer : function (value,obj) {
+                if(value && value !== 'null'){
+                    return value;
+                }else{
+                    return '（无）';
+                }
+            }},
+            {title:'最后场景',dataIndex:'scene',width:80,elCls:'center',renderer : function (value,obj) {
+                if(value == 'enterServer'){
+                    return '登陆';
+                }else if(value == 'createRole'){
+                    return '创建';
+                }else if(value == 'levelUp'){
+                    return '升级';
+                }else if(value == 'noviceProcess'){
+                    return '新手';
+                }else{
+                    return '（未知）';
+                }
+            }},
+            {title:'创建时间',dataIndex:'create',width:140,elCls:'center'},
+            {title:'最后更新时间',dataIndex:'update',width:140,elCls:'center'}
+        ];
+        store = Search.createStore('<?php echo U("Data/roleList");?>',{
+            proxy : {
+                save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                },
+                method : 'POST'
+            },
+            autoSync : true //保存数据后，自动更新
+        });
+        gridCfg = Search.createGridCfg(columns,{
+            plugins : [editing,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        });
+
+        var  search = new Search({
+                store : store,
+                gridCfg : gridCfg
+        }),
+        grid = search.get('grid');
+    });
+</script>
+
+</body>
+</html>

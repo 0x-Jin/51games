@@ -1,0 +1,93 @@
+<?php if (!defined('THINK_PATH')) exit();?><body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <div id="content" class="hidden">
+      <form id="form" class="form-horizontal" action="<?php echo U('Index/edit');?>">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">账号：</label>
+            <div class="controls">
+              <span><?php echo session('admin.username');?></span>
+            </div>
+          </div>
+          <div class="control-group span15">
+            <label class="control-label">旧密码：</label>
+            <div class="controls">
+              <input type="password" class="input-large control-text" id="oldpwd" name="oldpwd" data-rules="{required : true}">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">新密码：</label>
+            <div class="controls">
+              <input class="input-large control-text" data-rules="{required : true}" id="newpwd" type="password" name="newpwd" placeholder="新密码必须由6-16位字母、数字、下划线组成，字母开头">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">确认新密码：</label>
+            <div class="controls">
+              <input class="input-large control-text" data-rules="{required : true}" type="password" id="repwd" name="repwd" placeholder="新密码必须由6-16位字母、数字、下划线组成，字母开头">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+ 
+ 
+<!-- script start --> 
+    <script type="text/javascript">
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'修改密码',
+            width:500,
+            height:320,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              var oldpwd = $('#oldpwd').val();
+              var newpwd = $('#newpwd').val();
+              var repwd = $('#repwd').val();
+              var obj = this;
+              if(oldpwd == '' || newpwd == '' || repwd == ''){
+                alert('新旧密码不能为空');
+                return false;
+              }
+              var patten = /^[a-zA-Z]{1}[\w!@#$%]{5,16}$/;
+              if(!patten.test(newpwd) || !patten.test(repwd)){
+                alert('新密码格式有误，请检查');
+                return false;
+              }
+
+              if(newpwd != repwd){
+                alert('新密码和确认密码不一致');
+                return false;
+              }
+              $.post('<?php echo U("Index/edit");?>',{oldpwd:oldpwd,newpwd:newpwd,repwd:repwd},function(ret){
+                    alert(ret.msg);
+                  if(ret.status == -1){
+                    return false;
+                  }else{
+                    obj.close();
+                  }
+              });
+            }
+          });
+        dialog.show();
+      });
+    </script>
+<!-- script end -->
+  </div>
+</body>
+</html>

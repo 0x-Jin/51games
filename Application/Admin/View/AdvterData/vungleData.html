@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>vungle数据统计</title>
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap.min.css">
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min2.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__CSS__/bootstrap/bootstrap-select.css">
+    
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+</head>
+<literal>
+<style>
+  tfoot .bui-grid-cell-text{text-align: center;}
+  .btn-default {height:25px;}
+  .filter-option {margin-top: -4px;}
+  .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+  .helpTipWrap{
+    width: 250px;
+    margin: -10px 0px 0px -340px;
+    padding:10px;
+    position: absolute;
+    z-index: 9999;
+    background-color: #fff;
+    border: 1px solid #00a9e8;
+  }
+  .helpTipWrap:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent transparent transparent #00a9e8;
+    border-style: solid;
+    border-width: 5px;
+    bottom: 100%;
+    left: initial;
+    content: '';
+    right: -4%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.combo-dropdown{z-index: 999;}
+</style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">游戏名称：</label>
+                    <div class="controls">
+                        <select name="game_id" id="game_id"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">
+                        母包：
+                    </label>
+                    <div class="controls" id="p_agent_contain">
+                        <select class="selectpicker" data-actions-box="true" data-live-search="true" id="agent_p" multiple="" name="agent_p[]">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 80px;">渠道商：</label>
+                    <div class="controls">
+                        <select name="advteruser_id" id="advteruser_id"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">
+                        推广活动组：
+                    </label>
+                    <div class="controls">
+                        <select class="selectpicker" data-actions-box="true" data-live-search="true" id="events_groupId" multiple="" name="events_groupId[]">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 80px;">
+                        推广活动：
+                    </label>
+                    <div class="controls">
+                        <select class="selectpicker" data-actions-box="true" data-live-search="true" id="advter_id" multiple="" name="advter_id[]">
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 60px;">
+                        日期：
+                    </label>
+                    <div class="controls">
+                        <input class="calendar" id="startDate" name="startDate" type="text" value="{:date('Y-m-d',strtotime(date('Y-m-d').' -2 day'))}">
+                            <span>
+                                -
+                            </span>
+                            <input class="calendar" id="endDate" name="endDate" type="text" value="{:date('Y-m-d')}">
+                            </input>
+                        </input>
+                    </div>
+                </div>
+                
+                <div class="control-group span5">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        $('.selectpicker').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            liveSearch: true,
+            actionsBox: true
+        });
+
+        gameLists();
+        advteruser_id();
+        groupList();
+
+        $('#game_id').change(function() {
+            var game_id       = $(this).val();
+            getPAgentByGame(game_id);
+        });
+
+        $('#agent_p').change(function() {
+            var agent_p = $(this).val();
+            var events_groupId = $('#events_groupId').val();
+            var game_id = $('#game_id').val();
+            var advteruser_id = $('#advteruser_id').val();
+            getEventByGroup(events_groupId,game_id,advteruser_id,agent_p);
+        });
+
+        $('#advteruser_id').change(function() {
+            var advteruser_id = $(this).val();
+            var events_groupId = $('#events_groupId').val();
+            var game_id = $('#game_id').val();
+            var agent_p = $('#agent_p').val();
+            getEventByGroup(events_groupId,game_id,advteruser_id,agent_p);
+        });
+
+        $('#events_groupId').change(function() {
+            var events_groupId = $(this).val();
+            var game_id = $('#game_id').val();
+            var advteruser_id = $('#advteruser_id').val();
+            var agent_p = $('#agent_p').val();
+            getEventByGroup(events_groupId,game_id,advteruser_id,agent_p);
+        });
+
+    });
+
+    //获取推广组
+    function groupList(){
+        var _html = '';
+        $.post("{:U('Ajax/getEventGroup')}",'',function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.groupName+"</option>";
+            });
+            $('#events_groupId').html(_html);
+            $('#events_groupId').selectpicker('refresh');
+            $('#events_groupId').selectpicker('val', '--全部--');
+        });
+    }
+
+    //通过组获取推广活动
+    function getEventByGroup(events_groupId,game_id,advteruser_id,agent_p){
+        var _html = '';
+        $.post("{:U('Ajax/getEventByGroup')}",{events_groupId:events_groupId,game_id:game_id,advteruser_id:advteruser_id,agent_p:agent_p},function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.events_name+"</option>";
+            });
+            $('#advter_id').html(_html);
+            $('#advter_id').selectpicker('refresh');
+            $('#advter_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取母包渠道号
+    function getPAgentByGame(game_id){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{game_id:game_id,gameType:2},function(ret){
+            _html += "<option>--全部--</option>";
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+            });
+            $('#agent_p').html(_html);
+            $('#agent_p').selectpicker('refresh');
+            $('#agent_p').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+
+    //获取广告商
+    function advteruser_id(){
+        var _html = '';
+        $.post("{:U('Ajax/adv_company')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.company_name+"</option>";
+            });
+            $('#advteruser_id').html(_html);
+            $('#advteruser_id').comboSelect();
+        });
+    }
+
+
+    //获得事件
+    function getEvent(){
+         if(window.event)    {return window.event;}
+         func=getEvent.caller;
+         while(func!=null){
+             var arg0=func.arguments[0];
+             if(arg0){
+                 if((arg0.constructor==Event || arg0.constructor ==MouseEvent
+                    || arg0.constructor==KeyboardEvent)
+                    ||(typeof(arg0)=="object" && arg0.preventDefault
+                    && arg0.stopPropagation)){
+                     return arg0;
+                 }
+             }
+             func=func.caller;
+         }
+         return null;
+    }
+
+    BUI.use('common/search',function (Search) {
+
+        editing = new BUI.Grid.Plugins.DialogEditing({
+            contentId : 'content', //设置隐藏的Dialog内容
+            autoSave : true, //添加数据或者修改数据时，自动保存
+            triggerCls : 'btn-edit'
+        }),
+            columns = [
+                {title:'游戏名称',dataIndex:'gameName',width:200,elCls:'center'},
+                {title:'活动名称',dataIndex:'eventName',width:200,elCls:'center'},
+                {title:'渠道商',dataIndex:'advteruserName',width:200,elCls:'center'},
+                {title:'点击数',dataIndex:'clickNum',width:200,elCls:'center'},
+            ],
+            store = Search.createStore('{:U("AdvterData/vungleData")}',{
+                proxy : {
+                    save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                    },
+                    method : 'POST'
+                },
+                autoSync : true //保存数据后，自动更新
+            }),
+            gridCfg = Search.createGridCfg(columns,{
+                plugins : [editing,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+            });
+
+        var  search = new Search({
+                store : store,
+                gridCfg : gridCfg
+            }),
+            grid = search.get('grid');
+    });
+</script>
+
+</body>
+</html>

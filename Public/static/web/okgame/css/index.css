@@ -1,0 +1,297 @@
+.kg-news {
+	width: 1300px;
+	margin: auto;
+	top: -340px;
+	height: 340px;
+}
+.kg-ggao {
+    height: 340px;
+    width: 730px;
+}
+.kg-ggao .ggao-list {
+    width: 201px;
+    height: 100%;
+    background-color: #282b2d;
+}
+.kg-ggao .ggao-list ul li {
+    height: 85px;
+    margin: 0 auto;
+    cursor: pointer;
+    position: relative;
+}
+.kg-ggao .ggao-list ul li img {
+    width: 41px;
+    height: 41px;
+    margin-top: 22.5px;
+    margin-right: 14px;
+    float: left;
+    margin-left: 20px;
+}
+.kg-ggao .ggao-list ul li .info {
+    height: 100%;
+    padding: 22px 0 13px 0;
+    text-align: left;
+    box-sizing: border-box;
+    margin-left: 15px;
+}
+.kg-ggao .ggao-list ul li .info .title {
+    color: #bbbbbb;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.kg-ggao .ggao-list ul li .info .intro {
+	display: block;
+    font-size: 12px;
+    color: #7d7d7d;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+}
+.kg-ggao .ggao-list ul li.active {
+    /* width: 195px; */
+    background: #000000;
+    border-left: 5px solid #2754a3;
+}
+.kg-ggao .ggao-list ul li.active img {
+	margin-left: 15px;
+}
+.kg-ggao .ggao-list ul li.active .info .title {
+    color: #ffffff;
+}
+.kg-ggao .ggao-list ul li.active .info .intro {
+    color: #a5a5a5;
+}
+.kg-ggao .ggao-img {
+    width: 529px;
+    height: 340px;
+    overflow: hidden;
+}
+.kg-ggao .ggao-img ul {
+    width: 2116px;
+    position: relative;
+}
+.kg-ggao .ggao-img ul li {
+    float: left;
+}
+.kg-news-list {
+	width: 570px;
+	height: 340px;
+	background: #ffffff;
+}
+.kg-news-box {
+	
+}
+.kg-list-move {
+	position: absolute;
+	background: url('../images/kg-list-move.png') no-repeat center;
+	right: 0;
+	top: 0;
+	width: 42px;
+	height: 42px;
+}
+.kg-list-title {
+	font-size: 30px;
+	color: #1f5bc3;
+	margin: 32px 0;
+    font-weight: 600;
+}
+.kg-list-border {
+	height: 2px;
+    background: #d5d5d5;
+}
+.kg-list-centent {
+	margin: 24px 31px 0 44px;
+}
+.kg-list-centent ul li {
+	text-align: left;
+	height: 42px;
+    font-size: 14px;
+}
+.kg-list-centent ul li a{
+	color: #333333;
+}
+.kg-list-centent ul li:hover a cite {
+	font-weight: 600;
+}
+.kg-list-centent ul li a i {
+	width: 21px;
+	height: 16px;
+	display: inline-block;
+	margin-right: 10px;
+	background: url('../images/kg-news-icon.png') no-repeat center;
+    position: relative;
+    top: 3px;
+}
+.kg-list-centent ul li a span {
+	float: right;
+	color: #868686;
+}
+/* 热门游戏 */
+.gs-hot-game {
+    width: 100%;
+    height: 925px;
+    background: #f3f3f3;
+}
+.gs-hot-game-content {
+    width: 1300px;
+    margin: 0 auto;
+    height: 860px;
+}
+.gs-hot-game-title {
+    width: 100%;
+    height: 120px;
+    line-height: 120px;
+    text-align: left;
+}
+.gs-hot-game-title i {
+    width: 4px;
+    height: 27px;
+    display: inline-block;
+    background: url('../images/gs-hot-game-title.png') no-repeat center;
+    position: relative;
+    top: 6px;
+}
+.gs-hot-game-title span {
+    font-size: 24px;
+    color: #020202;
+    margin-left: 10px;
+}
+.gs-hot-game-title cite {
+    color: #999999;
+    font-size: 18px;
+    margin-left: 14px;
+}
+.gs-hot-list {
+    width: 100%;
+}
+.gs-hot-list ul li {
+    width: 410px;
+    height: 340px;
+    float: left;
+    background: #fff;
+    margin: 0 0 40px 35px;
+    text-align: left;
+    position: relative;
+}
+.gs-hot-list ul li.clent {
+    margin-left: 0;
+}
+.gs-hot-img-box {
+    width: 100%;
+    height: 200px;
+}
+.gs-hot-img-box img {
+    width: 100%;
+    height: 100%;
+}
+.gs-hot-list ul li h4 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    color: #020202;
+    margin: 18px 0 0 22px;
+}
+.gs-hot-list ul li p {
+    color: #7a7a7a;
+    font-size: 16px;
+    margin: 10px 0 0 28px;
+}
+.gs-hot-list ul li a {
+    border: 1px solid #1f5bc3;
+    border-radius: 22px;
+    color: #1f5bc3;
+    padding: 4px 18px;
+    float: right;
+    position: absolute;
+    bottom: 18px;
+    right: 24px;
+}
+.gs-hot-list ul li.last-gs-game-list a {
+    border: 1px solid #464a4c;
+    color: #6b6e70;
+}
+.gs-game-over {
+    width: 1300px;
+    margin:  0 auto;
+}
+.gs-game-over a {
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    position: relative;
+    background: url(../images/gs-game-over.png) no-repeat;
+    top: -15px;
+}
+
+/* 公司简介 */
+.gs-company {
+    width: 100%;
+    height: 600px;
+    background: #f3f3f3;
+}
+.gs-company-box {
+    width: 1300px;
+    height: 600px;
+    margin: auto;
+    text-align: left;
+}
+.gs-profile {
+    width: 650px;
+    float: left;
+}
+.gs-partners {
+    width: 590px;
+    float: right;
+}
+.gs-company-title {
+    width: 100%;
+    height: 120px;
+    line-height: 120px;
+}
+.gs-company-title i {
+    width: 4px;
+    height: 27px;
+    display: inline-block;
+    background: url('../images/gs-hot-game-title.png') no-repeat center;
+    position: relative;
+    top: 6px;
+}
+.gs-company-title span {
+    font-size: 24px;
+    color: #020202;
+    margin-left: 10px;
+}
+.gs-company-title cite {
+    color: #999999;
+    font-size: 18px;
+    margin-left: 14px;
+}
+.gs-company-img-box {
+    width: 100%;
+    height: 179px;
+}
+.gs-profile-content {
+    width: 100%;
+    height: 400px;
+    background: #fff;
+}
+.gs-profile-content p {
+    padding: 20px;
+    line-height: 2.5;
+    text-indent: 2em;
+    font-size: 14px;
+    color: #333333;
+}
+.gs-partners-content {
+    height: 373px;
+    background: #fff;
+    padding: 27px 47.5px 0;
+}
+.gs-partners-content ul li {
+    width: 140px;
+    height: 60px;
+    float: left;
+    margin: 13px 12.5px;
+
+}

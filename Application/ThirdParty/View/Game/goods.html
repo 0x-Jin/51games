@@ -1,0 +1,160 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Game/goods')}" style="overflow-y:auto; height: 450px;">
+        <input type="hidden" value="{$game.id}" id="game_id"/>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    {$game.gameName}
+                </div>
+            </div>
+        </div>
+
+        <volist name="goods" id="val">
+            <div class="row">
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 60px;">商品ID：</label>
+                    <div class="controls">
+                        {$val.goodsCode}
+                    </div>
+                </div>
+                <div class="control-group span5">
+                    <label class="control-label" style="width: 60px;">商品名称：</label>
+                    <div class="controls">
+                        {$val.name}
+                    </div>
+                </div>
+                <div class="control-group span4">
+                    <label class="control-label" style="width: 60px;">商品价格：</label>
+                    <div class="controls">
+                        {$val.amount}
+                    </div>
+                </div>
+                <div class="control-group span2">
+                    <button type="button" onclick="deleteGoods(this, '{$val.goodsCode}')" class="button button-danger">删除</button>
+                </div>
+            </div>
+        </volist>
+
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'商品-{$game.gameName}',
+            width:800,
+            height:500,
+            zIndex: 1000,
+            //配置DOM容器的编号
+            contentId:'content',
+            buttons:[
+                {
+                    text:'添加商品',
+                    elCls : 'button button-primary',
+                    handler : function(){
+                        addGoods();
+                    }
+                },{
+                    text:'关闭',
+                    elCls : 'button',
+                    handler : function(){
+                        this.close();
+                    }
+                }
+            ]
+        });
+        dialog.show();
+    });
+
+    var _id = 1;
+    
+    function addGoods() {
+        var _str = '<div class="row">'+
+        '<div class="control-group span7">'+
+        '<label class="control-label" style="width: 60px;">商品ID：</label>'+
+        '<div class="controls">'+
+        '<input id="goodsCode_'+_id+'" name="goodsCode" type="text" class="input-normal control-text" style="width: 180px;">'+
+        '</div>'+
+        '</div>'+
+        '<div class="control-group span5">'+
+        '<label class="control-label" style="width: 60px;">商品名称：</label>'+
+        '<div class="controls">'+
+        '<input id="name_'+_id+'" name="name" type="text" class="input-normal control-text" style="width: 100px;">'+
+        '</div>'+
+        '</div>'+
+        '<div class="control-group span4">'+
+        '<label class="control-label" style="width: 60px;">商品价格：</label>'+
+        '<div class="controls">'+
+        '<input id="amount_'+_id+'" name="amount" type="text" class="input-normal control-text" style="width: 60px;">'+
+        '</div>'+
+        '</div>'+
+        '<div class="control-group span2">'+
+        '<button type="button" onclick="ajaxGoods(this, '+_id+')" class="button button-primary">添加</button>'+
+        '</div>'+
+        '</div>';
+        $("#J_Form").append(_str);
+        $("#goodsCode_"+_id).focus();
+        _id += 1;
+    }
+
+    function ajaxGoods(obj, id) {
+        var _goodsCode = $("#goodsCode_"+id).val();
+        var _name = $("#name_"+id).val();
+        var _amount = $("#amount_"+id).val();
+        $.ajax({
+            type: "GET",
+            url: "{:U('Game/goodsAdd')}",
+            data: {game_id:$("#game_id").val(), goodsCode:_goodsCode, name:_name, amount:_amount},
+            dataType: "json",
+            success: function(data){
+                if(data.Result == true){
+                    $("#goodsCode_"+id).parent().html(_goodsCode);
+                    $("#name_"+id).parent().html(_name);
+                    $("#amount_"+id).parent().html(_amount);
+                    $(obj).parent().html('<button type="button" onclick="deleteGoods(this,\''+_goodsCode+'\')" class="button button-danger">删除</button>');
+                }else{
+                    alert(data.Msg);
+                }
+            },
+            error: function(){
+                alert(data.Msg);
+            }
+        })
+    }
+    
+    function deleteGoods(obj, code) {
+        $.ajax({
+            type: "GET",
+            url: "{:U('Game/goodsDelete')}",
+            data: {goodsCode:code},
+            dataType: "json",
+            success: function(data){
+                if(data.Result == true){
+                    $(obj).parent().parent().remove();
+                }else{
+                    alert(data.Msg);
+                }
+            },
+            error: function(){
+                alert(data.Msg);
+            }
+        })
+    }
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

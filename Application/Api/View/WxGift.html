@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+    <title>领取礼包</title>
+</head>
+<style type="text/css">
+    .pr{ position:relative}
+    .pa{ position:absolute}
+    .fl{float:left;}
+    .fr{float:right;}
+    ol,ul{list-style:none;}
+    .db{display: block;}
+    .dn{display:none;}
+
+    .clearfix:after {
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+    .clear{
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        visibility: hidden;
+    }
+    h1 {
+        font-weight: bold;
+        font-size: 1em;
+        color: #FF7300;
+        line-height:1.7;
+    }
+    .box_orient{ display:-moz-box; display:-webkit-box; -webkit-box-orient: horizontal; -moz-box-orient: horizontal;}
+
+    .topdiv01{width:100%; overflow:hidden;}
+    .topdiv01 img{display:block; width:100%;}
+
+    .btnwrap{ width:76%; overflow:hidden; left:50%; margin-left:-38%; top:0;}
+    a.lqbtn_a{ width:45%; overflow:hidden;}
+    a.lqbtn_a img{display:block; width:100%;}
+    a.dlbtn_a{width:45%; overflow:hidden;}
+    a.dlbtn_a img{display:block; width:100%;}
+
+    /**领取礼包弹出层**/
+    .graydiv{ width:100%; height:100%; position:absolute; left:0; top:0; opacity:0.8; background-color:#000; z-index:99999;}
+    .gzhkuang{ width:290px; height:120px; position:absolute; left:50%; top:50%; margin-left:-145px; margin-top:-60px; background-color:#e6dcff; z-index:100000; box-shadow:0 0 5px #000;}
+    .gzhpophead_p{ height:30px; line-height:30px; color:#795ec5; font-size:18px; padding-top:30px; text-align:center}
+    .gzhpopcon_p1{width:290px; line-height:24px; color:#ff5a5a; font-size:14px;  text-align:center; margin-top:35px;}
+    .gzhpopcon_p2{width:290px; line-height:24px; color:#795ec5; font-size:14px; text-align:center;}
+    .gzhpopconbtn {position: absolute;top: 60.5px;right: 10%;background: #e6dcff;outline: none;border: 1px solid #c4bcc6;border-radius: 6px;}
+</style>
+<body>
+<div class="graydiv"></div>
+<div class="gzhkuang">
+    <p class="gzhpopcon_p1">{$title}<br><span>{$gift}</span></p>
+    <button class="gzhpopconbtn" data-clipboard-action="copy" data-clipboard-target="span">复制</button>
+</div>
+<script type="text/javascript" charset="utf-8" src="__JS__/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__JS__/clipboard.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.graydiv').css('height',$(document).height());
+        $(window).bind('scroll resize', function(event) {
+            var $pLeft = ($(window).width() - $('.gzhkuang').width()) / 2 + $(window).scrollLeft();
+            var $pTop = ($(window).height() - $('.gzhkuang').height()) / 2 + $(window).scrollTop();
+            $('.gzhkuang').animate({
+                left : $pLeft + $('.gzhkuang').width()/2,
+                top : $pTop + $('.gzhkuang').height()/2
+            }, {
+                duration : 500,
+                queue : false
+            });
+        })
+        var clipboard = new Clipboard('.gzhpopconbtn');
+        clipboard.on('success', function(e) {
+            console.log(e);
+        });
+        clipboard.on('error', function(e) {
+            console.log(e);
+        });
+    });
+</script>
+</body>
+</html>

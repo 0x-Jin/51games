@@ -1,0 +1,113 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+    .info_span{color:green;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:400px;">
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> ID：</label>
+        <div class="controls">
+          <span class="info_span">{$info.id}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 控制器：</label>
+        <div class="controls">
+          <span class="info_span">{$info.controller}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 方法：</label>
+        <div class="controls">
+          <span class="info_span">{$info.action}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 参数：</label>
+        <div class="controls">
+          <span class="info_span">{$info.params}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 操作类型：</label>
+        <div class="controls">
+          <span class="info_span">{$info.type}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 操作人：</label>
+        <div class="controls">
+          <span class="info_span">{$info.author}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> IP：</label>
+        <div class="controls">
+          <span class="info_span">{$info.ip}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 操作记录：</label>
+        <div class="controls">
+          <span class="info_span">{$info.record}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="control-group span8">
+        <label class="control-label"> 操作时间：</label>
+        <div class="controls">
+          <span class="info_span">{$info.create_time}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+var form = new Form.HForm({
+  srcNode : '#J_Form'
+}).render();
+
+var dialog = new Overlay.Dialog({
+      title:'操作日志详情',
+      width:850,
+      height:480,
+      //配置DOM容器的编号
+      contentId:'content',
+      success:function () {
+        $('#J_Form').submit();
+      }
+    });
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

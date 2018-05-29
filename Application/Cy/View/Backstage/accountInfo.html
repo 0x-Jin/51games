@@ -1,0 +1,355 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal">
+        <input type="hidden" value="{$backstage.id}" id="backstage_id"/>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">平台名称：</label>
+                <div class="controls">
+                    {$backstage.backstage}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span6">
+                <div style="text-align: center; line-height: 40px;">
+                    名称
+                </div>
+            </div>
+            <div class="control-group span6">
+                <div style="text-align: center; line-height: 40px;">
+                    账号
+                </div>
+            </div>
+            <div class="control-group span6">
+                <div style="text-align: center; line-height: 40px;">
+                    密码
+                </div>
+            </div>
+            <div class="control-group span3">
+                <div style="text-align: center; line-height: 40px;">
+                    状态
+                </div>
+            </div>
+            <div class="control-group span4">
+                <div style="text-align: center; line-height: 40px;">
+                    操作
+                </div>
+            </div>
+        </div>
+        <div id="val_from" style="overflow-y:auto; height: 360px;">
+            <volist name="account" id="val">
+                <div class="row">
+                    <div class="control-group span6">
+                        <div style="text-align: center; line-height: 30px;">
+                        <span id="name_id_{$val.id}" data-value="{$val.name}">
+                            {$val.name}
+                        </span>
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <div style="text-align: center; line-height: 30px;">
+                        <span id="account_id_{$val.id}" data-value="{$val.account}">
+                            {$val.account}
+                        </span>
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <div style="text-align: center; line-height: 30px;">
+                        <span id="password_id_{$val.id}" data-value="{$val.password}">
+                            <if condition="$val['password']">
+                                {$val.password}
+                            <else />
+                                （无）
+                            </if>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="control-group span3">
+                        <div style="text-align: center; line-height: 30px;">
+                        <span id="status_id_{$val.id}" data-value="{$val.status}">
+                            <if condition="$val['status'] != '0'">
+                                <span style="color: green">开</span>
+                            <else />
+                                <span style="color: red">关</span>
+                            </if>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="control-group span4">
+                        <div style="text-align: center; line-height: 30px;">
+                            <button type="button" onclick="editAccount(this, '{$val.id}')" class="button button-info">修改</button>&nbsp;<button type="button" onclick="deleteAccount(this, '{$val.id}')" class="button button-danger">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </volist>
+        </div>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(["bui/overlay", "bui/form"], function (Overlay, Form) {
+
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render(),
+
+        dialog = new Overlay.Dialog({
+            title: "账号-{$backstage.backstage}",
+            width: 1100,
+            height: 500,
+            //配置DOM容器的编号
+            contentId: "content",
+            buttons: [
+                {
+                    text: "添加账号",
+                    elCls: "button button-primary",
+                    handler: function(){
+                        addAccount();
+                    }
+                },{
+                    text: "关闭窗口",
+                    elCls: "button",
+                    handler: function(){
+                        this.close();
+                    }
+                }
+            ]
+        });
+        dialog.show();
+    });
+
+    var _id = 1;
+    var _key = 0;
+
+    //添加账号
+    function addAccount() {
+        if (_key == 0) {
+            var _str = '<div class="row">'+
+                '<div class="control-group span6">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<input id="name_'+_id+'" name="name" type="text" class="input-normal control-text" style="width: 200px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span6">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<input id="account_'+_id+'" name="account" type="text" class="input-normal control-text" style="width: 200px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span6">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<input id="password_'+_id+'" name="password" type="text" class="input-normal control-text" style="width: 200px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span3">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<select id="status_'+_id+'" name="status" style="width: 45px;">'+
+                '<option value="1">开</option>'+
+                '<option value="0">关</option>'+
+                '</select>'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span4">'+
+                '<div style="text-align: center; line-height: 30px;">'+
+                '<button type="button" onclick="ajaxAccount(this, '+_id+')" class="button button-primary">提交</button>'+
+                '&nbsp;<button type="button" onclick="ajaxCancel(this, '+_id+')" class="button">取消</button>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
+            $("#val_from").append(_str);
+            $("#name_"+_id).focus();
+            _id += 1;
+            _key = 1;
+        } else  {
+            showMsg("warning", "请先提交或取消正在添加或修改的账号！");
+        }
+    }
+
+    //提交账号
+    function ajaxAccount(obj, id) {
+        var _backstage = $("#backstage_id").val();
+        var _name = $("#name_"+id).val();
+        var _account = $("#account_"+id).val();
+        var _password = $("#password_"+id).val();
+        var _status = $("#status_"+id).val();
+        if (_name == "" || _account == "" || !_backstage) {
+            showMsg("warning", "账号数据未填写完整！");
+        } else {
+            var password_str = "";
+            if (_password != "") {
+                password_str = _password;
+            } else {
+                password_str = "（无）"
+            }
+            $.ajax({
+                type: "GET",
+                url: "{:U('Backstage/accountAdd')}",
+                data: {backstage_id: _backstage, name: _name, account: _account, password: _password, status: _status},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Result == true) {
+                        var _str = "";
+                        if (_status == 1) {
+                            _str = '<span style="color: green" id="status_id_'+data.Id+'" data-value="'+_status+'">开</span>';
+                        } else {
+                            _str = '<span style="color: red" id="status_id_'+data.Id+'" data-value="'+_status+'">关</span>';
+                        }
+                        $("#name_"+id).parent().html('<span id="name_id_'+data.Id+'" data-value="'+_name+'">'+_name+'</span>');
+                        $("#account_"+id).parent().html('<span id="account_id_'+data.Id+'" data-value="'+_account+'">'+_account+'</span>');
+                        $("#password_"+id).parent().html('<span id="password_id_'+data.Id+'" data-value="'+_password+'">'+password_str+'</span>');
+                        $("#status_"+id).parent().html(_str);
+                        $(obj).parent().html('<button type="button" onclick="editAccount(this, '+data.Id+')" class="button button-info">修改</button>&nbsp;<button type="button" onclick="deleteAccount(this, '+data.Id+')" class="button button-danger">删除</button>');
+                        _key = 0;
+                        showMsg("success", data.Msg);
+                    } else {
+                        showMsg("warning", data.Msg);
+                    }
+                },
+                error: function(){
+                    showMsg("warning", "数据提交失败！");
+                }
+            })
+        }
+    }
+
+    //取消提交
+    function ajaxCancel(obj, id) {
+        $(obj).parent().parent().parent().remove();
+        _key = 0;
+    }
+
+    //修改账号
+    function editAccount(obj, id) {
+        if (_key == 0) {
+            var status_edit = "";
+            if ($("#status_id_"+id).attr("data-value") == 1) {
+                status_edit = '<select id="status_edit_'+id+'" name="status" style="width: 45px;"><option value="1" selected="selected">开</option><option value="0">关</option></select>';
+            } else {
+                status_edit = '<select id="status_edit_'+id+'" name="status" style="width: 45px;"><option value="1">开</option><option value="0" selected="selected">关</option></select>';
+            }
+            $("#name_id_"+id).hide().after('<input id="name_edit_'+id+'" name="name" type="text" value="'+$("#name_id_"+id).attr("data-value")+'" class="input-normal control-text" style="width: 200px;">');
+            $("#account_id_"+id).hide().after('<input id="account_edit_'+id+'" name="account" type="text" value="'+$("#account_id_"+id).attr("data-value")+'" class="input-normal control-text" style="width: 200px;">');
+            $("#password_id_"+id).hide().after('<input id="password_edit_'+id+'" name="password" type="text" value="'+$("#password_id_"+id).attr("data-value")+'" class="input-normal control-text" style="width: 200px;">');
+            $("#status_id_"+id).hide().after(status_edit);
+            $(obj).parent().html('<button type="button" onclick="submitAccount(this, '+id+')" class="button button-primary">提交</button>&nbsp;<button type="button" onclick="cancelAccount(this, '+id+')" class="button">取消</button>');
+            _key = 1;
+        } else {
+            showMsg("warning", "请先提交或取消正在添加或修改的账号！");
+        }
+    }
+
+    //删除账号
+    function deleteAccount(obj, id) {
+        BUI.Message.Show({
+            msg: "是否确定删除账号“"+$("#name_id_"+id).attr("data-value")+"”？",
+            icon: "question",
+            autoHide: false,
+            autoHideDelay: 0,
+            buttons: [
+                {
+                    text: "是",
+                    elCls: "button button-primary",
+                    handler: function(){
+                        this.close();
+                        $.ajax({
+                            type: "GET",
+                            url: "{:U('Backstage/accountDelete')}",
+                            data: {id: id},
+                            dataType: "json",
+                            success: function(data){
+                                if(data.Result == true){
+                                    $(obj).parent().parent().parent().remove();
+                                    showMsg("success", data.Msg);
+                                }else{
+                                    showMsg("warning", data.Msg);
+                                }
+                            },
+                            error: function(){
+                                showMsg("warning", "数据提交失败！");
+                            }
+                        })
+                    }
+                },
+                {
+                    text: "否",
+                    elCls: "button",
+                    handler: function(){
+                        this.close();
+                    }
+                }
+            ]
+        });
+
+    }
+
+    //提交编辑
+    function submitAccount(obj, id) {
+        var _name = $("#name_edit_"+id).val();
+        var _account = $("#account_edit_"+id).val();
+        var _password = $("#password_edit_"+id).val();
+        var _status = $("#status_edit_"+id).val();
+        if (_name == "" || _account == "" || !id) {
+            showMsg("warning", "账号数据未填写完整！");
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "{:U('Backstage/accountEdit')}",
+                data: {id: id, name: _name, account: _account, password: _password, status: _status},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Result == true) {
+                        var password_str = "";
+                        if (_password != "") {
+                            password_str = _password;
+                        } else {
+                            password_str = "（无）"
+                        }
+                        var _str = "";
+                        if (_status == 1) {
+                            _str = '<span style="color: green" id="status_id_'+id+'" data-value="'+_status+'">开</span>';
+                        } else {
+                            _str = '<span style="color: red" id="status_id_'+id+'" data-value="'+_status+'">关</span>';
+                        }
+                        $("#name_edit_"+id).parent().html('<span id="name_id_'+id+'" data-value="'+_name+'">'+_name+'</span>');
+                        $("#account_edit_"+id).parent().html('<span id="account_id_'+id+'" data-value="'+_account+'">'+_account+'</span>');
+                        $("#password_edit_"+id).parent().html('<span id="password_id_'+id+'" data-value="'+_password+'">'+password_str+'</span>');
+                        $("#status_edit_"+id).parent().html(_str);
+                        $(obj).parent().html('<button type="button" onclick="editAccount(this, '+id+')" class="button button-info">修改</button>&nbsp;<button type="button" onclick="deleteAccount(this, '+id+')" class="button button-danger">删除</button>');
+                        _key = 0;
+                        showMsg("success", data.Msg);
+                    } else {
+                        showMsg("warning", data.Msg);
+                    }
+                },
+                error: function(){
+                    showMsg("warning", "数据提交失败！");
+                }
+            })
+        }
+    }
+
+    //取消编辑
+    function cancelAccount(obj, id) {
+        $("#name_edit_"+id).remove();
+        $("#account_edit_"+id).remove();
+        $("#password_edit_"+id).remove();
+        $("#status_edit_"+id).remove();
+        $("#name_id_"+id).show();
+        $("#account_id_"+id).show();
+        $("#password_id_"+id).show();
+        $("#status_id_"+id).show();
+        $(obj).parent().html('<button type="button" onclick="editAccount(this, '+id+')" class="button button-info">修改</button>&nbsp;<button type="button" onclick="deleteAccount(this, '+id+')" class="button button-danger">删除</button>');
+        _key = 0;
+    }
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

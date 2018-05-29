@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>财务订单列表</title>
+    <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+    <script src="__JS__/bootstrap/jquery.min.js">
+    </script>
+    <script src="__JS__/bootstrap/bootstrap.min.js">
+    </script>
+    <script src="__JS__/bootstrap/bootstrap-select.js">
+    </script>
+    <script src="__JS__/jquery.combo.select.js" type="text/javascript">
+    </script>
+    <script src="__JS__/bui.js" type="text/javascript">
+    </script>
+    <script src="__JS__/config.js" type="text/javascript">
+    </script>
+    <script src="__JS__/echart/echarts.min.js" type="text/javascript">
+    </script>
+</head>
+<literal>
+<style>
+  tfoot .bui-grid-cell-text{text-align: center;}
+</style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span48">
+            <div class="row">
+                
+
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">游戏名称：</label>
+                    <div class="controls">
+                        <select name="game_id" id="game_id"></select>
+                    </div>
+                </div>
+
+
+                <div class="control-group span10">
+                    <label class="control-label" style="width: 60px;">下单时间：</label>
+                    <div class="controls">
+                        <input type="text" class="calendar calendar-time" id="startDate" name="startDate" value="{:date('Y-m-d 00:00:00')}"><span> - </span><input type="text" class="calendar calendar-time" id="endDate" name="endDate" value="{:date('Y-m-d 00:00:00',strtotime(date('Y-m-d').' +1 day'))}">
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">
+                        渠道号：
+                    </label>
+                    <div class="controls" id="agent_contain">
+                        <select class="selectpicker" multiple data-live-search="true" data-actions-box="true" id="agent_id" name="agent[]">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span5">
+                    <div class="controls">
+                        <button  type="button" id="btnSearch" class="button button-primary">
+                            搜索
+                        </button>
+                    </div>
+                    <div class="controls">
+                        <button class="button button-info" id="export" type="button">
+                            导出
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <form action='{:U("Data/incomeOrder")}' id="subfm" method="post">
+            <input name="game_id"   type="hidden" value="" />
+            <input name="startDate" type="hidden" value="" />
+            <input name="endDate"   type="hidden" value="" />
+            <input name="export"    type="hidden" value="1"/>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+
+</div>
+
+<!-- 弹窗 -->
+<div id="content" class="hide">
+
+</div>
+
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#export').click(function(){
+            $("#subfm input[name=game_id]").val($("#game_id").val());
+            $("#subfm input[name=startDate]").val($("#startDate").val());
+            $("#subfm input[name=endDate]").val($("#endDate").val());
+            
+            $('#subfm').submit();
+        });
+        gameLists();
+        $('#game_id').change(function() {
+            var game_id = $(this).val();
+            getAgentByGame(game_id);
+        });
+    });
+
+    //金额格式化
+    function fmoney(s, n) {
+      n = n > 0 && n <= 20 ? n : 2;
+      s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+      var l = s.split(".")[0].split("").reverse(),
+        r = s.split(".")[1];
+      t = "";
+      for (i = 0; i < l.length; i++) {
+        t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+      }
+      return t.split("").reverse().join("") + "." + r;
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+
+    //获取渠道号
+    function getAgentByGame(game_id){
+        var _html = '';
+        $.post("{:U('Ajax/getAgentByGame')}",{game_id:game_id},function(ret){
+            _html += "<option>--请选择渠道号--</option>";
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agents+">"+v.agent+"</option>";
+            });
+            $('#agent_id').html(_html);
+            $('.selectpicker').selectpicker('refresh');
+            $('.selectpicker').selectpicker('val', '--请选择渠道号--');
+            
+        });
+    }
+
+    //编辑
+    function orderInfo(id,obj){
+        $('.bui-dialog').remove();
+        $('.mark').show();
+        $('.spinner').show(); 
+        if(!id) return false;
+        $.get("{:U('Data/orderInfo')}",{orderId:id},function(ret){
+            $('#content').html(ret._html);
+            $('#content').show();
+            $('.mark').hide();
+            $('.spinner').hide(); 
+        });
+    }
+
+    BUI.use('common/search',function (Search) {
+
+        editing = new BUI.Grid.Plugins.DialogEditing({
+            contentId : 'content', //设置隐藏的Dialog内容
+            autoSave : true, //添加数据或者修改数据时，自动保存
+            triggerCls : 'btn-edit'
+        });
+        columns = [
+            {title:'游戏名称',dataIndex:'gameName',width:150,elCls:'center'},
+            {title:'包名称',dataIndex:'agentName',width:200,elCls:'center'},
+            {title:'支付渠道',dataIndex:'payType',width:60,elCls:'center'},
+            {title:'充值金额',dataIndex:'amount',width:100,elCls:'center',summary: true,
+              renderer: function(value, obj) {
+                return fmoney(value,2);
+                // return value + '元';
+              }
+            },
+            {title:'实收金额',dataIndex:'realAmount',width:100,elCls:'center',summary: true,
+              renderer: function(value, obj) {
+                return fmoney(value,2);
+              }
+            },
+            {title:'手续费',dataIndex:'poundage',width:100,elCls:'center',summary: true,
+              renderer: function(value, obj) {
+                return fmoney(value,2);
+              }
+            },
+        ];
+        store = Search.createStore('{:U("Data/incomeOrder")}',{
+            proxy : {
+                save : { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+                },
+                method : 'POST'
+            },
+            autoSync : true //保存数据后，自动更新
+        });
+        gridCfg = Search.createGridCfg(columns,{
+            plugins : [editing,BUI.Grid.Plugins.Summary,BUI.Grid.Plugins.AutoFit] // 插件形式引入多选表格
+        });
+
+        var  search = new Search({
+            store : store,
+            gridCfg : gridCfg
+        }),
+        grid = search.get('grid');
+    });
+</script>
+<include file="Public/loading" />
+
+</body>
+</html>

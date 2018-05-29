@@ -1,0 +1,89 @@
+<style type="text/css">
+    .controls td {border: 1px solid #e4e4e4; line-height: 24px; padding: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Gift/sdkGiftImport')}" enctype="multipart/form-data" >
+        <input type="hidden" name="id" value="{$info.id}" />
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">礼包名称：</label>
+                <div class="controls">
+                    {$info.gift}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">礼包文件：</label>
+                <div class="controls">
+                    <input type="file" name="file" id="file"><span style="color: red;">支持Excel格式为：'xls', 'csv', 'xlsx'</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label">文件模板：</label>
+                <div class="controls">
+                    <a href="http://{:$_SERVER['SERVER_NAME']}/Uploads/gift.xlsx">gift.xlsx</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span14">
+                <div class="controls">
+                    <p style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;温馨提示：第一行不会写入数据库，请不要删除该行。只需要填入礼包码这一行就可以了。</p>
+                    <b style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;注意！导入的礼包码会跟已导入的礼包码进行对比并进行去重处理！</b>
+                    <p style="position: relative; left: 200px">青云诀会员礼包.xls</p>
+                    <div style="border: 1px solid #d5dfe8; width: 480px; overflow: auto; position: relative;">
+                        <table width="100%" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td align="center" style="width: 160px;">礼包码</td>
+                                <td align="center" style="width: 160px;"></td>
+                                <td align="center" style="width: 160px;"></td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="width: 160px;">abc123</td>
+                                <td align="center" style="width: 160px;"></td>
+                                <td align="center" style="width: 160px;"></td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="width: 160px;">efg456</td>
+                                <td align="center" style="width: 160px;"></td>
+                                <td align="center" style="width: 160px;"></td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="width: 160px;">hij789</td>
+                                <td align="center" style="width: 160px;"></td>
+                                <td align="center" style="width: 160px;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(["bui/overlay", "bui/form"], function(Overlay, Form) {
+        var form = new Form.HForm({
+            srcNode: "#J_Form"
+        }).render();
+        var dialog = new Overlay.Dialog({
+            title: "导入礼包",
+            width: 600,
+            height: 400,
+            //配置DOM容器的编号
+            contentId: "content",
+            success: function() {
+                $("#J_Form").submit();
+            }
+        });
+
+        dialog.show();
+    });
+</script>
+<!-- script end -->

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>广告成本</title>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="__CSS__/combo.select.css" type="text/css">
+    <script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="__JS__/bui.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.combo.select.js"></script>
+    <script type="text/javascript" src="__JS__/config.js"></script>
+</head>
+<style>
+  .bui-grid-cell-text{text-align: center;}
+</style>
+ <body>
+  <!-- 搜索区 -->
+  <div class="container">
+    <div class="row">
+      <form id="searchForm" class="form-horizontal span48">
+        <div class="row">
+          <div class="control-group span10">
+            <label class="control-label">日期:</label>
+            <div class="controls">
+              <input type="text" id="startMonth" value="{:date('Y-m-d',strtotime(date('Y-m-01')))}" class="calendar" name="startMonth" /> - <input type="text" id="endMonth" value="{:date('Y-m-d')}" class="calendar" name="endMonth" />
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+              <select name="principal" id="principal_id">
+                {$principal_list}
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">游戏：</label>
+            <div class="controls">
+              <select name="gameName" id="game_id">
+                {$gameName_list}
+              </select>
+            </div>
+          </div>
+          
+          <div class="control-group span8">
+            <label class="control-label">系统：</label>
+            <div class="controls">
+              <select name="gameType" id="gameType">
+                {$gameType_list}
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">媒体：</label>
+            <div class="controls">
+              <input type="text" name="media" id="media" class="input-normal" />
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">渠道账号：</label>
+            <div class="controls">
+              <input type="text" name="channelAccount" id="channelAccount" class="input-normal" />
+            </div>
+          </div>
+
+          <div class="control-group span8">
+            <label class="control-label">包编号：</label>
+            <div class="controls">
+              <input type="text" class="input-normal" name="agent" id="agent" />
+            </div>
+          </div>
+
+          <div class="control-group span5">
+            <div class="controls">
+              <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+            </div>
+
+            <div class="controls">
+                <button  type="button" id="export" class="button button-info">导出</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+      <form  method="post" action='{:U("AdvterData/advCost")}' id="subfm"><input name="table" value="advter_cost" type="hidden"><input name="startMonth" value="" type="hidden"><input name="endMonth" value="" type="hidden"><input type="hidden" name="principal" /><input type="hidden" name="gameName" /><input type="hidden" name="media" /><input type="hidden" name="channelAccount" /><input type="hidden" name="agent" /><input type="hidden" name="export" value=1 /><input type="hidden" name="gameType" value='' /></form>
+    </div>
+    <div class="search-grid-container">
+      <div id="grid"></div>
+    </div>
+
+  </div>
+
+  <!-- 弹窗 -->
+  <div id="content" class="hide">
+     
+  </div>
+
+  <script type="text/javascript">
+    BUI.use('common/page');
+  </script>
+
+<script type="text/javascript">
+//编辑
+function costEdit(id){
+  $('.bui-dialog').remove();
+  if(!id) return false;
+  $('.mark').show();
+  $('.spinner').show();
+  $.get("{:U('AdvterData/edit')}",{id:id,table:'advter_cost',tpl:'costEdit'},function(ret){
+    $('#content').html(ret._html);
+    $('.mark').hide();
+    $('.spinner').hide();
+    $('#content').show();    
+  });
+}
+
+//删除
+function costDelete(id){
+  $('.bui-dialog').remove();
+  if(!id) return false;
+  if(confirm('确定删除该记录吗？')){
+    $.post("{:U('Advter/delete')}",{id:id,table:'advter_cost'},function(ret){
+      alert(ret.info);
+      if(ret.status == 1){
+        loadData();
+      }
+    });
+  }
+  
+}
+
+$(function() {
+  loadData();
+
+  $('#export').click(function(){
+      $("#subfm input[name=startMonth]").val($("#startMonth").val());
+      $("#subfm input[name=endMonth]").val($("#endMonth").val());
+      $("#subfm input[name=principal]").val($("#principal_id").val());
+      $("#subfm input[name=gameName]").val($("#game_id").val());
+      $("#subfm input[name=gameType]").val($("#gameType").val());
+      $("#subfm input[name=media]").val($("#media").val());
+      $("#subfm input[name=channelAccount]").val($("#channelAccount").val());
+      $("#subfm input[name=agent]").val($("#agent").val());
+      $('#subfm').submit();
+  });
+
+});
+
+//金额格式化
+function fmoney(s, n) {
+  n = n > 0 && n <= 20 ? n : 2;
+  s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+  var l = s.split(".")[0].split("").reverse(),
+    r = s.split(".")[1];
+  t = "";
+  for (i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
+}
+
+function loadData()
+{
+  $('#grid').html('');
+
+  BUI.use(['common/search', 'bui/calendar'], function(Search,Calendar) {
+
+    // var enumObj = {"1":"禁用","0":"正常"},
+    editing = new BUI.Grid.Plugins.DialogEditing({
+        contentId: 'content', //设置隐藏的Dialog内容
+        autoSave: true, //添加数据或者修改数据时，自动保存
+        triggerCls: 'btn-edit'
+      }),
+      columns = [{
+        title: '日期',
+        dataIndex: 'costMonth',
+        width: 100,
+        elCls: 'center'
+      }, {
+        title: '负责人',
+        dataIndex: 'principalName',
+        width: 100,
+        elCls: 'center'
+      }, {
+        title: '游戏',
+        dataIndex: 'gameName',
+        width: 200,
+        elCls: 'center'
+      }, {
+        title: '系统',
+        dataIndex: 'gameType',
+        width: 80,
+        elCls: 'center'
+      },{
+        title: '媒体',
+        dataIndex: 'media',
+        width: 100,
+        elCls: 'center'
+      }, {
+        title: '包号',
+        dataIndex: 'agent',
+        width: 100,
+        elCls: 'center'
+      }, {
+        title: '渠道账号',
+        dataIndex: 'channelAccount',
+        width: 200,
+        elCls: 'center'
+      },{
+        title: '推广活动名称',
+        dataIndex: 'eventName',
+        width: 200,
+        elCls: 'center'
+      }, {
+        title: '支出金额',
+        dataIndex: 'cost',
+        summary: true,
+        width: 100,
+        elCls: 'center',
+        renderer: function(value, obj) {
+          return fmoney(value,2);
+          // return value + '元';
+        }
+      },{
+        title: '操作',
+        dataIndex: 'opt',
+        width: 200,
+        elCls: 'center'
+      }],
+      store = Search.createStore('{:U("AdvterData/advCost")}?sysType=android', {
+        proxy: {
+          save: { //也可以是一个字符串，那么增删改，都会往那么路径提交数据，同时附加参数saveType
+            removeUrl: '{:U("AdvterData/delete")}?sysType=android'
+          },
+          method: 'POST'
+        },
+        autoSync: true //保存数据后，自动更新
+      }),
+      gridCfg = Search.createGridCfg(columns, {
+        tbar: {
+          items: [
+            // {text: '<i class="icon-plus"></i>成本录入', btnCls : 'button button-small opt-btn', handler : addFunction }, 
+//            {text: '<i class="icon-plus"></i>安卓成本导入', btnCls : 'button button-small opt-btn', handler : importFunction},
+//            {text: '<i class="icon-plus"></i>IOS成本导入', btnCls : 'button button-small opt-btn', handler : iosimportFunction}
+          ]
+        },
+        plugins: [editing, BUI.Grid.Plugins.Summary, /*BUI.Grid.Plugins.CheckSelection,*/ BUI.Grid.Plugins.AutoFit,BUI.Grid.Plugins.ColumnResize] // 插件形式引入多选表格
+      });
+
+    var search = new Search({
+        store: store,
+        gridCfg: gridCfg
+      }),
+      grid = search.get('grid');
+
+    function addFunction() {
+      /*var newData = {isNew : true}; //标志是新增加的记录
+      editing.add(newData,'name'); //添加记录后，直接编辑*/
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("AdvterData/add")}', {
+        table: 'advter_cost',
+        tpl: 'costAdd'
+      }, function(ret) {
+        $('#content').html(ret._html);
+        $('.mark').hide();
+        $('.spinner').hide();
+        $('#content').show();
+      });
+    }
+
+    //导入成本
+    function importFunction() {
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("AdvterData/importCost")}', {
+        table: 'advter_cost',
+        tpl: 'importCost'
+      }, function(ret) {
+        $('#content').html(ret._html);
+        $('.mark').hide();
+        $('.spinner').hide();
+        $('#content').show();
+      });
+    }
+
+    //导入成本
+    function iosimportFunction() {
+      $('.bui-dialog').remove();
+      $('.mark').show();
+      $('.spinner').show();
+      $.get('{:U("AdvterData/iosImportCost")}', {
+        table: 'advter_cost',
+        tpl: 'iosImportCost'
+      }, function(ret) {
+        $('#content').html(ret._html);
+        $('.mark').hide();
+        $('.spinner').hide();
+        $('#content').show();
+      });
+    }
+
+    function delItems(items) {
+      var id = [];
+      BUI.each(items, function(item) {
+        id.push(item.id);
+      });
+
+      if (id.length) {
+        BUI.Message.Confirm('确认要删除选中的记录么？', function(ret) {
+          console.log(ret);
+          store.save('remove', {
+            id: id
+          });
+        }, 'question');
+      }
+    }
+
+    //监听事件，删除一条记录
+    grid.on('cellclick', function(ev) {
+      var sender = $(ev.domTarget); //点击的Dom
+      if (sender.hasClass('btn-del')) {
+        var record = ev.record;
+        delItems([record]);
+      }
+    });
+
+    var datepicker1 = new Calendar.DatePicker({
+      trigger: '#startMonth',
+      autoRender: true
+    });
+
+    var datepicker2 = new Calendar.DatePicker({
+      trigger: '#endMonth',
+      autoRender: true
+    });
+  });
+}
+</script>
+<include file="Public/loading" />
+
+<body>
+</html>  

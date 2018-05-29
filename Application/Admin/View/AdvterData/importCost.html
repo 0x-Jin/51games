@@ -1,0 +1,106 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('AdvterData/importCost')}" enctype="multipart/form-data" >
+        <input type="hidden" value="advter_cost" name="table"/>
+        <div class="row">
+          <div class="control-group span14">
+            <label class="control-label">成本文件：</label>
+            <div class="controls">
+              <input type="file" name="costFile" id="costFile"><span>支持Excel格式为：'xls', 'csv', 'xlsx'</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span14">
+            <label class="control-label">成本模板下载：</label>
+            <div class="controls">
+              <a href="https://{:$_SERVER['SERVER_NAME']}/Uploads/androidCost.xlsx">androidCost.xlsx</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="control-group span14">
+                <div class="controls">
+                    <p style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;温馨提示：第一行不会写入数据库，请不要删除第一行，日期必须为<b style="font-size: 20px;">“2017-09-01”</b>格式，不能为“2017/09/01”，包号请填写渠道号</p>
+                    <p style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;温馨提示：第一行不会写入数据库，请不要删除第一行，日期必须为<b style="font-size: 20px;">“2017-09-01”</b>格式，不能为“2017/09/01”，包号请填写渠道号</p>
+                    <p style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;温馨提示：第一行不会写入数据库，请不要删除第一行，日期必须为<b style="font-size: 20px;">“2017-09-01”</b>格式，不能为“2017/09/01”，包号请填写渠道号</p>
+                    <p style="position: relative; left: 300px"><b>示例：</b>安卓成本列表.xls</p>
+                    <div style="border: 1px solid #d5dfe8; width: 700px; overflow: auto; position: relative;">
+                        <table width="100%" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td align="center">日期</td>
+                                <td align="center">负责人</td>
+                                <td align="center">游戏名</td>
+                                <td align="center">包号</td>
+                                <td align="center">媒体</td>
+                                <td align="center">支出金额</td>
+                                <td align="center">渠道账号</td>
+                            </tr>
+                            <tr>
+                                <td align="center">2017-09-01</td>
+                                <td align="center">System</td>
+                                <td align="center">战三国无双</td>
+                                <td align="center">zsgwsAND556</td>
+                                <td align="center">今日头条</td>
+                                <td align="center">8888</td>
+                                <td align="center">新蝴蝶</td>
+                            </tr>
+                            <tr>
+                                <td align="center">2017-09-02</td>
+                                <td align="center">System</td>
+                                <td align="center">乱世英雄战纪</td>
+                                <td align="center">lsyxzjAND1292</td>
+                                <td align="center">uc头条</td>
+                                <td align="center">8888</td>
+                                <td align="center">2186200787@qq.com</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+
+BUI.use(['bui/overlay', 'bui/form', 'bui/calendar'], function(Overlay, Form, Calendar) {
+
+  var form = new Form.HForm({
+    srcNode: '#J_Form'
+  }).render();
+
+  var dialog = new Overlay.Dialog({
+    title: '成本导入',
+    width: 800,
+    height: 400,
+    //配置DOM容器的编号
+    contentId: 'content',
+    success: function() {
+      $('#J_Form').submit();
+    }
+  });
+  
+  var datepicker = new Calendar.DatePicker({
+    trigger: '#costMonth',
+    dateMask: 'yyyy/mm/01',
+    autoRender: true
+  });
+
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>

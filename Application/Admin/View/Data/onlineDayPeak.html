@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <title>
+        在线峰值统计图表
+    </title>
+    <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+    <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+    <script src="__JS__/bootstrap/jquery.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+    <script src="__JS__/jquery.combo.select.js" type="text/javascript"></script>
+    <script src="__JS__/bui.js" type="text/javascript"></script>
+    <script src="__JS__/config.js" type="text/javascript"></script>
+    <script src="__JS__/echart/echarts.min.js" type="text/javascript"></script>
+</head>
+<literal>
+    <style>
+        tfoot .bui-grid-cell-text{text-align: center;}
+        .btn-default {height:25px;}
+        .filter-option {margin-top: -4px;}
+        .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+    </style>
+</literal>
+<body>
+<!-- 搜索区 -->
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal span48" id="searchForm" method="post">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label" style="width: 60px;">
+                        游戏名称：
+                    </label>
+                    <div class="controls">
+                        <select id="game_id" name="game_id">
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">母包：</label>
+                    <div class="controls" id="p_agent_contain">
+                        <select id="agent_p" name="agent_p[]"  class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">子包：</label>
+                    <div class="controls" id="agent_contain">
+                        <select id="agent" name="agent[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">区服：</label>
+                    <div class="controls">
+                        <select name="serverId" id="serverId" class="selectpicker" data-live-search="true" data-actions-box="true"></select>
+                    </div>
+                </div>
+
+                <div class="control-group span8">
+                    <label class="control-label" style="width: 60px;">查询日期：</label>
+                    <div class="controls">
+                        <input type="text" class="calendar" name="startDate" id="startDate" value="{:date('Y-m-d',strtotime(date('Y-m-d').' -15 day'))}"><span> - </span><input type="text" class="calendar" name="endDate" id="endDate" value="{:date('Y-m-d')}">
+                    </div>
+                </div>
+                
+                <div class="control-group span8">
+                    <div class="controls">
+                        <button class="button button-primary" onclick="getChart()" type="button">
+                            搜索
+                        </button>
+                        <button class="button button-info" id="export" type="button">
+                            导出
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form action='{:U("Data/onlineDayPeak")}' id="subfm" method="post">
+            <input name="game_id" type="hidden" value="">
+                <input name="agent" type="hidden" value="">
+                    <input name="agent_p" type="hidden" value="">
+                        <input name="serverId" type="hidden" value="">
+                            <input name="startDate" type="hidden" value="">
+                                <input name="endDate" type="hidden" value="">
+                                    <input name="export" type="hidden" value="1"/>
+                                </input>
+                            </input>
+                        </input>
+                    </input>
+                </input>
+            </input>
+        </form>
+    </div>
+    <!-- 图表 -->
+    <div class="search-grid-container" id="chartMain" style="width: 100%; height: 600px; display:none;">
+        <div id="chart" style="width: 100%;height:100%;"></div>
+    </div>
+
+    <div class="search-grid-container span25">
+        <div id="grid"></div>
+    </div>
+</div>
+<!-- 弹窗 -->
+<div class="hide" id="content">
+</div>
+<script type="text/javascript">
+    function getChart(){
+        var width = $('#chartMain').width();
+        var height = $('#chartMain').height();
+        var game_id = $('#game_id').val();
+        if(game_id == 0 ){
+            alert('必须先选择游戏');
+            return ;
+        }
+        
+        $('#chart').css({width:width, height:height});
+        $('.mark').show();
+        $('.spinner').show();
+
+        //提交表单获取数据
+        var _data = $('#searchForm').serialize();
+        $.post("{:U('Data/onlineDayPeak')}", _data, function(ret){
+            var res = eval('('+ret+')');
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('chart'));
+
+            // 指定图表的配置项和数据
+            var timeData = [];
+            var maxData = [];
+            var avgData = [];
+            var minData = [];
+
+            $.each(res.max, function(index, content){
+                timeData.push(index); 
+                maxData.push(content);
+            });
+            $.each(res.avg, function(index, content){
+                avgData.push(content);
+            });
+            $.each(res.min, function(index, content){
+                minData.push(content);
+            });
+
+            option = {
+                title: {
+                    text: '在线峰值图表',
+                    x: 'left'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                legend: {
+                    data: ['峰值','平均值','最低值']
+                },
+                axisPointer: {
+                    link: {
+                        xAxisIndex: 'all'
+                    }
+                },
+                grid: [{
+                    left: 40,
+                    right: 40
+                }, {
+                    left: 40,
+                    right: 40
+                }],
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        onZero: true
+                    },
+                    data: timeData
+                }, {
+                    gridIndex: 1
+                }],
+
+                yAxis: [{
+                    type: 'value',
+                    name: '人数:',
+                    min: 0
+                }, {
+                    gridIndex: 1
+                }],
+                series: [{
+                    name: '峰值',
+                    type: 'line',
+                    smooth: false,
+                    symbol: 'circle',
+                    symbolSize: 9,
+                    showSymbol: true,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    markArea: {
+                        silent: true,
+                        label: {
+                            normal: {
+                                position: ['10%', '50%']
+                            }
+                        },
+                        data: []
+                    },
+                    data: maxData
+                },{
+                    name: '平均值',
+                    type: 'line',
+                    smooth: false,
+                    symbol: 'circle',
+                    symbolSize: 9,
+                    showSymbol: true,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    markArea: {
+                        silent: true,
+                        label: {
+                            normal: {
+                                position: ['10%', '50%']
+                            }
+                        },
+                        data: []
+                    },
+                    data: avgData
+                },{
+                    name: '最低值',
+                    type: 'line',
+                    smooth: false,
+                    symbol: 'circle',
+                    symbolSize: 9,
+                    showSymbol: true,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    markArea: {
+                        silent: true,
+                        label: {
+                            normal: {
+                                position: ['10%', '50%']
+                            }
+                        },
+                        data: []
+                    },
+                    data: minData
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+            $('.mark').hide();
+            $('.spinner').hide();
+
+            BUI.use('bui/grid', function(Grid){
+                var Grid = Grid,
+                    columns = [
+                        {title: '日期', dataIndex: 'dayTime', width: 80, elCls: 'center'},
+                        {title: '峰值', dataIndex: 'max', width: 150, elCls: 'center'},
+                        {title: '最低值', dataIndex: 'min', width: 150, elCls: 'center'},
+                        {title: '平均值', dataIndex: 'avg', width: 150, elCls: 'center'}
+                    ];
+
+
+                var grid = new Grid.SimpleGrid({
+                    render:'#grid',
+                    columns : columns,
+                    items : res.summary,
+                    idField : 'a'
+                });
+                $(".bui-simple-grid").remove();
+
+                grid.render();
+            });
+
+            $('#chartMain').show();
+        });
+    }
+    $(function () {
+        $('.selectpicker').selectpicker({
+            selectAllText: '全选',
+            deselectAllText: '不选',
+            liveSearchPlaceholder: '搜索关键字',
+            noneSelectedText: '',
+            multipleSeparator: ',',
+            liveSearch: true,
+            actionsBox: true
+        });
+
+        $('#export').click(function(){            
+            $("#subfm input[name=game_id]").val($("#game_id").val());
+            $("#subfm input[name=agent]").val($('#agent').val());
+            $("#subfm input[name=agent_p]").val($('#agent_p').val());
+            $("#subfm input[name=serverId]").val($("#serverId").val());
+            $("#subfm input[name=startDate]").val($("#startDate").val());
+            $("#subfm input[name=endDate]").val($("#endDate").val());
+            $('#subfm').submit();
+        });
+
+        gameLists();
+        $('#game_id').change(function() {
+            var game_id = $(this).val();
+            getPAgentByGame(game_id);
+            serverList();
+        });
+
+        $('#agent_p').change(function() {
+            getAgentByGame();
+            serverList();
+        });
+    });
+
+    BUI.use('bui/calendar',function(Calendar){
+        var datepicker = new Calendar.DatePicker({
+            trigger:'.calendar',
+            autoRender : true
+        });
+    });
+
+    //获取母包渠道号
+    function getPAgentByGame(game_id){
+        var _html = '';
+        $.post("{:U('Ajax/getAgent')}",{game_id:game_id},function(ret){
+            _html += "<option>--请选择母包--</option>";
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+            });
+            $('#agent_p').html(_html);
+            $('#agent_p').selectpicker('refresh');
+            $('#agent_p').selectpicker('val', '--请选择母包--');
+        });
+    }
+
+    //获取子包渠道号
+    function getAgentByGame() {
+        var agent = $("#agent_p").val();
+        if (agent != "--请选择渠道号--" && agent != null) {
+            var _html = '';
+            $.post("{:U('Ajax/getChildAgentByAgent')}", {agent:agent}, function(ret){
+                _html += "<option>--请选择子包--</option>";
+                var ret = eval('('+ret+')');
+                $(ret).each(function(i,v){
+                    _html += "<option value="+v.agent+">"+v.agentAll+"</option>";
+                });
+                $('#agent').html(_html);
+                $('#agent').selectpicker('refresh');
+                $('#agent').selectpicker('val', '--请选择子包--');
+            });
+        }
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').comboSelect();
+        });
+    }
+    
+    /**
+     * 获取区服列表
+     * @return {[type]} [description]
+     */
+     function serverList(){
+      var _html = '';
+      var game_id = $("#game_id").val();
+      var agent = $("#agent_p").val();
+      $.post("{:U('Ajax/getServerList')}",{game_id:game_id,agent:agent},function(ret){
+          _html += "<option value='0'>--全部--</option>";
+          var ret = eval('('+ret+')');
+          $(ret).each(function(i,v){
+              _html += "<option value="+v.serverId+">"+v.serverName+'['+v.serverId+']'+"</option>";
+          });
+          $('#serverId').html(_html);
+          $('#serverId').selectpicker('refresh');
+      })
+     }
+</script>
+<include file="Public/loading" />
+
+</body>
+</html>

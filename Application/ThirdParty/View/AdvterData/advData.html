@@ -1,0 +1,518 @@
+<html lang="zh-cn">
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+        <title>
+            投放数据概况统计
+        </title>
+        <link href="__CSS__/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+        <link href="__CSS__/dpl-min.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/bui-min2.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/page-min.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/combo.select.css" rel="stylesheet" type="text/css"/>
+        <link href="__CSS__/pagestyle.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap/bootstrap-select.css" rel="stylesheet"/>
+        <link href="__CSS__/easyui/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+
+
+        <script src="__JS__/bootstrap/jquery.min.js"></script>
+        <script src="__JS__/bootstrap/bootstrap.min.js"></script>
+        <script src="__JS__/bootstrap/bootstrap-select.js"></script>
+        <script src="__JS__/jquery.combo.select.js" type="text/javascript"></script>
+        <script src="__JS__/bui.js" type="text/javascript"></script>
+        <script src="__JS__/config.js" type="text/javascript"></script>
+
+        <script type="text/javascript" src="__JS__/easyui/jquery.easyui.min.js"></script>
+
+    </head>
+    <literal>
+        <style>
+          tfoot .bui-grid-cell-text{text-align: center;}
+          .btn-default {height:25px;}
+          .filter-option {margin-top: -4px;}
+          .bs-searchbox .form-control {height:25px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+          .combo-dropdown{
+            z-index: 1999;
+          }
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn){width: 140px;}
+        .panel,.datagrid-view2{overflow: inherit;}
+        .datagrid-header .datagrid-cell{overflow: inherit;position: relative;}
+        .icon-question-sign{cursor: pointer;}
+        </style>
+        <style>
+            #typebut{
+                width: 70px;
+                background-color: #407686;
+                border-color: #357ebd;
+                color: #fff;
+                -moz-border-radius: 10px;
+                -webkit-border-radius: 10px;
+                border-radius: 4px;
+                -khtml-border-radius: 10px;
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid transparent;
+                font-size: 13px;
+                cursor: pointer;
+                margin-bottom: 15px;
+                margin-left: 25px;
+                font-family: 微软雅黑;  
+            }
+            #typetoggle{width: 600px; display: none; margin-left: 4px; margin-bottom: 15px;}
+            .butcheck {color: #428bca;padding: 4px;border: 1px solid #a9c9e2;background: #e8f5fe;}
+            .checkover {width: 100%;height: 100%;overflow: auto;}
+            .checklabel {padding: 5px 0;width: 110px;position: relative;text-indent:22px}
+            .inputSelet,.checkscroll{margin: 0 auto;text-align: center;}
+            .checklabel{margin: 0 auto;text-align: left;}
+            input[type="checkbox"]{appearance: none; -webkit-appearance: none;outline: none;display:none}
+            label{display:inline-block;cursor:pointer;}
+            label input[type="checkbox"] + span{width:20px;height:20px;display:inline-block;position:absolute;top:4px;left:0;background:url(__IMG__/checkbox_01.gif)  no-repeat;background-position:0 0;}
+            label input[type="checkbox"]:checked + span{background-position:0 -21px}
+        </style>
+    </literal>
+    <body>
+        <!-- 搜索区 -->
+        <div class="container">
+            <div class="row">
+                <form class="form-horizontal span48" id="searchForm" method="post">
+                    <div class="row">
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                游戏名称：
+                            </label>
+                            <div class="controls">
+                                <select id="game_id" class="selectpicker" data-actions-box="true" data-live-search="true" multiple="" name="game_id[]">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                渠道商：
+                            </label>
+                            <div class="controls">
+                                <select id="advteruser_id" name="advteruser_id">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                渠道号：
+                            </label>
+                            <div class="controls" id="agent_contain">
+                                <select class="selectpicker" data-actions-box="true" data-live-search="true" id="agent_id" multiple="" name="agent[]">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                推广活动组：
+                            </label>
+                            <div class="controls">
+                                <select class="selectpicker" data-actions-box="true" data-live-search="true" id="events_groupId" multiple="" name="events_groupId[]">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                推广活动：
+                            </label>
+                            <div class="controls">
+                                <select class="selectpicker" data-actions-box="true" data-live-search="true" id="advter_id" multiple="" name="advter_id[]">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                系统：
+                            </label>
+                            <div class="controls">
+                                <select id="system" name="system" style="width: 100px;">
+                                    <option value="1">
+                                        安卓
+                                    </option>
+                                    <option value="2">
+                                        IOS
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group span8">
+                            <label class="control-label" style="width: 100px;">
+                                统计日期：
+                            </label>
+                            <div class="controls">
+                                <input class="calendar" id="startDate" name="startDate" type="text" value="{:date('Y-m-d',strtotime(date('Y-m-d').' -3 day'))}">
+                                    <span>
+                                        -
+                                    </span>
+                                    <input class="calendar" id="endDate" name="endDate" type="text" value="{:date('Y-m-d')}">
+                                    </input>
+                                </input>
+                            </div>
+                        </div>
+
+                        <div class="control-group span8">
+                            <div class="controls">
+                                <input type="button" id="btnSearch" name="search" class="button button-primary" value="搜索" />
+                            </div>
+                            <!-- <div class="controls">
+                                <button class="button button-info" id="export" type="button">
+                                    导出
+                                </button>
+                            </div> -->
+                        </div>
+                    </div>
+                </form>
+                <form action='{:U("AdvterData/advData")}' id="subfm" method="post">
+                    <input name="game_id" type="hidden" value=""/>
+                    <input name="events_groupId" type="hidden" value=""/>
+                    <input name="advter_id" type="hidden" value=""/>
+                    <input name="agent_p" type="hidden" value=""/>
+                    <input name="agent" type="hidden" value=""/>
+                    <input name="advteruser_id" type="hidden" value=""/>
+                    <input name="startDate" type="hidden" value=""/>
+                    <input name="endDate" type="hidden" value=""/>
+                    <input name="export" type="hidden" value="1"/>
+                    <input name="system" type="hidden" value=""/>
+                </form>
+            </div>
+            <div style="color:red;margin-left:10px;">
+                PS：投放数据15分钟更新一次,至今充值一天更新一次(当天充值金额（不分新老用户充值），区间充值总额和至今充值金额以注册日期算)
+            </div>
+            <div class="search-grid-container span25">
+                <div id="gridDiv">
+                </div>
+            </div>
+        </div>
+        <!-- 弹窗 -->
+        <div class="hide" id="content">
+        </div>
+        <script type="text/javascript">
+            BUI.use('common/page');
+        </script>
+        <script type="text/javascript">
+            $(function () {
+        BUI.use(['bui/calendar'],function (Calendar) {
+            var datepicker1 = new Calendar.DatePicker({
+              trigger: '#startDate',
+              autoRender: true
+            });
+
+            var datepicker2 = new Calendar.DatePicker({
+              trigger: '#endDate',
+              autoRender: true
+            });
+        });
+        $('.selectpicker').selectpicker({
+                selectAllText: '全选',
+                deselectAllText: '不选',
+                liveSearchPlaceholder: '搜索关键字',
+                noneSelectedText: '',
+                multipleSeparator: ',',
+                liveSearch: true,
+                actionsBox: true
+            });
+        $('#export').click(function(){
+            $("#subfm input[name=game_id]").val($("#game_id").val());
+            $("#subfm input[name=agent_p]").val($('#agent_p').val());
+            $("#subfm input[name=events_groupId]").val($('#events_groupId').val());
+            $("#subfm input[name=advter_id]").val($('#advter_id').val());
+            $("#subfm input[name=agent]").val($('#agent_id').val());
+            $("#subfm input[name=advteruser_id]").val($("#advteruser_id").val());
+            $("#subfm input[name=startDate]").val($("#startDate").val());
+            $("#subfm input[name=endDate]").val($("#endDate").val());
+            $("#subfm input[name=system]").val($("#system").val());
+            $('#subfm').submit();
+        })
+        gameLists();
+        advteruser_id();
+        groupList();
+
+        $('#events_groupId').change(function() {
+            var events_groupId = $(this).val();
+            getEventByGroup(events_groupId);
+        });
+
+        $('#game_id').change(function() {
+            var game_id       = $(this).val();
+            var advteruser_id = $('#advteruser_id').val();
+            getAgentByGame(game_id,advteruser_id);
+
+        });
+
+        $('#advteruser_id').change(function() {
+            var advteruser_id = $(this).val();
+            var game_id = $('#game_id').val();
+            getAgentByGame(game_id,advteruser_id);
+        });
+
+        
+    });
+
+    //获取渠道号
+    function getAgentByGame(game_id,advteruser_id){
+        var _html = '';
+        _data = {game_id:game_id,advteruser_id:advteruser_id}
+        $.post("{:U('Ajax/getAgentByGameNew')}",_data,function(ret){
+            _html += "<option>--全部--</option>"; 
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.agents+">"+v.agent+"</option>";
+            });
+            $('#agent_id').html(_html);
+            $('#agent_id').selectpicker('refresh');
+            $('#agent_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取游戏
+    function gameLists(){
+        var _html = '';
+        $.post("{:U('Ajax/getGameList')}",{},function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.gameName+"</option>";
+            });
+            $('#game_id').html(_html);
+            $('#game_id').selectpicker('refresh');
+            $('#game_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取推广组
+    function groupList(){
+        var _html = '';
+        $.post("{:U('Ajax/getEventGroup')}",'',function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.groupName+"</option>";
+            });
+            $('#events_groupId').html(_html);
+            $('#events_groupId').selectpicker('refresh');
+            $('#events_groupId').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取推广活动列表
+    function getEventList(){
+        var _html = '';
+        $.post("{:U('Ajax/getEventList')}",{all:1},function(ret){
+            var _html = '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.events_name+"</option>";
+            });
+            $('#advter_id').html(_html);
+            $('#advter_id').selectpicker('refresh');
+            $('#advter_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //获取广告商
+    function advteruser_id(){
+        var _html = '';
+        $.post("{:U('Ajax/adv_company')}",{all:1},function(ret){
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.company_name+"</option>";
+            });
+            $('#advteruser_id').html(_html);
+            $('#advteruser_id').comboSelect();
+        });
+    }
+
+    //通过组获取推广活动
+    function getEventByGroup(events_groupId){
+        var _html = '';
+        $.post("{:U('Ajax/getEventByGroup')}",{events_groupId:events_groupId},function(ret){
+            _html += '<option>--全部--</option>';
+            var ret = eval('('+ret+')');
+            $(ret).each(function(i,v){
+                _html += "<option value="+v.id+">"+v.events_name+"</option>";
+            });
+            $('#advter_id').html(_html);
+            $('#advter_id').selectpicker('refresh');
+            $('#advter_id').selectpicker('val', '--全部--');
+        });
+    }
+
+    //金额格式化
+    function fmoney(s, n) {
+      n = n > 0 && n <= 20 ? n : 2;
+      s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+      var l = s.split(".")[0].split("").reverse(),
+        r = s.split(".")[1];
+      t = "";
+      for (i = 0; i < l.length; i++) {
+        t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+      }
+      return t.split("").reverse().join("") + "." + r;
+    }
+
+    //获得事件
+    function getEvent(){
+         if(window.event)    {return window.event;}
+         func=getEvent.caller;
+         while(func!=null){
+             var arg0=func.arguments[0];
+             if(arg0){
+                 if((arg0.constructor==Event || arg0.constructor ==MouseEvent
+                    || arg0.constructor==KeyboardEvent)
+                    ||(typeof(arg0)=="object" && arg0.preventDefault
+                    && arg0.stopPropagation)){
+                     return arg0;
+                 }
+             }
+             func=func.caller;
+         }
+         return null;
+    }
+
+    function showTip(obj){
+        var e = getEvent();
+        //一般用在鼠标或键盘事件上
+          if((e && e.stopPropagation) || e.preventDefault){
+              //W3C取消冒泡事件
+              e.stopPropagation();
+          }else if (window.event){
+              //IE取消冒泡事件
+              window.event.cancelBubble = true;
+          }
+        $(obj).children('.helpTipWrap').fadeIn("fast");
+    }
+
+    function hideTip(obj){
+        var e = getEvent();
+        //一般用在鼠标或键盘事件上
+          if((e && e.stopPropagation) || e.preventDefault){
+              //W3C取消冒泡事件
+              e.stopPropagation();
+          }else if (window.event){
+              //IE取消冒泡事件
+              window.event.cancelBubble = true;
+          }
+        $(obj).children('.helpTipWrap').fadeOut("fast").mouseover(function(event) {
+            return false;
+        });
+    }
+
+
+function loaddata (_init = true){
+        var m = {}, _param = {}, _columns ,_temp ,_froz = [],chk =[] ,displayColumn = [], n;
+        m.game_id        = $("#game_id").val();
+        m.agent_p        = $('#agent_p').val();
+        m.events_groupId = $('#events_groupId').val();
+        m.advter_id      = $('#advter_id').val();
+        m.agent          = $('#agent_id').val();
+        m.advteruser_id  = $("#advteruser_id").val();
+        m.startDate      = $("#startDate").val();
+        m.endDate        = $("#endDate").val();
+        m.system         = $("#system").val();
+
+      _param = m;
+
+        $('#gridDiv').treegrid({
+            cache:false,
+            idField:'parentId',
+            treeField:'dayTime',
+            height: window.screen.availHeight - 400,
+            width: document.body.clientWidth * 0.98,
+            url:'{:U("AdvterData/advDataBak")}',
+            onBeforeLoad:function(row,param){
+                if(typeof param == 'undefined'){param={};}
+    
+                for(var p in _param){
+                    if(_param[p]=='' || _param[p]==0 || _param[p]==null) continue;
+                    param[p] = _param[p];
+                }               
+                if ($("#btnSearch").attr("disable") == "true") {
+                    $("#btnSearch").removeAttr("disable"); 
+                    return false;
+                }else{
+                    $("#btnSearch").attr("disable", "true");
+                }
+                $("#gridDiv").treegrid('reload');
+            },
+            onLoadSuccess:function(data){
+                    $("#gridDiv").removeAttr("disable");
+            },
+            columns:[[
+                {title : '日期',field :'dayTime', width:150,align:'center'},
+                {title : '游戏名称',field :'gameName', width:200,align:'center'},
+                {title : '包编号',field :'agent', width:200,align:'center'},
+                {title : '所属广告商',field :'advteruserName', width:100,align:'center'}, 
+                {title : '新增设备数',field :'newDevice', width:100,align:'center'},
+                {title : '新增账号数',field :'newUser', width:100,align:'center'},
+                {title : '新增充值人数',field :'newPayUser', width:100,align:'center'},
+                {title : '新增付费率',field :'newPayRate', width:100,align:'center'},
+
+                 <if condition="session('admin.username') eq sanxing">
+                    {title : '新增充值金额',field :'newPay', width:100,align:'center'},
+                    {title : '区间充值总额',field :'allPayNow', width:100,align:'center'},</if>
+                <if condition="session('admin.username') eq youxiang">{title : '区间充值总额',field :'allPayNow', width:100,align:'center'},</if>
+                ]]
+        });
+     
+}
+
+
+
+$('#btnSearch').click(function(){
+    loaddata(true);
+});
+
+
+jQuery(function($){ 
+    //全选 
+    $("#btn1").click(function(){ 
+        $(".displayColumn").prop("checked","true"); 
+    })
+    //反选 
+    $("#btn2").click(function(){ 
+        $(".displayColumn").each(function(){ 
+            if($(this).prop("checked")) { 
+                $(this).removeAttr("checked"); 
+            } 
+            else { 
+                $(this).prop("checked","true"); 
+            } 
+        }) 
+    })
+
+});
+
+BUI.use(['bui/overlay'],function(Overlay,Form){
+    
+      var dialog = new Overlay.Dialog({
+            title:'数据显示',
+            width:540,
+            height:300,
+            //配置DOM容器的编号
+            contentId:'typetoggle',
+            success:function () {
+              this.close();
+            }
+          });
+ 
+        $('#typebut').on('click',function () {
+          var sender = $(this),
+            type = sender.text(),
+            effect = {
+              effect : type,
+              duration : 400// 
+              //callback : function(){} ,callback 回调函数
+            };
+ 
+          dialog.set('effect',effect);
+          dialog.show();
+ 
+        });
+      });
+</script>
+        <include file="Public/loading" />
+    </body>
+</html>

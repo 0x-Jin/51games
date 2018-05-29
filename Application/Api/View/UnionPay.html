@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+    <title>支付中心</title>
+</head>
+<body>
+<div id="pay_confirm" class="wrap_div">
+    <form action="https://gateway.iexbuy.com/quickGateWayPay/initPay" method="post" id="myForm">
+        <foreach name="data" item="val">
+            <input type="hidden" name="{$key}" value="{$val}" />
+        </foreach>
+    </form>
+</div>
+<script type="text/javascript">
+    document.getElementById('myForm').submit();
+</script>
+</body>
+</html>

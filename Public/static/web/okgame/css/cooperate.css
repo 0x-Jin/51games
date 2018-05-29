@@ -1,0 +1,280 @@
+.gs-coop-title {
+	width: 100%;
+	height: 200px;
+	background: url('../images/gs-coop-title.png') no-repeat center;
+}
+.gs-coop-mian {
+	width: 1300px;
+	margin: 0 auto;
+}
+.gs-coop-div {
+	margin-left: 50px;
+	padding-top: 120px;
+	text-align: left;
+}
+.gs-coop-div i {
+	display: inline-block;
+	width: 6px;
+	height: 40px;
+	background: #1f5bc3;
+	position: relative;
+	top: 6px;
+}
+.gs-coop-div span {
+	font-size: 38px;
+	font-weight: 600;
+	margin-left: 15px;
+}
+
+.gs-coop-code {
+	width: 600px;
+	height: 1000px;
+	right: 0;
+	background: url('../images/gs-coop-code.png') center;
+	border-left: 1px solid #e3e3e3;
+}
+.gs-coop-mar {
+	width: 1300px;
+	margin: 0 auto;
+}
+.gs-coop-box {
+	width: 1000px;
+	background: #fff;
+}
+.gs-coop-muse {
+	height: 70px;
+	text-align: right;
+	line-height: 70px;
+	font-size: 14px;
+	color: #000;
+	margin-right: 35px;
+}
+.gs-coop-muse span {
+	color: #2754a3;
+}
+.gs-muse-list {
+	padding: 0 60px 70px 0px;
+}
+.gs-muse-title {
+	width: 900px;
+	height: 33px;
+	background: url('../images/gs-muse-title.png') no-repeat center;
+	text-align: left;
+	font-size: 22px;
+	padding-left: 20px;
+	margin-bottom: 35px;
+}
+.gs-muse-list p {
+	font-size: 14px;
+	padding-left: 20px;
+	text-align: left;
+	line-height: 2.5;
+}
+.gs-coop-back {
+	right: 0;
+	top: 0;
+	width: 300px;
+}
+.gs-coop-code-box {
+	width: 141px;
+	height: 141px;
+	margin: 60px auto 30px;
+	border: 1px solid #aeaeae;
+}
+.gs-coop-back h4 {
+	font-size: 24px;
+	margin: 15px auto;
+	color: #282b2d;
+}
+.gs-coop-back p {
+	font-size: 14px;
+	color: #999999;
+}
+.rx-order-mian {
+	margin: auto;
+	font-size: 14px;
+	text-align: center;
+}
+.rx-order-mian p {
+	color: #666666;
+}
+.rx-order-title {
+	font-size: 30px;
+	color: #000;
+	font-weight: 600;
+	padding-top: 70px;
+    line-height: 2;
+}
+.rx-details-data {
+	position: relative;
+	width: 100%;
+	margin: auto;
+	height: 20px;
+	padding: 15px 0;
+	color: #666666;
+	font-size: 14px;
+    line-height: 20px;
+}
+.rx-details-data a {
+	width: 80px;
+	height: 20px;
+	line-height: 20px;
+	position: absolute;
+	left: 20px;
+	border-left: 1px solid #666666;
+	color: #333;
+	margin-left: 30px;
+}
+.rx-details-data a:hover {
+	color: #a5caa6;
+}
+.rx-details-text {
+	min-height: 400px;
+    margin: 30px auto 0;
+    padding: 0 76px 130px;
+    color: #000000;
+    font-size: 14px;
+    line-height: 30px;
+    font-family: "Microsoft YaHei";
+    text-align: left;
+}
+.rx-details-text p {
+	margin-top: 15px;
+    line-height: 30px;
+}
+.rx-details-text img {
+	width: 770px;
+    margin-top: 20px;
+    margin-left: 35px;
+}
+/* header end */
+@font-face {font-family: "iconfont";
+  src: url('https://img.chuangyunet.net/static/web/okgame/font/iconfont.eot?t=1516949234104'); /* IE9*/
+  src: url('https://img.chuangyunet.net/static/web/okgame/font/iconfont.eot?t=1516949234104#iefix') format('embedded-opentype'), /* IE6-IE8 */
+   url('https://img.chuangyunet.net/static/web/okgame/font/iconfont.woff') format('woff'), /* chrome, firefox */
+  url('https://img.chuangyunet.net/static/web/okgame/font/iconfont.ttf?t=1516949234104') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('https://img.chuangyunet.net/static/web/okgame/font/iconfont.svg?t=1516949234104#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:14px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhixiang-zuo:before { content: "\e601"; }
+
+/* 招贤纳士 */
+.gs-coop-left {
+	margin-left: 50px;
+	text-align: left;
+}
+.gs-recuit-nav {
+	height: 40px;
+	margin-bottom: 50px;
+}
+.gs-recuit-nav li {
+	display: inline-block;
+	width: 120px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-weight: 600;
+	color: #666666;
+	background: #f3f3f3;
+	float: left;
+	cursor: pointer;
+}
+.gs-recuit-nav li.active {
+	background: #1f5bc3;
+	color: #fff;
+}
+.gs-recuit-detail {
+
+}
+.gs-recuit-padding {
+	font-size: 14px;
+	padding-bottom: 200px;
+}
+.gs-recuit-li .gs-recuit-alt {
+	color: #999999;
+	margin: 10px 0 30px;
+	font-size: 12px;
+}
+.gs-recuit-li h6 {
+	color: #020202;
+	font-weight: 600;
+	margin: 30px 0 0 0;
+}
+.gs-recuit-padding p {
+	line-height: 1.8;
+	color: #020202;
+}
+.gs-recuit-padding2 {
+	font-size: 14px;
+	padding-bottom: 45px;
+}
+.gs-recuit-padding2 h6 {
+	margin: 0;
+}
+.gs-recuit-padding2 p {
+	line-height: 1.8;
+	color: #020202;
+}
+.gs-recuit-padding2 div {
+	margin-top: 25px;
+}
+.gs-recruit-coop {
+	margin-top: 60px;
+	text-align: left;
+}
+.gs-recruit-coop h5 {
+	font-size: 16px;
+	color: #282b2d;
+	margin: 10px 0 0 0;
+	border-left: 3px solid #1f5bc3;
+	padding-left: 55px;
+	margin-bottom: 10px;
+}
+.gs-recruit-coop ul {
+	padding-left: 45px;
+}
+.gs-recruit-coop ul li {
+	font-size: 14px;
+	color: #282b2d;
+	line-height: 2.2;
+}
+.gs-recruit-coop ul li div {
+	display: inline-block;
+	cursor: pointer;
+}
+.gs-recruit-coop ul li i {
+	display: inline-block;
+	width: 10px;
+	height: 12px;
+	margin-right: 4px;
+}
+.gs-recruit-coop ul li div.active i {
+	background: url('../images/gs-recruit-coop-i.png') no-repeat center;
+}
+.gs-recruit-border {
+	width: 600px;
+	height: 1px;
+	margin-top: 40px;
+	background: url('../images/gs-recruit-border.png') no-repeat center;
+}
+.gs-recruit-coud {
+	padding-left: 60px;
+	text-align: left;
+	margin-top: 70px;
+	font-size: 14px;
+}
+.gs-recruit-coud h6 {
+	margin: 25px 0 8px 0;
+}
+.gs-recruit-coud p {
+	color: #282b2d;
+	line-height: 1.5;
+}

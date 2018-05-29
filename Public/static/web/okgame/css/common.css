@@ -1,0 +1,235 @@
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+ul,li,p{list-style:none;margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%;}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:bold;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+body{background:#fff; font-family: "Microsoft YaHei";text-align:center;margin: 0;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: inherit | grayscale;}
+a,a:hover{color:#333;} 
+
+/*!css_module/global/global.css*/
+/* function */
+
+/* 图片预加载处理 */
+/* body:after{
+    content:"";
+    background: url("../images/jy-surround-img1.png") no-repeat -1000px -1000px,url("../images/jy-surround-img2.png") no-repeat -1000px -1000px,url("../images/jy-surround-img3.png") no-repeat -1000px -1000px,url("../images/jy-surround-img4.png") no-repeat -1000px -1000px,url("../images/jy-sprog-img1.png") no-repeat -1000px -1000px,url("../images/jy-sprog-color-img2.png") no-repeat -1000px -1000px,url("../images/jy-sprog-color-img3.png") no-repeat -1000px -1000px,url("../images/jy-arrow-icon2.png") no-repeat -1000px -1000px,url("../images/jy-arrow-icon3.png") no-repeat -1000px -1000px,url("../images/jy-arrow-icon4.png") no-repeat -1000px -1000px;
+} */
+
+.db {
+	display: block;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.dn {
+	display: none;
+}
+.pr {
+	position: relative;
+}
+.pa{
+	position: absolute;
+}
+
+/* header样式  start*/
+.gs-centent {
+
+}
+.gs-mian {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 1020px;
+    overflow: hidden;
+}
+.gs_foc {
+    height: 920px;
+    overflow: hidden;
+    margin: auto;
+    max-width: 1920px;
+    position: relative;
+}
+#focus {
+    height: 920px;
+    overflow: hidden;
+    position: relative;
+}
+#focus ul {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+#focus ul li {
+    float: left;
+    max-width: 1920px;
+    max-height: 920px;
+    overflow: hidden;
+    position: relative;
+}
+#focus ul li img {
+    max-width: 1920px;
+    max-height: 920px;
+}
+#focus .gs-asgBox {
+    width: 600px;
+    position: absolute;
+    top: 100px;
+    left: 301px;
+    margin-left: 50px;
+    text-align: left;
+    color: #ffffff;
+}
+.gs-code-icon1 {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
+.gs-code-icon2 {
+    width: 112px;
+    height: 100px;
+    display: inline-block;
+}
+.gs-asgBox h3 {
+    font-size: 48px;
+    margin: 20px 0;
+}
+.gs-asgBox P {
+    line-height: 1.5;
+    letter-spacing: .5px;
+    font-size: 14px;
+}
+.gs-asgBox button {
+    padding: 10px 36px;
+    background: #1f5bc3;
+    border: none;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 30px;
+}
+.gs-topdiv {
+    width: 100%;
+    z-index: 1;
+    background: #282b2d;
+}
+.gs-nav-header {
+    width: 1300px;
+    margin: auto;
+    height: 100px;
+}
+.gs-topdiv .gs-logo {
+    width: 215px;
+    height: 55px;
+    top: 22.5px;
+    background: url('../images/gs-logo.png') no-repeat center;
+}
+.gs-topdiv .gs-nav {
+    float: right;
+    margin-right: 30px;
+}
+.gs-topdiv .gs-nav ul li {
+    width: 120px;
+    height: 96px;
+    line-height: 96px;
+    float: left;
+    position: relative;
+}
+.gs-topdiv .gs-nav ul li.active {
+    height: 96px;
+    line-height: 96px;
+}
+.gs-topdiv .gs-nav ul li.active .gs-nav-zh {
+    color: #ffffff;
+    width: 64px;
+    margin: auto;
+    border-bottom: 4px solid #1f5bc3;
+}
+.gs-nav-zh {
+    font-size: 16px;
+    color: #fff;
+}
+.nav-first {
+    letter-spacing: 8px;
+    text-indent: 8px;
+}
+#btnBg {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    bottom: 350px;
+}
+#btnBg .btn {
+    width: 1300px;
+    margin: auto;
+    text-align: right;
+}
+#btnBg .btn span.on {
+    width: 20px;
+    height: 20px;
+    background-position: right top;
+    background: url(../images/gs-newstabbg-img2.png) left top no-repeat;
+}
+#btnBg .btn span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0 6px;
+    cursor: pointer;
+    background: url(../images/gs-newstabbg-img1.png) left top no-repeat;
+    background-size: 100%;
+}
+.preNext {
+    width: 36px;
+    height: 72px;
+    display: inline-block;
+    position: absolute;
+    top: -200px;
+}
+.preNext.pre {
+    background: url('../images/gs-preNext-pre.png') no-repeat center;
+    left: 20px;
+}
+.preNext.next {
+    background: url('../images/gs-preNext-next.png') no-repeat center;
+    right: 20px;
+}
+
+/* header样式  end*/
+
+/* foot样式 start */
+.gs-foot {
+    width: 100%;
+    height: 280px;
+    background: #282b2d;
+    color: #fff;
+    font-size: 14px;
+}
+.gs-foot-coud {
+    padding-top: 30px;
+}
+.gs-foot-coud span {
+    font-size: 16px;
+    margin: 0 15px;
+}
+.gs-foot-info {
+    margin-top: 30px;
+}
+.gs-foot-img-box {
+    margin: 20px auto 0;
+    width: 215px;
+    height: 55px;
+}

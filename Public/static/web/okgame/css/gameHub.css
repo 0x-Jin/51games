@@ -1,0 +1,114 @@
+.bx-controls {
+	position: absolute;
+    top: 340px;
+    width: 100%;
+}
+#marquee img {
+	float: left;
+}
+.bx-pager-item {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	margin: 0 5px;
+}
+.bx-pager-item .bx-pager-link {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background: url('../images/gs-newstabbg-img1.png') no-repeat center;
+	text-indent:-9999px;
+}
+.bx-pager-item .bx-pager-link.active {
+	display: inline-block;
+	background: url('../images/gs-newstabbg-img2.png') no-repeat center;
+}
+.gs-gamehub-top {
+	height: 18px;
+	width: 100%;
+	margin: 50px auto 0;
+	background: url('../images/gs-gamehub-top.png') no-repeat center;
+}
+.gs-gamehub-centent {
+	width: 1300px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+.gs-gamehub-list {
+	height: 200px;
+	margin-bottom: 40px;
+}
+.gs-gamehub-img {
+	float: left;
+}
+.gs-gamehub-title {
+	width: 910px;
+	height: 200px;
+	float: right;
+	border-top: 1px solid #eeeeee;
+	border-bottom: 1px solid #eeeeee;
+}
+.gs-gamehub-left {
+	margin: 20px 0 0 30px;
+	width: 670px;
+	float: left;
+	text-align: left;
+}
+.gs-left-hub-title {
+	margin-bottom: 10px;
+}
+.gs-left-hub-title i {
+	display: inline-block;
+	width: 3px;
+	height: 22px;
+	background: url('../images/gs-left-hub-i.png') no-repeat center;
+	position: relative;
+	top: 3px;
+}
+.gs-left-hub-title cite {
+	font-size: 22px;
+	font-weight: 600;
+	color: #282b2d;
+	margin: 0 22px 0 7px;
+}
+.gs-left-hub-title span {
+	font-size: 14px;
+	color: #999;
+}
+.gs-gamehub-left p {
+	font-size: 14px;
+	color: #666666;
+	text-indent: 3em;
+    margin-left: 15px;
+    line-height: 1.8;
+}
+.gs-gamehub-right {
+	float: right;
+	width: 195px;
+	margin-top: 25px;
+}
+.gs-right-hub-img {
+	margin-bottom: 8px;
+}
+.gs-gamehub-right a {
+	display: block;
+	width: 80px;
+	height: 20px;
+	margin: 6px auto;
+	font-size: 14px;
+}
+.gs-gamehub-right a.gs-hub-loader {
+	background: url('../images/gs-hub-loader.png') no-repeat center;
+}
+.gs-gamehub-right a.gs-hub-wedsite {
+	background: url('../images/gs-hub-wedsite.png') no-repeat center;
+}
+.gs-gamehub-over a {
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    position: relative;
+    background: url(../images/gs-gamehub-over.png) no-repeat;
+    color: #999999;
+    font-size: 28px;
+}

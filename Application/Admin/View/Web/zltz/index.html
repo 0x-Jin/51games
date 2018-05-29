@@ -1,0 +1,279 @@
+            {$header}
+			<!-- 链接生成二维码 start -->
+			<div class="zl-qrcode pa">
+				<div class="zl-div" id="QR">
+					<!-- <img src="images/zl-div-img.png" alt=""> -->
+				</div>
+				<div class="zl-div2">
+					<a href="{$info.iosDownload}" class="zl-ios-a db"></a>
+					<a href="{$info.androidDownload}" class="zl-android-a db"></a>
+				</div>
+			</div>
+			<!-- 链接生成二维码 end -->
+
+			<div class="zl-title pa">
+				<!-- 轮播 start -->
+				<div class="zl_foc fl">
+					{:W('Slide/slideList', array($info['agent'], 13 , 1 , 0))}
+				</div>
+				<!-- 轮播 end -->
+
+				<!-- 各个文章列表切换 start -->
+				<div class="zl_news fr">
+					<div class="news">
+						<a class="zl-news-mole" href="{$website}zixun/" target="_blank" title="更多资讯">
+						    更多
+						</a>
+						<ul class="news-nav">
+							<li class="on news-first" data-newsid="zuixin">
+								<a class="news-1">
+									最新
+								</a>
+							</li>
+							<li data-newsid="gonggao">
+								<a class="news-2">
+									公告
+								</a>
+							</li>
+							<li data-newsid="zixun">
+								<a class="news-3">
+									资讯
+								</a>
+							</li>
+							<li data-newsid="gonglve">
+								<a class="news-4">
+									攻略
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="hidden">
+						<ul class="news-list">
+							<volist id="vo" name="tuijian" offset="0" length='1'>
+								<li>
+									<a href="{$vo.link}/{$vo.id}.html" target="_blank" class="news-alent">
+										<span class="news-date news-recommend">【推荐】</span>
+										<span class="news-title">{$vo.title}</span>
+									</a>
+								</li>
+							</volist>
+							<volist id="vo" name="zuixin" offset="0" length='4'>
+								<li>
+									<a href="{$vo.link}/{$vo.id}.html" target="_blank">
+										<span class="news-date">【最新】</span>
+										<span class="news-title">{$vo.title}</span>
+									</a>
+								</li>
+							</volist>
+						</ul>
+						<ul class="news-list dn">
+							<volist id="vo" name="gonggao" offset="0" length='5'>
+								<li>
+									<a href="{$vo.link}/{$vo.id}.html" target="_blank">
+										<span class="news-date">【公告】</span>
+										<span class="news-title">{$vo.title}</span>
+									</a>
+								</li>
+							</volist>
+						</ul>
+						<ul class="news-list dn">
+							<volist id="vo" name="huodong" offset="0" length='5'>
+								<li>
+									<a href="{$vo.link}/{$vo.id}.html" target="_blank">
+										<span class="news-date">【资讯】</span>
+										<span class="news-title">{$vo.title}</span>
+									</a>
+								</li>
+							</volist>
+						</ul>
+						<ul class="news-list dn">
+							<volist id="vo" name="gonglve" offset="0" length='5'>
+								<li>
+									<a href="{$vo.link}/{$vo.id}.html" target="_blank">
+										<span class="news-date">【攻略】</span>
+										<span class="news-title">{$vo.title}</span>
+									</a>
+								</li>
+							</volist>
+						</ul>
+					</div>
+				</div>
+				<!-- 各个文章列表切换 end -->
+			</div>	
+		</div>
+		<div class="zl-military">
+			<!-- 属性介绍 start -->
+			<div class="jy-nature pr">
+				<div class="jy-nature-background">
+					<div class="jy-nature-content pr">
+						<div class="jy-picture pa">
+							<div class="jy-picture-img1 pr"></div>
+						</div>
+						<div class="jy-nature-left-div pr">
+							<div class="jy-stting-div pa">
+								<div class="jy-military-title">武将资料 · <span>蜀</span></div>
+								<div class="pa">
+									<div class="jy-nature-stting pa dn">
+										<ul class="jy-mount pr">
+											<li><div class="jy-tabs-img jy-mount-img1"></div><div class="jy-black"></div></li>
+											<li class="active"><div class="jy-tabs-img jy-mount-img2"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img3"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img4"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img5"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img6"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img7"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img8"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img9"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img10"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img11"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-mount-img12"></div><div class="jy-black"></div></li>
+										</ul>
+									</div>
+								</div>
+								<div class="pa">
+									<div class="jy-nature-stting pa">
+										<ul class="jy-anima pr">
+											<li><div class="jy-tabs-img jy-anima-img1"></div><div class="jy-black"></div></li>
+											<li class="active"><div class="jy-tabs-img jy-anima-img2"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img3"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img4"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img5"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img6"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img7"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img8"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img9"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img10"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img11"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-anima-img12"></div><div class="jy-black"></div></li>
+										</ul>
+									</div>
+								</div>
+								<div class="pa">
+									<div class="jy-nature-stting pa dn">
+										<ul class="jy-magic pr">
+											<li><div class="jy-tabs-img jy-magic-img1"></div><div class="jy-black"></div></li>
+											<li class="active"><div class="jy-tabs-img jy-magic-img2"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img3"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img4"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img5"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img6"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img7"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img8"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img9"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img10"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img11"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-magic-img12"></div><div class="jy-black"></div></li>
+										</ul>
+									</div>
+								</div>
+								<div class=" pa">
+									<div class="jy-nature-stting pa dn">
+										<ul class="jy-wing pr">
+											<li><div class="jy-tabs-img jy-wing-img1"></div><div class="jy-black"></div></li>
+											<li class="active"><div class="jy-tabs-img jy-wing-img2"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img3"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img4"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img5"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img6"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img7"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img8"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img9"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img10"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img11"></div><div class="jy-black"></div></li>
+											<li><div class="jy-tabs-img jy-wing-img12"></div><div class="jy-black"></div></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="jy-nature-title pa">
+								<div class="jy-nature-block"><span class="zl-name-title">关羽</span>字<span class="zl-name-last">云长</span></div>
+								<div class="jy-nature-leit"><span class="zl-code">技能</span><span class="zl-codelist">狂龙出海</span><i></i></div>
+								<p>敌方后排造成105%的物理伤害,并使其眩晕1回合</p>
+							</div>
+						</div>
+						<div class="jy-nature-right-div">
+							<div class="jy-nature-surround jy-surround-img2"></div>
+							<ul class="jy-surround-icon pr">
+								<li class="jy-surround-li1 pa"><div class="surround-icon jy-surround-icon1"></div><div class="jy-surround-pic"></div></li>
+								<li class="jy-surround-li2 pa active"><div class="surround-icon jy-surround-icon2 dn"></div><div class="jy-surround-pic jy-surround-color-icon2"></div></li>
+								<li class="jy-surround-li3 pa"><div class="surround-icon jy-surround-icon3 "></div><div class="jy-surround-pic"></div></li>
+								<li class="jy-surround-li4 pa"><div class="surround-icon jy-surround-icon4 "></div><div class="jy-surround-pic"></div></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 属性介绍 end -->
+
+			<!-- 游戏截图 start -->
+			<div class="gameshot pr">
+				<div class="content-part part-tese show">
+					<h3>游戏截图</h3>
+					<div class="gallery_container">
+						{:W('Slide/slideList', array($info['agent'], 13 , 1, 1))}
+					</div>
+				</div>
+			</div>
+			<!-- 游戏截图 end -->
+		</div>
+	</div>
+
+	<!-- 右侧导航 start -->
+	<div class="side-nav-right" id="side_right" style="_top:650px;background: url({$img_url}{$info.concern}) no-repeat;">
+	    <div class="r-side-nei pr">
+	        <a class="rightside_close db pa" href="javascript:;">
+	        </a>
+	        <a class="sinawb_btn db pa" href="javascript:;">
+	        </a>
+	        <a class="txwb_btn db pa" href="javascript:;">
+	        </a>
+	    </div>
+	</div>
+	<div class="side-nav-right-x dn" id="side_right_xiao"></div>
+	<!-- 右侧导航 end -->
+</body>
+<script type="text/javascript">
+	$(function(){
+		var abbr = '{$info.abbr}';
+		var link = '{$url_short}';
+		var _data = {width: 95,height: 95,text: link};
+		$('#QR').qrcode(_data);
+
+		$('.content-part.part-tese').addClass('show');
+		$('.gallery_container').gallery_slider({imgNum: 4});
+		if(navigator.userAgent.indexOf("MSIE 6.0")>0){   
+	        $('.zl-main').css('display','none');
+			$('body').html('浏览器版本过低，请升级浏览器，活选用其他浏览器');   
+	    }  
+	    if(navigator.userAgent.indexOf("MSIE 7.0")>0){  
+	        $('.zl-main').css('display','none');
+			$('body').html('浏览器版本过低，请升级浏览器，活选用其他浏览器'); 
+	    }   
+	      if(navigator.userAgent.indexOf("MSIE 8.0")>0 && !window.innerWidth){
+	        $('.zl-main').css('display','none');
+			$('body').html('浏览器版本过低，请升级浏览器，活选用其他浏览器');  
+	    }
+	    	    
+	    /*右侧边收缩展开*/ 
+        $('#side_right_xiao').click(function(){
+            $('.side-nav-right-x').animate({
+                right: '-61'
+            },400);
+            $('.side-nav-right').animate({
+                right: '0',
+                opacity: 'show'
+            }, 800 );
+        });
+        $('.rightside_close').click(function(){
+            $('.side-nav-right-x').animate({
+                right: '0',
+                opacity: 'show'
+            },400);
+            $('.side-nav-right').animate({
+                right: '-201',
+                opacity: 'show'
+            }, 800 );
+        });
+	})
+</script>
+</html>

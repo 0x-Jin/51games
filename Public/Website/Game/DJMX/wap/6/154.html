@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="telephone=no,email=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<title>刀剑萌侠</title>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/swiper.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/style.css"/>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/jquery-1.11.1.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/bootstrap.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/swiper.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/swiper.min.js"></script>
+
+<script type="text/javascript">
+var ua = navigator.userAgent.toLowerCase();
+var isios = /ipad|ipod|iphone|mac/.test(ua);
+window.onload=function(){
+    $and = '';
+    $ios = '';
+    if(isios){
+        $('#ostype').attr('href',$ios);
+    }else{
+        $('#ostype').attr('href',$and);
+    }
+	//使用rem
+	var clientWidth = document.documentElement.clientWidth;
+	if(clientWidth>=640){
+		document.documentElement.style.fontSize = '100px';
+    }else{
+		document.documentElement.style.fontSize = innerWidth/6.4 +"px";
+		window.addEventListener("resize",function(){document.documentElement.style.fontSize = innerWidth/6.4  + "px"; },false)}
+    }
+	
+</script>
+
+</head>
+
+</head>
+
+<body style="background-color:#0d0d0e">
+<div class="wrapdiv">
+	<!--顶部start-->
+    <div class="topnav_wrap contentbox box_orient fixed">
+    	<img src="http://img.chuangyunet.net" id="dzzlogo" />
+        <div class="topmid_div box_flex01">
+        	<p class="topyxname_p">刀剑萌侠</p>
+            <p class="topyxdes_p"><img src="http://img.chuangyunet.net/static/wap/DJMX/images/yxrdimg.png"><br></p>
+        </div>
+        <a href="" id='ostype' class="topxz_a db"></a>
+    </div>
+    <div class="symidpic_div pr"><img src="http://img.chuangyunet.net" />    <div class="topaddress_div box_orient">    	
+        <div class="topaddress_l box_flex01"><a href="http://fx.chuangyunet.net/DJMX/wap/">刀剑萌侠</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="http://fx.chuangyunet.net/DJMX/wap/zixun/">列表</a>&nbsp;&nbsp;-&nbsp;&nbsp;攻略</div>
+        <div class="topaddress_r"></div>
+    </div>
+    <h3 class="contitle_h3">伤害加成---坐骑系统</h3>
+    <p class="contime_p">发布于 2018-01-06</p>
+    <div class="content_wrap">
+    	<p>一、概述<br/></p><p>在《刀剑萌系啊》中设有坐骑系统，里头有各种炫酷坐骑，供各路高手驰骋江湖。骑上坐骑后，高手们的移动速度会变快，战力及各大属性也将得到大幅提升。</p><p><br/></p><p>二、属性加成</p><p>&nbsp;<img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515232530272274.png" title="1515232530272274.png" alt="image.png"/></p><p>坐骑主界面</p><p><br/></p><p>坐骑可以为主角增加各类属性，包括攻击、防御和生命，还能提高角色的移动速度。坐骑等级越高各类属性和速度的加成越高。</p><p>三、坐骑进阶</p><p>&nbsp;<img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515232543182782.png" title="1515232543182782.png" alt="image.png"/></p><p>坐骑进阶主界面</p><p><br/></p><p>坐骑可以进阶，阶数越高坐骑增加的属性越多，消耗坐骑进阶丹可以对坐骑进行进阶。如果进阶失败，会自动累积祝福值，祝福值越高，下一次进阶成功率越高。</p><p>祝福值会给坐骑增加一定的临时属性，祝福值越高增加的临时属性越多。进阶成功后，临时属性将被进阶属性替代。</p><p><br/></p>        <a href="javascript:;" class="backtop_a db"><img src="http://img.chuangyunet.net/static/wap/DJMX/images/backtopbtn.png" /></a>
+    </div>
+</div>
+
+<script src="js/swiper.min.js"></script>
+<script> 
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: 5000,//可选选项，自动滑动
+	pagination : '.swiper-pagination',
+	paginationClickable: true,
+	loop:true
+})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    //返回到顶部
+	$('.backtop_a').click(function(){	
+		$("html,body").animate({scrollTop:0}, 500);				
+	});
+	
+	//切换效果
+	$('#tab-title span').click(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+		var t=$('#tab-title span').index(this);
+		$("#tab-content > div").hide().eq(t).show();
+		
+	});
+	
+	//职业展示
+	$('#zy_01').click(function(){
+      $("#zy_02").show();
+	  $("#zy_04").hide();
+    });
+	
+	$('#zy_03').click(function(){
+      $("#zy_02").hide();
+	  $("#zy_04").show();
+    });	
+	
+	$('#morediv1').click(function(){
+		$("#ul1").css('height','auto');
+		$('#morediv1').hide();
+	});
+	$('#morediv2').click(function(){
+		$("#ul2").css('height','auto');
+		$('#morediv2').hide();
+	});
+	$('#morediv3').click(function(){
+		$("#ul3").css('height','auto');
+		$('#morediv3').hide();
+	});
+	$('#morediv4').click(function(){
+		$("#ul4").css('height','auto');
+		$('#morediv4').hide();
+	});
+	
+});
+</script>
+</body>
+</html>

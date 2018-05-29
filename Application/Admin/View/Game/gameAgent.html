@@ -1,0 +1,60 @@
+<body>
+<style type="text/css">
+    input{border-radius: 4px;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal"  style="overflow-y:auto; height: 450px;">
+        <div class="row">
+            <div class="control-group" style="width:100%;">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    {$gameName}
+                </div>
+            </div>
+        </div>
+
+        <volist name="gameAgent" id="val">
+            <div class="row">
+                <div class="control-group span7">
+                    <label class="control-label" style="width: 60px;">渠道号：</label>
+                    <div class="controls">
+                        {$val.agent}
+                    </div>
+                </div>
+                <div class="control-group span10">
+                    <label class="control-label" style="width: 80px;">包名称：</label>
+                    <div class="controls">
+                        {$val.agentName}
+                    </div>
+                </div>
+            </div>
+        </volist>
+
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'游戏-{$gameName}',
+            width:800,
+            height:500,
+            zIndex: 1000,
+            //配置DOM容器的编号
+            contentId:'content',
+            buttons:[]
+        });
+        dialog.show();
+    });
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

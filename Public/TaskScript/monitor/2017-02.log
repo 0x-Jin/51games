@@ -1,0 +1,2 @@
+[ 2017-02-01 00:00:20 59171 ] 内容 ： Alarm Start SQL:SELECT userName,SUM(amount) totalSum,COUNT(orderId) AS totalOrder FROM lgame.lg_order 
+            WHERE `paymentTime` >= 1485792020 AND `orderStatus` = 0 GROUP BY userName HAVING totalSum >= 10000 ORDER BY totalSum DESC 

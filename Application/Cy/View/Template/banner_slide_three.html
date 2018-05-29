@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection" />
+<meta content="email=no" name="format-detection">
+<link rel="stylesheet" href="__CSS__/swiper.min.css">
+<title>{$info.adv_title}</title>
+<?php 
+    $num = 0;
+    $tip = 0;
+    foreach($info['images'] as $k=>$v){
+        if($v['slide'] == 1){
+            $num++;
+        }
+    }
+?>
+<style type="text/css">
+@charset "utf-8";
+*{margin:0;padding:0; outline:none;}
+body,h1,h2,h3,h4,h5,h6,hr,p,pre,dl,dt,dd,ul,ol,li,th,td,form,fieldset,legend,button,input,textarea,figure,figcaption,nav,footer,menu{margin:0;padding:0}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal; font-family:'微软雅黑';}
+address,em,i,b{font-style:normal}
+a{ outline:none;}
+a,a:hover,button,input,optgroup,select,textarea{color:#333;text-decoration:none; -webkit-tap-highlight-color:rgba(0,0,0,0);}
+a,img{ -webkit-touch-callout: none; /*禁止长按链接与图片弹出菜单*/}
+input,textarea { -webkit-appearance: none; }
+ul,ol,li{list-style:none}
+fieldset,img{border:0}
+button,input,select,textarea{font:15px \5FAE\8F6F\96C5\9ED1,Helvetica;outline:none}
+body{background:#060407; font:15px \5FAE\8F6F\96C5\9ED1,Helvetica;color:#333;overflow:visible}
+html{ -webkit-text-size-adjust:none; }
+
+
+.pr{ position:relative}
+.pa{ position:absolute}
+.fl{float:left;}
+.fr{float:right;}
+ol,ul{list-style:none;}
+.db{display: block;}
+.dn{display:none;}
+
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clear{
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+}
+h1 {
+    font-weight: bold;
+    font-size: 1em;
+    color: #FF7300;
+    line-height:1.7;
+}
+.box_orient{ display:-moz-box; display:-webkit-box; -webkit-box-orient: horizontal; -moz-box-orient: horizontal;}
+
+.topdiv{ overflow:hidden;}
+.topdiv img{ display:block; width:100%;}
+.copyright_div{ overflow:hidden; line-height:18px; text-align:center; font-size:10px; padding:5px 0;}
+
+
+li img{ display: block; width:100%; }
+#wrap{margin-top:<?php echo $info['images'][0]['hdp_top'];?>%;z-index:999;width:<?php echo $info['images'][0]['hdp_width'];?>%; overflow:hidden; position:absolute; left:50%; margin-left:-50%; top:0;}
+
+.swiper-container {
+        width: 100%;
+        padding-top: 5px;
+        padding-bottom: 50px;
+    }
+    .swiper-slide {
+        background-position: center;
+        background-size: cover;
+        width: 500px;
+        height: 267px;
+    }
+#wrap{display:none;}
+
+.topfixdiv{ position:fixed; left:0; top:0; width:100%; overflow:hidden; z-index:99;} 
+.topfixdiv img{ display:block; width:100%;}
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+::-webkit-scrollbar  
+{  
+    width: 1px;  
+    height: 1px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滚动条轨道 内阴影+圆角*/  
+::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    border-radius: 10px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滑块 内阴影+圆角*/  
+::-webkit-scrollbar-thumb  
+{  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #0ae;  
+    background-image:-webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));;
+}
+</style>
+
+</head>
+
+<body>
+
+<volist name="info['images']" id="vo" key="k" >
+
+<if condition="$vo.slide neq 1">
+   <div class="topdiv pr"><if condition="$info['android_url_down'][$k-1] neq '' or $info['ios_url_down'][$k-1] neq ''"><a class="ios_urls" href="javascript:click_url('{$info['android_url_down'][$k-1]}')"></if><img src="{$path_url}{$vo.url}" /><if condition="$info['android_url_down'][$k-1] neq '' or $info['ios_url_down'][$k-1] neq ''"></a></if></div>
+<else />
+
+     <if condition="$tip lt 1 and $k lt count($info['images'])">
+       <div id="wrap"><div class="swiper-container"><div class="swiper-wrapper">
+       <div class="swiper-slide" style="background-image:url({$path_url}{$vo.url})"></div>
+     <else />   <div class="swiper-slide" style="background-image:url({$path_url}{$vo.url})"></div>
+          <if condition="$tip egt $num-1">
+            </div><div class="swiper-pagination"></div></div></div>
+          </if> 
+      </if>
+     <?php $tip += 1;?>
+     </if>
+</volist>
+
+<div class="copyright_div db" style=" color:<notempty name='info.color'>{$info['color']}<else /> #fafcf1</notempty>; background-color:<notempty name='info.bgcolor'>{$info['bgcolor']}<else /> #042653</notempty>;">{$info.copyright_company}<br><notempty name='info.company_tel'>电话：{$info.company_tel}<br></notempty><notempty name='info.company_address'>地址：{$info.company_address}</notempty></div>
+
+<script type="text/javascript" src="__JS__/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="__JS__/swiper.min.js"></script>
+<script type="text/javascript">  
+$(function(){
+var content = $('#wrap').html();
+$('#wrap').remove();
+$('.topdiv').eq(<?php echo ($info['slide_position']);?>).prev().append("<div id='wrap'>"+content+"</div>"); 
+$('#wrap').css('display','block');
+var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    effect: 'coverflow',
+    autoplay : {$info['images'][0]['hdp_time']}*1000,
+    loop : true,
+    //width:640,
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    slidesPerView: 2,
+    coverflow: {
+        rotate: 60,
+        
+        stretch: 10,
+        depth: 200,
+        modifier: 1,
+        slideShadows : true
+    }
+});
+
+var slide_w = $(".swiper-slide").width();
+var slide_h = slide_w * 1.7;
+$(".swiper-slide").css('height',slide_h);
+$('.topdiv').eq(<?php echo ($info['slide_position']);?>).prev().css('height',slide_h+60);
+$("#wrap").siblings("a").children("img").css('height',slide_h);
+
+});
+</script>
+
+<div style="display: none">
+        {$info.cnzz_code}
+</div>
+
+</body>
+</html>

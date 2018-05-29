@@ -1,0 +1,39 @@
+.container{margin-left:0;margin-top:0;width:auto;padding:20px 20px 0 20px;/* background-color: #f5f5f5; */}.detail-page,.form-page,.search-page{padding:0;}
+
+/*分页的样式，这里可以单独写成一个css文件*/
+#pages div a,  
+#pages div span {  
+    display: inline-block;  
+    padding: 2px 5px;  
+    margin: 0 1px;  
+    border: 1px solid #f0f0f0;  
+    -webkit-border-radius: 3px;  
+    -moz-border-radius: 3px;  
+    border-radius: 3px;  
+}  
+  
+#pages div a,  
+#pages div li {  
+    display: inline-block;  
+    list-style: none;  
+    text-decoration: none;  
+    color: #58A0D3;  
+}  
+  
+#pages div a.first,  
+#pages div a.prev,  
+#pages div a.next,  
+#pages div a.end {  
+    margin: 0;  
+}  
+  
+#pages div a:hover {  
+    border-color: #50A8E6;  
+}  
+  
+#pages div span.current {  
+    background: #50A8E6;  
+    color: #FFF;  
+    font-weight: 700;  
+    border-color: #50A8E6;  
+}  

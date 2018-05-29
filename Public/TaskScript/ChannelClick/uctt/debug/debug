@@ -1,0 +1,1 @@
+"INSERT IGNORE INTO lgame.la_advter_record(game_id,agent,uniqueId,advterId,os,advterType,clickTime,creatTime,ip,callBackUrl) VALUES('103','lsyxzjAND415','45352660BA72CB981EB2ED3DC5B4D66D','7','1','uctt',1502962853.27,'1502963667','203.209.234.90','http:\/\/huichuan.sm.cn\/td?tp_type=roi&click_id=2598717310501479818&convert_id=590&event_type=1')"

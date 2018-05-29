@@ -1,0 +1,225 @@
+<?php if (!defined('THINK_PATH')) exit();?><body>
+<style type="text/css">
+    input{border-radius: 4px;}
+    .row_a {font-weight: bold; font-size: 14px;}
+    .row_a:link {text-decoration: none;}
+    .row_a:visited {text-decoration: none;}
+    .row_a:hover {text-decoration: none;}
+    .row_a:active {text-decoration: none;}
+</style>
+<div class="demo-content">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" style="overflow-y:auto; height: 450px;">
+        <input type="hidden" value="<?php echo ($game["id"]); ?>" id="game_id"/>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏名称：</label>
+                <div class="controls">
+                    <b style="font-size: 24px;"><?php echo ($game["gameName"]); ?></b>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="agent">
+            <div class="control-group span16">
+                <div class="controls">
+                    <a href="javascript:void(0);" onclick="showGoods('agent')" class="row_a">未进行分类的商品ID</a>
+                </div>
+            </div>
+        </div>
+        <?php if(is_array($agent)): $i = 0; $__LIST__ = $agent;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$val): $mod = ($i % 2 );++$i;?><div class="row" id="<?php echo ($val["agent"]); ?>">
+                <div class="control-group span16">
+                    <div class="controls">
+                        <a href="javascript:void(0);" onclick="showGoods('<?php echo ($val["agent"]); ?>')" class="row_a"><?php echo ($val["agentName"]); ?></a>
+                    </div>
+                </div>
+            </div><?php endforeach; endif; else: echo "" ;endif; ?>
+    </form>
+</div>
+
+<!-- script start -->
+<script type="text/javascript">
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+        var form = new Form.HForm({
+            srcNode : '#J_Form'
+        }).render();
+
+        var dialog = new Overlay.Dialog({
+            title:'商品-<?php echo ($game["gameName"]); ?>',
+            width:800,
+            height:500,
+            zIndex: 1000,
+            //配置DOM容器的编号
+            contentId:'content',
+            buttons:[
+                {
+                    text:'添加商品',
+                    elCls : 'button button-primary',
+                    handler : function(){
+                        addGoods();
+                    }
+                },{
+                    text:'关闭',
+                    elCls : 'button',
+                    handler : function(){
+                        this.close();
+                    }
+                }
+            ]
+        });
+        dialog.show();
+    });
+
+    var _agent  = "";
+    var _id     = 1;
+    var _key    = 1;
+
+    function showGoods(agent) {
+        if ( _agent == agent) {
+            _agent  = "";
+            _key    = 1;
+            $(".children_agent").remove();
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "<?php echo U('Game/showGoods');?>",
+                data: {game_id:$("#game_id").val(), agent:agent},
+                dataType: "json",
+                success: function(data) {
+                    if (data.Result == true) {
+                        _agent  = agent;
+                        _key    = 1;
+                        $(".children_agent").remove();
+                        var str = "";
+                        if (data.Data) {
+                            $.each(data.Data, function(i, val){
+                                str += '<div id="'+val.goodsCode+'">'+
+                                    '<div class="control-group span7">'+
+                                    '<label class="control-label" style="width: 60px;">商品ID：</label>'+
+                                    '<div class="controls">'+
+                                    val.goodsCode+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="control-group span5">'+
+                                    '<label class="control-label" style="width: 60px;">商品名称：</label>'+
+                                    '<div class="controls">'+
+                                    val.name+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="control-group span4">'+
+                                    '<label class="control-label" style="width: 60px;">商品价格：</label>'+
+                                    '<div class="controls">'+
+                                    val.amount+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="control-group span2">'+
+                                    '<button type="button" onclick="deleteGoods(\''+val.goodsCode+'\')" class="button button-danger">删除</button>'+
+                                    '</div>'+
+                                    '</div>';
+                            });
+                        } else {
+                            str = '<div class="children_agent row"><div class="control-group span7 controls"><label class="control-label">（暂无商品ID）</label></div></div>';
+                        }
+
+                        $("#"+agent).after('<div class="children_agent" id="'+agent+'_children">'+str+'</div>');
+                    } else {
+                        BUI.Message.Alert(data.Msg);
+                    }
+                },
+                error: function() {
+                    BUI.Message.Alert(data.Msg);
+                }
+            })
+        }
+    }
+
+    function addGoods() {
+        if (_agent == "" || _key == 0) {
+            if (_agent == "") {
+                BUI.Message.Alert("请先选择点击包名！");
+            } else {
+                BUI.Message.Alert("请先提交未完成的商品ID！");
+            }
+        } else {
+            var str = '<div class="control-group span7">'+
+                '<label class="control-label" style="width: 60px;">商品ID：</label>'+
+                '<div class="controls">'+
+                '<input id="goodsCode_'+_id+'" name="goodsCode" type="text" class="input-normal control-text" style="width: 180px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span5">'+
+                '<label class="control-label" style="width: 60px;">商品名称：</label>'+
+                '<div class="controls">'+
+                '<input id="name_'+_id+'" name="name" type="text" class="input-normal control-text" style="width: 100px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span4">'+
+                '<label class="control-label" style="width: 60px;">商品价格：</label>'+
+                '<div class="controls">'+
+                '<input id="amount_'+_id+'" name="amount" type="text" class="input-normal control-text" style="width: 60px;">'+
+                '</div>'+
+                '</div>'+
+                '<div class="control-group span2">'+
+                '<button type="button" onclick="ajaxGoods('+_id+')" class="button button-primary">添加</button>'+
+                '</div>';
+            $("#"+_agent+"_children").append(str);
+            $("#goodsCode_"+_id).focus();
+            _id     += 1;
+            _key    = 0
+        }
+    }
+
+    function ajaxGoods(id) {
+        if (_agent == "") {
+            BUI.Message.Alert("请先选择点击包名！");
+        } else {
+            var _goodsCode = $("#goodsCode_"+id).val();
+            var _name = $("#name_"+id).val();
+            var _amount = $("#amount_"+id).val();
+            $.ajax({
+                type: "GET",
+                url: "<?php echo U('Game/goodsAdd');?>",
+                data: {game_id:$("#game_id").val(), goodsCode:_goodsCode, name:_name, amount:_amount, agent:_agent},
+                dataType: "json",
+                success: function(data){
+                    if (data.Result == true) {
+                        var agent = _agent;
+                        _key = 1;
+                        _agent = "";
+                        showGoods(agent);
+                    } else {
+                        BUI.Message.Alert(data.Msg);
+                    }
+                },
+                error: function(){
+                    BUI.Message.Alert(data.Msg);
+                }
+            })
+        }
+    }
+    
+    function deleteGoods(code) {
+        $.ajax({
+            type: "GET",
+            url: "<?php echo U('Game/goodsDelete');?>",
+            data: {goodsCode:code},
+            dataType: "json",
+            success: function(data){
+                if (data.Result == true) {
+                    _key    = 1;
+                    showGoods(_agent);
+                } else {
+                    BUI.Message.Alert(data.Msg);
+                }
+            },
+            error: function(){
+                BUI.Message.Alert(data.Msg);
+            }
+        })
+    }
+</script>
+<!-- script end -->
+</div>
+</body>
+</html>

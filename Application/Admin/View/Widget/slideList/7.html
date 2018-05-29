@@ -1,0 +1,7 @@
+<div class="swiper-wrapper">
+	<?php 
+		foreach($images as $v){
+	?>
+			<div class="swiper-slide" onClick=window.location.href='<?php echo $v['link'];?>'><img src="<?php echo $img_url.$v['bigPic'];?>"></div>
+	<?php }?>
+</div>

@@ -1,0 +1,547 @@
+.zl-military {
+	width: 100%;
+	height: 780px;
+	background: url('../images/bg/zl-military.jpg') no-repeat center;
+}
+/* 属性介绍模块样式 */
+.jy-nature {
+	width: 100%;
+	height: 780px;
+}
+.jy-nature-background {
+	width: 1200px;
+    margin: auto;
+}
+.jy-nature-content {
+	width: 1200px;
+	margin: auto;
+	height: 780px;
+}
+.jy-nature-left-div {
+	width: 420px;
+	height: 100%;
+	float: left;
+}
+.jy-nature-right-div {
+	width: 260px;
+	height: 100%;
+	float: right;
+}
+.jy-nature-title {
+	width: 420px;
+	height: 200px;
+	bottom: 100px;
+	text-align: left;
+	color: #666666;
+	z-index: 2;
+}
+.jy-nature-bold {
+	font-size: 24px;
+	font-weight: 600;
+	height: 72px;
+	line-height: 72px;
+}
+.jy-nature-block {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 32px;
+}
+.jy-nature-title p {
+	margin-top: 18px;
+	line-height: 1.5;
+	font-size: 14px;
+}
+.jy-alltabs-btn {
+	top: 28px;
+	left: 0;
+	width: 400px;
+	height: 16px;
+	z-index: 2;
+}
+.jy-alltabs-btn .but {
+	width: 14px;
+	height: 16px;
+}
+.jy-alltabs-btn .jy-prev {
+	float: left;
+	background: url('../images/jy-btu-prev.png') no-repeat center;
+	margin-left: 15px;
+}
+.jy-alltabs-btn .jy-prev-color {
+	background: url('../images/jy-btu-prev-color.png') no-repeat center;
+}
+.jy-alltabs-btn .jy-next {
+	float: right;
+	background: url('../images/jy-btu-next.png') no-repeat center;
+	margin-right: 15px;
+}
+.jy-alltabs-btn .jy-next-color {
+	background: url('../images/jy-btu-next-color.png') no-repeat center;
+}
+.jy-stting-div {
+	width: 420px;
+	height: 380px;
+	top: 100px;
+	left: 0;
+	z-index: 2;
+}
+.jy-military-title {
+	font-size: 36px;
+	color: #cda079;
+	text-align: left;
+}
+.jy-nature-stting {
+	width: 330px;
+	height: 225px;
+	position: absolute;
+    top: 15px;
+	overflow: hidden;
+	z-index: 3;
+	padding-top: 2px;
+}
+.jy-nature-stting ul {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.jy-nature-stting ul li {
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	position: relative;
+	overflow: hidden;
+}
+.jy-tabs-img {
+	width: 60px;
+	height: 60px;
+}
+.jy-black {
+	position: absolute;
+    width: 60px;
+    height: 60px;
+    top: 0;
+    background: #000;
+    opacity: .5;
+    filter:alpha(opacity=50);
+    border-radius: 10px;
+    behavior: url(PIE.htc);
+}
+.jy-nature-stting li.active {
+	width: 60px;
+	height: 60px;
+}
+.jy-nature-stting li.active .jy-black {
+	top: -60px;
+}
+.jy-black:hover {
+	opacity: 0;
+	filter:alpha(opacity=00);
+}
+.jy-mount-img1 {
+	background: url('../images/military/jy-mount-img1.png') no-repeat center;
+}
+.jy-mount-img2 {
+	background: url('../images/military/jy-mount-img2.png') no-repeat center;
+}
+.jy-mount-img3 {
+	background: url('../images/military/jy-mount-img3.png') no-repeat center;
+}
+.jy-mount-img4 {
+	background: url('../images/military/jy-mount-img4.png') no-repeat center;
+}
+.jy-mount-img5 {
+	background: url('../images/military/jy-mount-img5.png') no-repeat center;
+}
+.jy-mount-img6 {
+	background: url('../images/military/jy-mount-img6.png') no-repeat center;
+}
+.jy-mount-img7 {
+	background: url('../images/military/jy-mount-img7.png') no-repeat center;
+}
+.jy-mount-img8 {
+	background: url('../images/military/jy-mount-img8.png') no-repeat center;
+}
+.jy-mount-img9 {
+	background: url('../images/military/jy-mount-img9.png') no-repeat center;
+}
+.jy-mount-img10 {
+	background: url('../images/military/jy-mount-img10.png') no-repeat center;
+}
+.jy-mount-img11 {
+	background: url('../images/military/jy-mount-img11.png') no-repeat center;
+}
+.jy-mount-img12 {
+	background: url('../images/military/jy-mount-img12.png') no-repeat center;
+}
+
+.jy-anima-img1 {
+	background: url('../images/military/jy-anima-img1.png') no-repeat center;
+}
+.jy-anima-img2 {
+	background: url('../images/military/jy-anima-img2.png') no-repeat center;
+}
+.jy-anima-img3 {
+	background: url('../images/military/jy-anima-img3.png') no-repeat center;
+}
+.jy-anima-img4 {
+	background: url('../images/military/jy-anima-img4.png') no-repeat center;
+}
+.jy-anima-img5 {
+	background: url('../images/military/jy-anima-img5.png') no-repeat center;
+}
+.jy-anima-img6 {
+	background: url('../images/military/jy-anima-img6.png') no-repeat center;
+}
+.jy-anima-img7 {
+	background: url('../images/military/jy-anima-img7.png') no-repeat center;
+}
+.jy-anima-img8 {
+	background: url('../images/military/jy-anima-img8.png') no-repeat center;
+}
+.jy-anima-img9 {
+	background: url('../images/military/jy-anima-img9.png') no-repeat center;
+}
+.jy-anima-img10 {
+	background: url('../images/military/jy-anima-img10.png') no-repeat center;
+}
+.jy-anima-img11 {
+	background: url('../images/military/jy-anima-img11.png') no-repeat center;
+}
+.jy-anima-img12 {
+	background: url('../images/military/jy-anima-img12.png') no-repeat center;
+}
+
+.jy-magic-img1 {
+	background: url('../images/military/jy-magic-img1.png') no-repeat center;
+}
+.jy-magic-img2 {
+	background: url('../images/military/jy-magic-img2.png') no-repeat center;
+}
+.jy-magic-img3 {
+	background: url('../images/military/jy-magic-img3.png') no-repeat center;
+}
+.jy-magic-img4 {
+	background: url('../images/military/jy-magic-img4.png') no-repeat center;
+}
+.jy-magic-img5 {
+	background: url('../images/military/jy-magic-img5.png') no-repeat center;
+}
+.jy-magic-img6 {
+	background: url('../images/military/jy-magic-img6.png') no-repeat center;
+}
+.jy-magic-img7 {
+	background: url('../images/military/jy-magic-img7.png') no-repeat center;
+}
+.jy-magic-img8 {
+	background: url('../images/military/jy-magic-img8.png') no-repeat center;
+}
+.jy-magic-img9 {
+	background: url('../images/military/jy-magic-img9.png') no-repeat center;
+}
+.jy-magic-img10 {
+	background: url('../images/military/jy-magic-img10.png') no-repeat center;
+}
+.jy-magic-img11 {
+	background: url('../images/military/jy-magic-img11.png') no-repeat center;
+}
+.jy-magic-img12 {
+	background: url('../images/military/jy-magic-img12.png') no-repeat center;
+}
+
+.jy-wing-img1 {
+	background: url('../images/military/jy-wing-img1.png') no-repeat center;
+}
+.jy-wing-img2 {
+	background: url('../images/military/jy-wing-img2.png') no-repeat center;
+}
+.jy-wing-img3 {
+	background: url('../images/military/jy-wing-img3.png') no-repeat center;
+}
+.jy-wing-img4 {
+	background: url('../images/military/jy-wing-img4.png') no-repeat center;
+}
+.jy-wing-img5 {
+	background: url('../images/military/jy-wing-img5.png') no-repeat center;
+}
+.jy-wing-img6 {
+	background: url('../images/military/jy-wing-img6.png') no-repeat center;
+}
+.jy-wing-img7 {
+	background: url('../images/military/jy-wing-img7.png') no-repeat center;
+}
+.jy-wing-img8 {
+	background: url('../images/military/jy-wing-img8.png') no-repeat center;
+}
+.jy-wing-img9 {
+	background: url('../images/military/jy-wing-img9.png') no-repeat center;
+}
+.jy-wing-img10 {
+	background: url('../images/military/jy-wing-img10.png') no-repeat center;
+}
+.jy-wing-img11 {
+	background: url('../images/military/jy-wing-img11.png') no-repeat center;
+}
+.jy-wing-img12 {
+	background: url('../images/military/jy-wing-img12.png') no-repeat center;
+}
+
+.jy-nature-surround {
+	width: 27px;
+	height: 740px;
+	float: right;
+	padding: 20px 0;
+}
+.jy-surround-img1 {
+	background: url('../images/jy-surround-img1.png') no-repeat center;
+}
+.jy-surround-img2 {
+	background: url('../images/jy-surround-img2.png') no-repeat center;
+}
+.jy-surround-img3 {
+	background: url('../images/jy-surround-img3.png') no-repeat center;
+}
+.jy-surround-img4 {
+	background: url('../images/jy-surround-img4.png') no-repeat center;
+}
+.jy-surround-icon {
+	width: 230px;
+	height: 740px;
+	float: left;
+	padding: 20px 0;
+}
+.jy-surround-icon li {
+	height: 72px;
+}
+.jy-surround-icon li.jy-surround-li1 {
+	right: 0px;
+	top: 150px;
+}
+.jy-surround-icon li.jy-surround-li2 {
+	right: 0px;
+	top: 278px;
+}
+.jy-surround-icon li.jy-surround-li3 {
+	right: 0px;
+	top: 406px;
+}
+.jy-surround-icon li.jy-surround-li4 {
+	right: 0px;
+	top: 534px;
+}
+.surround-icon {
+	height: 100%;
+	position: absolute;
+	right: 0;
+	z-index: 1;
+}
+.jy-surround-pic {
+	position: absolute;
+	right: 0;
+	z-index: 2;
+}
+.jy-surround-icon1 {
+	background: url('../images/jy-surround-icon1.png') no-repeat center;
+	width: 98px;
+	height: 63px;
+	top: 14px;
+	right: 20px;
+}
+.jy-surround-icon2 {
+	background: url('../images/jy-surround-icon2.png') no-repeat center;
+	width: 98px;
+	height: 63px;
+	top: 14px;
+	right: 22px;
+}
+.jy-surround-icon3 {
+	background: url('../images/jy-surround-icon3.png') no-repeat center;
+	width: 98px;
+	height: 63px;
+	top: 14px;
+	right: 20px;
+}
+.jy-surround-icon4 {
+	background: url('../images/jy-surround-icon4.png') no-repeat center;
+	width: 98px;
+	height: 63px;
+	top: 14px;
+	right: 14px;
+}
+.jy-surround-color-icon1 {
+	background: url('../images/jy-surround-color-icon1.png') no-repeat center;
+	width: 148px;
+	height: 95px;
+	top: 0;
+	right: 10px;
+	moz-transition:all .5s linear 0s;  
+	-webkit-transition:all .5s linear 0s;  
+	-o-transition:all .5s linear 0s;  
+	-ms-transition:all .5s linear 0s;  
+	transition:all .5s linear 0s;
+}
+.jy-surround-color-icon2 {
+	background: url('../images/jy-surround-color-icon2.png') no-repeat center;
+	width: 148px;
+	height: 95px;
+	top: 0;
+	right: 10px;
+	-moz-transition:all .5s linear 0s;  
+    -webkit-transition:all .5s linear 0s;  
+    -o-transition:all .5s linear 0s;  
+    -ms-transition:all .5s linear 0s;  
+    transition:all .5s linear 0s; 
+}
+.jy-surround-color-icon3 {
+	background: url('../images/jy-surround-color-icon3.png') no-repeat center;
+	width: 148px;
+	height: 95px;
+	top: 0;
+	right: 10px;
+	-moz-transition:all .5s linear 0s;  
+    -webkit-transition:all .5s linear 0s;  
+    -o-transition:all .5s linear 0s;  
+    -ms-transition:all .5s linear 0s;  
+    transition:all .5s linear 0s; 
+}
+.jy-surround-color-icon4 {
+	background: url('../images/jy-surround-color-icon4.png') no-repeat center;
+	width: 148px;
+	height: 95px;
+	top: 0;
+	right: 10px;
+	-moz-transition:all .5s linear 0s;  
+    -webkit-transition:all .5s linear 0s;  
+    -o-transition:all .5s linear 0s;  
+    -ms-transition:all .5s linear 0s;  
+  transition:all .5s linear 0s;  
+}
+.jy-picture {
+	width: 100%;
+	left: 0px;
+    top: 0px;
+    z-index: 1;
+}
+.jy-picture-img1 {
+	width: 100%;
+	height: 780px;
+	background: url('../images/military/jy-picture-anima2.png') no-repeat center;
+}
+.jy-nature-block {
+	font-size: 18px;
+	color: #cda079;
+	margin-bottom: 25px;
+}
+.zl-name-title {
+	font-size: 32px;	
+	margin-right: 20px;
+}
+.jy-nature-leit {
+	width: 430px;
+	height: 36px;
+	color: #fff;
+	background: url('../images/jy-nature-leit.png') no-repeat center;
+}
+.zl-code {
+	display: inline-block;
+	width: 160px;
+	font-size: 27px;
+	letter-spacing: 30px;
+	text-align: center;
+}
+.zl-codelist {
+	display: inline-block;
+	width: 140px;
+	font-size: 27px;
+	letter-spacing: 5px;
+	color: #f2d655;
+}
+.jy-nature-leit i {
+	position: absolute;
+	display: inline-block;
+	width: 48px;
+	height: 36px;
+	background: url('../images/zl-codelist-pic.png') left;
+}
+.jy-nature-title p {
+	font-size: 18px;
+	margin-top: 15px;
+	color: #d9d9d9;
+}
+
+
+/* 游戏截图 */
+
+.content-part{position:absolute;width:1200px;left:50%;margin-left:-600px;}
+.content-part h3{font-size: 36px;color: #cda079}
+.content-part.show .content-title{opacity:1;transform:translateY(0);-ms-transform:translateY(0);-webkit-transform:translateY(0);-moz-transform:translateY(0);-o-transform:translateY(0);transition:all 1s;-webkit-transition:all 1s;-moz-transition:all 1s;-o-transition:all 1s}
+.content-part .content-title{opacity:0;transform:translateY(50px);-ms-transform:translateY(50px);-webkit-transform:translateY(50px);-moz-transform:translateY(50px);-o-transform:translateY(50px)}
+.content-part .content-title{position:absolute;width:650px;height:263px;top:0;left:50%;margin-left:-325px}
+.part-tese.show .gallery_container{opacity:1;transform:translateY(0);-ms-transform:translateY(0);-webkit-transform:translateY(0);-moz-transform:translateY(0);-o-transform:translateY(0);transition:all 1s .1s;-webkit-transition:all 1s .1s;-moz-transition:all 1s .1s;-o-transition:all 1s .1s}
+.part-tese .gallery_container{position:absolute;width:1200px;height:342px;}
+.part-tese .gallery_container.st02{top:800px}
+.part-tese .gallery_container{opacity:0;transform:translateY(200px);-ms-transform:translateY(200px);-webkit-transform:translateY(200px);-moz-transform:translateY(200px);-o-transform:translateY(200px)}
+.gallery_container{position:absolute;top:118px;left:0}
+.part-tese .gallery_container .gallery_wrap{width:680px;height:342px;margin:auto;}
+.gallery_container .gallery_wrap{width:320px;height:474px}
+.front_side{z-index:5;-webkit-transform:rotateY(0) translateX(0) translateZ(0);-moz-transform:rotateY(0) translateX(0) translateZ(0);-ms-transform:rotateY(0) translateX(0) translateZ(0);-o-transform:rotateY(0) translateX(0) translateZ(0);transform:rotateY(0) translateX(0) translateZ(0)}
+.threeD_gallery_item{position:absolute;height:100%;cursor:pointer;-webkit-transition:all .5s ease;-moz-transition:all .5s ease;-ms-transition:all .5s ease;-o-transition:all .5s ease;transition:all .5s ease}
+.part-tese .gallery_right_middle{z-index:3;opacity: 0.6;filter:alpha(opacity=60);transform:translateX(300px) scale(.8);-ms-transform:translateX(300px) scale(.8);-webkit-transform:translateX(300px) scale(.8);-moz-transform:translateX(300px) scale(.8);-o-transform:translateX(300px) scale(.8)}
+.gallery_right_middle{z-index:3;-webkit-transform:rotateY(-55deg) translateX(90px) translateZ(-364px) scale(.95);-moz-transform:rotateY(-55deg) translateX(90px) translateZ(-364px) scale(.95);-ms-transform:rotateY(-55deg) translateX(90px) translateZ(-364px) scale(.95);-o-transform:rotateY(-55deg) translateX(90px) translateZ(-364px) scale(.95);transform:rotateY(-55deg) translateX(90px) translateZ(-364px) scale(.95)}
+.gallery_out{-webkit-transform:rotateY(0) translateX(0) translateZ(0) scale(.6);-moz-transform:rotateY(0) translateX(0) translateZ(0) scale(.6);-ms-transform:rotateY(0) translateX(0) translateZ(0) scale(.6);-o-transform:rotateY(0) translateX(0) translateZ(0) scale(.6);transform:rotateY(0) translateX(0) translateZ(0) scale(.6);z-index:-1;opacity:0!important}
+.part-tese .gallery_left_middle{z-index:3;opacity: 0.6;filter:alpha(opacity=60);transform:translateX(-300px) scale(.8);-ms-transform:translateX(-300px) scale(.8);-webkit-transform:translateX(-300px) scale(.8);-moz-transform:translateX(-300px) scale(.8);-o-transform:translateX(-300px) scale(.8)}
+.gallery_left_middle{z-index:3;-webkit-transform:rotateY(55deg) translateX(-90px) translateZ(-364px) scale(.95);-moz-transform:rotateY(55deg) translateX(-90px) translateZ(-364px) scale(.95);-ms-transform:rotateY(55deg) translateX(-90px) translateZ(-364px) scale(.95);-o-transform:rotateY(55deg) translateX(-90px) translateZ(-364px) scale(.95);transform:rotateY(55deg) translateX(-90px) translateZ(-364px) scale(.95)}
+.part-tese .gallery_container .gallery_wrap img{width:100%}
+.gallery_container .gallery_item img.show{visibility:visible}
+.gallery_container .gallery_item img{width:100%;height:100%;visibility:hidden}
+.gallery_container .prev{position: absolute;top: 35px;left:30px;width: 230px;height: 272px;z-index:99;opacity: 0;filter:alpha(opacity=0);background: #000;}
+.gallery_container .next{position: absolute;top: 35px;right:30px;width: 230px;height: 272px;z-index:99;opacity: 0;filter:alpha(opacity=0);background: #000;}
+.gallery-left {max-width:80%;max-height:80%;left: 32px;top: 35px;}
+.gallery-right {max-width:80%;max-height:80%;right: 32px;top: 35px;}
+.gameshot {
+	width: 100%;
+	height: 520px;
+	background: url('../images/bg/zl-gameshot.jpg') no-repeat center;
+}
+.bx-wrapper {
+	position: relative;
+}
+.bx-controls {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.bx-pager-item {
+	float: left;
+	opacity: .8;
+}
+.bx-pager-item a {
+	display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 5px;
+    font-size: 12px;
+    color: #d0d0d0;
+    cursor: pointer;
+    background: url('../images/jy-newstabbg-img1.png') no-repeat center;
+}
+.bx-pager-item a.active {
+	width: 27px;
+	color: #2cd2b1;
+	background: url('../images/jy-newstabbg-img.png') no-repeat center;
+}
+.bx-controls-direction {
+	display: none;
+}
+
+.side-nav-right-x {
+    width: 61px;
+    height: 333px;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    margin-top: -166px;
+    background: url(../images/rightsidexiao.png) no-repeat;
+    _top: expression(eval(document.documentElement.scrollTop+50));
+    z-index: 999;
+    cursor: pointer;
+}

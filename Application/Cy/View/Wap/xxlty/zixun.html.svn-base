@@ -1,0 +1,100 @@
+    {$header}
+    	<a href="javascript:;" class="dlbtn_ios pa db"><img src="{$static_url}/images/dl_ios.png" /></a>
+        <a href="javascript:;" class="dlbtn_android pa db"><img src="{$static_url}/images/dl_android.png" /></a>
+    </div>
+
+    <div class="newswrap_div">
+    	<div id="tab-title">
+            <span class="selected">最新</span><span>新闻</span><span>公告</span><span>活动</span>
+        </div>
+        <div id="tab-content">
+            <div>
+            	<ul class="news_ul2" id="ul1">
+                    <volist name="zuixin" id="vo">
+                        <li class="box_orient"><span class="newstype_span db">最新</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                    </volist>
+                </ul>
+                <a href="javascript:;" class="newsmore_a db" id="morediv1"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+            <div class="hiden">
+            	<ul class="news_ul2" id="ul2">
+                	<volist name="xinwen" id="vo">
+                        <li class="box_orient"><span class="newstype_span db">新闻</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                    </volist>
+                </ul>
+                <a href="javascript:;" class="newsmore_a db" id="morediv1"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+            <div class="hiden">
+            	<ul class="news_ul2" id="ul3">
+                	<volist name="gonggao" id="vo">
+                        <li class="box_orient"><span class="newstype_span db">公告</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                    </volist>
+                </ul>
+                <a href="javascript:;" class="newsmore_a db" id="morediv1"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+            <div class="hiden">
+            	<ul class="news_ul2" id="ul4">
+                	<volist name="huodong" id="vo">
+                        <li class="box_orient"><span class="newstype_span db">活动</span><a href="{$vo.link}/{$vo.id}.html" class="newstitle_a db box_flex01">{$vo.title}</a><span class="newstime_span db">【{:date('m/d',$vo['createTime'])}】</span></li>
+                    </volist>
+                </ul>
+                <a href="javascript:;" class="newsmore_a db" id="morediv1"><img src="{$static_url}/images/ckgdbtn.jpg" /></a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script> 
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: 5000,//可选选项，自动滑动
+	pagination : '.swiper-pagination',
+	paginationClickable: true,
+	loop:true
+})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    
+	//切换效果
+	$('#tab-title span').click(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+		var t=$('#tab-title span').index(this);
+		$("#tab-content > div").hide().eq(t).show();
+		
+	});
+	
+	//职业展示
+	$('#zy_01').click(function(){
+      $("#zy_02").show();
+	  $("#zy_04").hide();
+    });
+	
+	$('#zy_03').click(function(){
+      $("#zy_02").hide();
+	  $("#zy_04").show();
+    });	
+	
+	$('#morediv1').click(function(){
+		$("#ul1").css('height','auto');
+		$('#morediv1').hide();
+	});
+	$('#morediv2').click(function(){
+		$("#ul2").css('height','auto');
+		$('#morediv2').hide();
+	});
+	$('#morediv3').click(function(){
+		$("#ul3").css('height','auto');
+		$('#morediv3').hide();
+	});
+	$('#morediv4').click(function(){
+		$("#ul4").css('height','auto');
+		$('#morediv4').hide();
+	});
+	
+});
+</script>
+</body>
+</html>

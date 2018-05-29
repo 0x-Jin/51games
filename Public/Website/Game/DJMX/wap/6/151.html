@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="telephone=no,email=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<title>刀剑萌侠</title>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/swiper.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://img.chuangyunet.net/static/wap/DJMX/css/style.css"/>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/jquery-1.11.1.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/bootstrap.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/swiper.min.js"></script>
+<script src="http://img.chuangyunet.net/static/wap/DJMX/js/swiper.min.js"></script>
+
+<script type="text/javascript">
+var ua = navigator.userAgent.toLowerCase();
+var isios = /ipad|ipod|iphone|mac/.test(ua);
+window.onload=function(){
+    $and = '';
+    $ios = '';
+    if(isios){
+        $('#ostype').attr('href',$ios);
+    }else{
+        $('#ostype').attr('href',$and);
+    }
+	//使用rem
+	var clientWidth = document.documentElement.clientWidth;
+	if(clientWidth>=640){
+		document.documentElement.style.fontSize = '100px';
+    }else{
+		document.documentElement.style.fontSize = innerWidth/6.4 +"px";
+		window.addEventListener("resize",function(){document.documentElement.style.fontSize = innerWidth/6.4  + "px"; },false)}
+    }
+	
+</script>
+
+</head>
+
+</head>
+
+<body style="background-color:#0d0d0e">
+<div class="wrapdiv">
+	<!--顶部start-->
+    <div class="topnav_wrap contentbox box_orient fixed">
+    	<img src="http://img.chuangyunet.net" id="dzzlogo" />
+        <div class="topmid_div box_flex01">
+        	<p class="topyxname_p">刀剑萌侠</p>
+            <p class="topyxdes_p"><img src="http://img.chuangyunet.net/static/wap/DJMX/images/yxrdimg.png"><br></p>
+        </div>
+        <a href="" id='ostype' class="topxz_a db"></a>
+    </div>
+    <div class="symidpic_div pr"><img src="http://img.chuangyunet.net" />    <div class="topaddress_div box_orient">    	
+        <div class="topaddress_l box_flex01"><a href="http://fx.chuangyunet.net/DJMX/wap/">刀剑萌侠</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="http://fx.chuangyunet.net/DJMX/wap/zixun/">列表</a>&nbsp;&nbsp;-&nbsp;&nbsp;攻略</div>
+        <div class="topaddress_r"></div>
+    </div>
+    <h3 class="contitle_h3">不得不看---美人装备系统</h3>
+    <p class="contime_p">发布于 2018-01-06</p>
+    <div class="content_wrap">
+    	<p>装备系统</p><p>一、概述</p><p><br/></p><p>校花装备是校花基础的培养系统，提供了校花基础的成长属性以及强力的随机属性，可通过校花装备精炼提高装备基础属性。</p><p>二、界面</p><p><br/></p><p>2.1 界面入口</p><p><br/></p><p>l &nbsp;点击主界面校花按钮-&gt;培养-&gt;装备</p><p><img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515231122474230.png" title="1515231122474230.png" alt="image.png"/></p><p>2.2 校花装备精炼</p><p><img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515231134637803.png" title="1515231134637803.png" alt="image.png"/></p><p>l &nbsp;点击已经穿戴的装备弹出精炼界面，左边为当前可用来精炼的材料或者装备，右边为具体精炼的消耗和结果</p><p>2.3 校花装备信息</p><p><br/></p><p>l &nbsp;点击装备弹出TIPS，即可查看校花装备具体信息</p><p><img src="http://img.chuangyunet.net/static/admin/js/ueditor/php/upload/image/20180106/1515231142558378.png" title="1515231142558378.png" alt="image.png"/></p><p>l &nbsp;战斗力：评估装备好坏的标准</p><p>l &nbsp;基础属性：装备的基础属性，每件装备的基础属性固定</p><p>l &nbsp;精炼属性：精炼提供的属性，随精炼等级的变化而变化</p><p>l &nbsp;随机属性：装备在掉落是随机产生的属性，最多3条</p><p><br/></p>        <a href="javascript:;" class="backtop_a db"><img src="http://img.chuangyunet.net/static/wap/DJMX/images/backtopbtn.png" /></a>
+    </div>
+</div>
+
+<script src="js/swiper.min.js"></script>
+<script> 
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: 5000,//可选选项，自动滑动
+	pagination : '.swiper-pagination',
+	paginationClickable: true,
+	loop:true
+})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    //返回到顶部
+	$('.backtop_a').click(function(){	
+		$("html,body").animate({scrollTop:0}, 500);				
+	});
+	
+	//切换效果
+	$('#tab-title span').click(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+		var t=$('#tab-title span').index(this);
+		$("#tab-content > div").hide().eq(t).show();
+		
+	});
+	
+	//职业展示
+	$('#zy_01').click(function(){
+      $("#zy_02").show();
+	  $("#zy_04").hide();
+    });
+	
+	$('#zy_03').click(function(){
+      $("#zy_02").hide();
+	  $("#zy_04").show();
+    });	
+	
+	$('#morediv1').click(function(){
+		$("#ul1").css('height','auto');
+		$('#morediv1').hide();
+	});
+	$('#morediv2').click(function(){
+		$("#ul2").css('height','auto');
+		$('#morediv2').hide();
+	});
+	$('#morediv3').click(function(){
+		$("#ul3").css('height','auto');
+		$('#morediv3').hide();
+	});
+	$('#morediv4').click(function(){
+		$("#ul4").css('height','auto');
+		$('#morediv4').hide();
+	});
+	
+});
+</script>
+</body>
+</html>

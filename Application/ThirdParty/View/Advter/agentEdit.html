@@ -1,0 +1,261 @@
+<body>
+  <style type="text/css">
+    input{border-radius: 4px;}
+  </style>
+  <div class="demo-content" style="overflow:auto;height:620px;">
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <form id="J_Form" class="form-horizontal" method="post" action="{:U('Advter/agentEdit')}">
+        <input type="hidden" value="agent" name="table"/>
+        <input type="hidden" value="{:I('id',0,'trim')}" name="id"/>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属渠道分类：</label>
+            <div class="controls">
+              <span>{$info.channelName}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">包编号：</label>
+            <div class="controls">
+              <span>{$info.agent}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属渠道商：</label>
+            <div class="controls">
+              <span>{$info.advteruserName}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">所属代理商：</label>
+            <div class="controls">
+              <span>{$info.proxyName}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">广告账户：</label>
+            <div class="controls">
+              <span>{$info.account}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">包名称：</label>
+            <div class="controls">
+              <input type="text" name="agentName" value="{$info.agentName}" class="input-normal"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row"> 
+          <div class="control-group span8">
+            <label class="control-label">渠道充值回调地址：</label>
+            <div class="controls">
+              <input name="agentCallbackUrl" id="agentCallbackUrl" value="{$info.agentCallbackUrl}" <if condition="session('admin.role_id') neq 1"> readonly="readonly" </if>  class="input-normal control-text" />
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">推广游戏：</label>
+            <div class="controls">
+              <select name="game_id" id="game_Id"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">负责人：</label>
+            <div class="controls">
+              <select name="principal_id" id="principal_Id"></select>
+            </div>
+          </div>
+        </div>
+
+         <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">游戏类型：</label>
+                <div class="controls">
+                    <select name="gameType" id='gameType'>
+                        <option value="1" <if condition="$info.gameType eq 1">selected</if> >Android</option>
+                        <option value="2" <if condition="$info.gameType eq 2">selected</if> >IOS</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="appleId_main" <if condition="$info.gameType neq 2">style="display:none;"</if> >
+            <div class="control-group span8">
+                <label class="control-label">苹果ID：</label>
+                <div class="controls">
+                    <input type="text" name="appleId" id="appleId" value="{$info.appleId}" />
+                </div>
+            </div>
+        </div>
+
+
+      <div class="row" id="bundleId_main" <if condition="$info.gameType neq 2">style="display:none;"</if> >
+          <div class="control-group span8">
+              <label class="control-label">苹果包名：</label>
+              <div class="controls">
+                  <input type="text" name="bundleId" id="bundleId" value="{$info.bundleId}" />
+              </div>
+          </div>
+      </div>
+        
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">广告回调切换：</label>
+            <div class="controls">
+              <select name="advterStaus">
+                <option value="0" <if condition="$info.advterStaus eq 0">selected</if> >激活报送</option>
+                <option value="1" <if condition="$info.advterStaus eq 1">selected</if> >充值报送</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">渠道状态：</label>
+            <div class="controls">
+              <select name="status">
+                <option value="0" <if condition="$info.status eq 0">selected</if> >开启</option>
+                <option value="1" <if condition="$info.status eq 1">selected</if> >关闭</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">登录状态：</label>
+            <div class="controls">
+              <select name="loginStatus">
+                <option value="0" <if condition="$info.loginStatus eq 0">selected</if> >开启</option>
+                <option value="1" <if condition="$info.loginStatus eq 1">selected</if> >关闭</option>
+                <option value="2" <if condition="$info.loginStatus eq 2">selected</if> >关闭新增</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">充值状态：</label>
+            <div class="controls">
+              <select name="payStatus">
+                <option value="0" <if condition="$info.payStatus eq 0">selected</if> >开启</option>
+                <option value="1" <if condition="$info.payStatus eq 1">selected</if> >关闭</option>
+                <option value="2" <if condition="$info.payStatus eq 2">selected</if> >切充值</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <notempty name="valArr">
+          <div class="row">
+            <div class="control-group span8">
+              <label class="control-label">渠道分类对应的值：</label>
+              <div class="controls">
+                <volist name="valArr" id="val">
+                  <div><input name="value{$val.num}" value="{$val['val']}" placeholder="{$val.param}" class="input-normal control-text" /></div>
+                </volist>
+              </div>
+            </div>
+          </div>
+        </notempty>
+
+      </form>
+  </div>
+ 
+<!-- script start --> 
+<script type="text/javascript">
+$(function(){
+  //数据加载
+  principal();
+  gameList();
+
+  $('#gameType').change(function(){
+    var val = $(this).val();
+    if(val == 1){
+      $('#bundleId_main').hide();
+      $('#appleId_main').hide();
+    }else{
+      $('#bundleId_main').show();
+      $('#appleId_main').show();
+    }
+  });
+
+  //获取负责人
+  function principal(){
+    var _html = '';
+      $.post("{:U('Ajax/principals')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+          if(v.id == {$info.principal_id}){
+            _html += "<option value="+v.id+" selected>"+v.name+"</option>";
+          }else{
+            _html += "<option value="+v.id+">"+v.name+"</option>";
+          }
+        });
+        $('#principal_Id').html(_html);
+        $('#principal_Id').comboSelect();
+      });
+  }
+
+  //获取游戏
+  function gameList(){
+    var _html = '';
+      $.post("{:U('Ajax/getGameList')}",'',function(ret){
+        var ret = eval('('+ret+')');
+        $(ret).each(function(i,v){
+          if(v.id == {$info.game_id}){
+            _html += "<option value="+v.id+" selected>"+v.gameName+"</option>";
+          }else{
+            _html += "<option value="+v.id+">"+v.gameName+"</option>";
+          }
+        });
+        $('#game_Id').html(_html);
+        $('#game_Id').comboSelect();
+      });
+  }
+});
+BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+
+var form = new Form.HForm({
+  srcNode : '#J_Form'
+}).render();
+
+var dialog = new Overlay.Dialog({
+      title:'修改包号信息',
+      width:450,
+      height:(680+({:count($valArr)}*22)),
+      //配置DOM容器的编号
+      contentId:'content',
+      success:function () {
+        $('#J_Form').submit();
+      }
+    });
+  dialog.show();
+});
+</script>
+<!-- script end -->
+  </div>
+</body>
+</html>
